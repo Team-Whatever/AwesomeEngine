@@ -1,4 +1,6 @@
 #include "DXApp.h"
+#include <iostream>
+#include <direct.h>
 
 
 namespace {
@@ -65,6 +67,16 @@ int DXApp::Run()
 
 bool DXApp::Init()
 {
+	if (IsOnlyInstance(L"test"))
+	{
+		std::cerr << "the game has single instance" << std::endl;
+	}
+	else
+	{
+		MessageBox( NULL, L"the game has multiple instances", L"ERROR", 0 );
+		return false;
+	}
+
 	if (!InitWindow())
 		return false;
 	return true;
@@ -108,6 +120,8 @@ bool DXApp::InitWindow()
 		return false;
 	}
 
+
+
 	//step2 to notify Windows to show a particular window. Note that Windows applications do not have direct access to hardware.
 	//For example, to display a window you must call the Win32 API function ShowWindow; you cannot write to video memory directly.
 	ShowWindow(m_hAppWnd, SW_SHOW);
@@ -139,3 +153,39 @@ LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 }
+
+bool DXApp::IsOnlyInstance(LPCTSTR gameTitle)
+{
+	HANDLE handle = CreateMutex(NULL, TRUE, gameTitle); 
+	if (GetLastError() != ERROR_SUCCESS) 
+	{
+		HWND hWnd = FindWindow(NULL, gameTitle);
+		if (hWnd)
+		{
+			// An instance of your game is already running. 
+			ShowWindow(hWnd, SW_SHOWNORMAL);
+			SetFocus(hWnd);
+			SetForegroundWindow(hWnd);
+			SetActiveWindow(hWnd);
+			return false;
+		}
+	}
+	return true;
+}
+//
+//bool DXApp::CheckStorage(const DWORDLONG diskSpaceNeeded) 
+//{ 
+//	// Check for enough free disk space on the current disk. 
+//	int const drive = _getdrive();
+//	struct _diskfree_t diskfree; 
+//	_getdiskfree(drive, &diskfree); 
+//	unsigned __int64 const neededClusters;
+//	neededClusters = diskSpaceNeeded /(diskfree.sectors_per_cluster *diskfree.bytes_per_sector); 
+//	if (diskfree.avail_clusters < neededClusters) 
+//	{ 
+//		// if you get here you don’t have enough disk space! 
+//		GCC_ERROR("CheckStorage Failure: Not enough physical storage."); 
+//		return false; 
+//	} 
+//	return true; 
+//}
