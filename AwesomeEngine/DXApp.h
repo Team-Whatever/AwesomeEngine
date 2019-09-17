@@ -18,8 +18,7 @@ public:
 	virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	bool IsOnlyInstance(LPCTSTR gameTitle);
-
-	//bool CheckStorage(const DWORDLONG diskSpaceNeeded);
+	bool CheckStorage(const DWORDLONG diskSpaceNeededInMB);
 
 protected:
 

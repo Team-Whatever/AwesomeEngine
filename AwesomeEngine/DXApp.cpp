@@ -1,5 +1,6 @@
 #include "DXApp.h"
 #include <iostream>
+#include <sstream>
 #include <direct.h>
 
 
@@ -11,7 +12,7 @@ namespace {
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	//step4:Window procedures are functions we implement which contain code that is to be executed in response to specific messages.
-	if (g_App) 
+	if (g_App)
 		return g_App->MsgProc(hwnd, msg, wParam, lParam);
 	else
 		//The messages a window does not handle should be forwarded to the default window
@@ -67,13 +68,16 @@ int DXApp::Run()
 
 bool DXApp::Init()
 {
-	if (IsOnlyInstance(L"test"))
+	if (!IsOnlyInstance(L"test"))
 	{
-		std::cerr << "the game has single instance" << std::endl;
+		MessageBox(NULL, L"the game has multiple instances", L"ERROR", 0);
+		return false;
 	}
-	else
+
+	// Ask for 100 GB
+	if (!CheckStorage(1024 * 100))
 	{
-		MessageBox( NULL, L"the game has multiple instances", L"ERROR", 0 );
+		MessageBox(NULL, L"not enough space int the disk", L"ERROR", 0);
 		return false;
 	}
 
@@ -156,8 +160,8 @@ LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 bool DXApp::IsOnlyInstance(LPCTSTR gameTitle)
 {
-	HANDLE handle = CreateMutex(NULL, TRUE, gameTitle); 
-	if (GetLastError() != ERROR_SUCCESS) 
+	HANDLE handle = CreateMutex(NULL, TRUE, gameTitle);
+	if (GetLastError() != ERROR_SUCCESS)
 	{
 		HWND hWnd = FindWindow(NULL, gameTitle);
 		if (hWnd)
@@ -172,20 +176,26 @@ bool DXApp::IsOnlyInstance(LPCTSTR gameTitle)
 	}
 	return true;
 }
-//
-//bool DXApp::CheckStorage(const DWORDLONG diskSpaceNeeded) 
-//{ 
-//	// Check for enough free disk space on the current disk. 
-//	int const drive = _getdrive();
-//	struct _diskfree_t diskfree; 
-//	_getdiskfree(drive, &diskfree); 
-//	unsigned __int64 const neededClusters;
-//	neededClusters = diskSpaceNeeded /(diskfree.sectors_per_cluster *diskfree.bytes_per_sector); 
-//	if (diskfree.avail_clusters < neededClusters) 
-//	{ 
-//		// if you get here you don’t have enough disk space! 
-//		GCC_ERROR("CheckStorage Failure: Not enough physical storage."); 
-//		return false; 
-//	} 
-//	return true; 
-//}
+
+bool DXApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
+{
+	// Check for enough free disk space on the current disk. 
+	int const drive = _getdrive();
+	struct _diskfree_t diskfree;
+	_getdiskfree(drive, &diskfree);
+	unsigned __int64 const bytes_per_cluster = diskfree.sectors_per_cluster * diskfree.bytes_per_sector;
+	unsigned __int64 const neededClusters = (diskSpaceNeededInMB / bytes_per_cluster) * 1024 * 1024;
+
+	if (diskfree.avail_clusters < neededClusters)
+	{
+		unsigned __int64 const avaliableSpaces = (unsigned __int64)
+			((double)diskfree.avail_clusters / 1024.0 / 1024.0 * (double)bytes_per_cluster);
+
+		std::ostringstream msg;
+		msg << "CheckStorage Failure: Not enough physical storage. only has " << avaliableSpaces << "MB in the disk" << std::endl;
+		// if you get here you don’t have enough disk space! 
+		MessageBoxA(NULL, msg.str().c_str(), "ERROR", 0);
+		return false;
+	}
+	return true;
+}
