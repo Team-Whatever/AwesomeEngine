@@ -1,4 +1,4 @@
-#include "DXApp.h"
+Ôªø#include "DXApp.h"
 
 
 namespace {
@@ -33,13 +33,15 @@ DXApp::~DXApp()
 {
 }
 
+
+
 int DXApp::Run()
 {
 	//step3: A Windows application follows an event-driven programming model.
 	//An event can be generated in a number of ways:key presses, mouse clicks,
 	//and when a window is created, resized, moved, closed, minimized, maximized, or becomes visible.
 	//When an event occurs, Windows sends a message to the application the event
-	//occurred for, and adds the message to the applicationís message queue
+	//occurred for, and adds the message to the application‚Äôs message queue
 	//The application constantly checks the message queue for messages in a message loop
 
 	//Main Message Loop
@@ -115,10 +117,21 @@ bool DXApp::InitWindow()
 	return true;
 }
 
+double DXApp::ReadCPUSpeed()
+{
 
-//step5: Once upon a time, Windows was 16 - bit.Each message could carry with it two pieces of data, called WPARAMand LPARAM.The first one was a 16 - bit value(ìwordî), so it was called W.The second one was a 32 - bit value(ìlongî), so it was called L.
+	double BufSize = sizeof(double); 
+	double dwMHz = 0;
+	//double type = double;
+	HKEY hKey; 
+
+	//open the key where the proc speed is hidden‚Ä®	long lError = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &hKey);‚Ä®	if (lError == ERROR_SUCCESS) {‚Ä®		// query the key:‚Ä®		RegQueryValueEx(hKey,"Mhz", NULL, NULL, (LPBTYLE)&dwMHz, &BufSize);‚Ä®	}‚Ä®	return dwMHz;
+}
+
+
+//step5: Once upon a time, Windows was 16 - bit.Each message could carry with it two pieces of data, called WPARAMand LPARAM.The first one was a 16 - bit value(‚Äúword‚Äù), so it was called W.The second one was a 32 - bit value(‚Äúlong‚Äù), so it was called L.
 //You used the W parameter to pass things like handles and integers.You used the L parameter to pass pointers.
-//When Windows was converted to 32 - bit, the WPARAM parameter grew to a 32 - bit value as well.So even though the ìWî stands for ìwordî, it isnít a word any more. (And in 64 - bit Windows, both parameters are 64 - bit values!)
+//When Windows was converted to 32 - bit, the WPARAM parameter grew to a 32 - bit value as well.So even though the ‚ÄúW‚Äù stands for ‚Äúword‚Äù, it isn‚Äôt a word any more. (And in 64 - bit Windows, both parameters are 64 - bit values!)
 
 //typedef LONG_PTR LRESULT
 LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

@@ -29,5 +29,6 @@ protected:
 
 protected:
 	bool InitWindow();
+	double ReadCPUSpeed();
 
 };
