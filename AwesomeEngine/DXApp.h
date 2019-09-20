@@ -17,6 +17,12 @@ public:
 	virtual void Render(float dt) = 0; // dt for animation
 	virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+	bool IsOnlyInstance(LPCTSTR gameTitle);
+
+	bool CheckStorage(const DWORDLONG diskSpaceNeededInMB);
+
+	DWORD ReadCPUSpeed();
+
 protected:
 
 	//WIN32 Attributes
@@ -29,6 +35,5 @@ protected:
 
 protected:
 	bool InitWindow();
-	double ReadCPUSpeed();
 
 };

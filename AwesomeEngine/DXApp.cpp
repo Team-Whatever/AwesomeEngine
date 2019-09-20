@@ -94,11 +94,13 @@ void displayProcessorArchitecture(SYSTEM_INFO &stInfo)
 		break;
 	default:
 		//printf("Unknown processor architecture\n");
-		MessageBox(NULL, L"?? Unknown ??", L"Processor Info", 0);
+		MessageBox(NULL, L"?? Unknown ??", L"Processor Info", 0); 
 	}
 }
 
-DWORD ReadCPUSpeed() {
+
+DWORD DXApp::ReadCPUSpeed()
+{
 	DWORD dwMHz = 0;
 	HKEY hKey;
 	//open key where proc speed is hidden
@@ -118,7 +120,7 @@ DWORD ReadCPUSpeed() {
 		DWORD dwLen = 4;
 		if (RegQueryValueEx(hKey, L"~MHz", NULL, NULL, (LPBYTE)&dwMHz, &dwLen) != ERROR_SUCCESS)
 		{
-			return 0;
+			return 0; 
 		}
 		RegCloseKey(hKey);
 		std::cout << dwMHz;
@@ -199,7 +201,7 @@ bool DXApp::InitWindow()
 
 	//step2 to notify Windows to show a particular window. Note that Windows applications do not have direct access to hardware.
 	//For example, to display a window you must call the Win32 API function ShowWindow; you cannot write to video memory directly.
-	ShowWindow(m_hAppWnd, SW_SHOW);
+	ShowWindow(m_hAppWnd, SW_SHOW); 
 
 	return true;
 }
@@ -272,3 +274,4 @@ bool DXApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
 	}
 	return true;
 }
+
