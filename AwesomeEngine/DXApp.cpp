@@ -66,6 +66,37 @@ int DXApp::Run()
 	return static_cast<int>(msg.wParam);
 }
 
+
+bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded)
+{
+	MEMORYSTATUSEX status = { sizeof status };
+	GlobalMemoryStatusEx(&status);
+
+	status.ullTotalPhys = status.ullTotalPhys / (1024 * 1024 * 1024);
+	status.ullAvailPhys = status.ullAvailPhys / (1024 * 1024 * 1024);
+	status.ullTotalVirtual = status.ullTotalVirtual / (1024 * 1024 * 1024);
+	status.ullAvailVirtual = status.ullAvailVirtual / (1024 * 1024 * 1024);
+
+	if (status.ullTotalPhys < physicalRAMNeeded)
+	{
+		MessageBox(NULL, L"CheckMemory Failure: Not enough physical memory", L"Memory", NULL);
+		return false;
+	}
+
+	if (status.ullAvailVirtual < virtualRAMNeeded)
+	{
+		MessageBox(NULL, L"CheckMemory Failure: Not enough virtual memory", L"Memory", NULL);
+		return false;
+	}
+
+	std::ostringstream msg;
+	msg << "Current Virtual Memory Available: " << status.ullAvailVirtual << "gb" << std::endl << "Current Physical Memory Available: " << status.ullAvailPhys << "gb" << std::endl;
+	MessageBoxA(NULL, msg.str().c_str(), "Memory", 0);
+	return true;
+
+}
+
+
 bool DXApp::Init()
 {
 	if (!IsOnlyInstance(L"test"))
@@ -80,6 +111,13 @@ bool DXApp::Init()
 		MessageBox(NULL, L"not enough space int the disk", L"ERROR", 0);
 		return false;
 	}
+
+	// First variable passed in is total RAM needed (in GB), second is total virtual RAM needed (also in GB)
+	if (!CheckMemory(0, 0))
+	{
+		MessageBox(NULL, L"Not Enough memory available", L"ERROR", NULL);
+	}
+
 
 	if (!InitWindow())
 		return false;
@@ -123,8 +161,6 @@ bool DXApp::InitWindow()
 		OutputDebugString(L"Failed to create Window \n");
 		return false;
 	}
-
-
 
 	//step2 to notify Windows to show a particular window. Note that Windows applications do not have direct access to hardware.
 	//For example, to display a window you must call the Win32 API function ShowWindow; you cannot write to video memory directly.
