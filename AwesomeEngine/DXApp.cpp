@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <direct.h>
-#include <string>
+#include <string.h>
 
 namespace {
 	//used to forward messages to user defined proc function
@@ -128,9 +128,7 @@ DWORD DXApp::ReadCPUSpeed()
 		{
 			return 0; 
 		}
-		RegCloseKey(hKey);
-		std::cout << dwMHz;
-
+		RegCloseKey(hKey); 
 	}
 	return dwMHz;
 }
@@ -146,15 +144,33 @@ bool DXApp::Init()
 	if (!CheckStorage(1024 * 100))
 	{
 		MessageBox(NULL, L"not enough space int the disk", L"ERROR", 0);
-		return false;
+		return false; 
 	}
 	//Checks if system has minimum of 500Mhz CPU Speed.
-	if (ReadCPUSpeed() < 500) {
+	DWORD cpuSpeed = ReadCPUSpeed();
 
-		MessageBox(NULL, L"CPU too slow", L"ERROR", 0); 
+	int temp = int(cpuSpeed);
+	//std::string temp2 = temp.toString(); 
+
+	//LPCWSTR text = std::string(temp); 
+	
+	int minimumCPUSpeed = 5000;
+
+	if (cpuSpeed < minimumCPUSpeed)
+	{
+		std::ostringstream msg;
+		msg << "Check CPU failed, below required minimum of: "<< minimumCPUSpeed << "Mhz" << std::endl << "Actual: " << cpuSpeed << "Mhz" << std::endl; 
+		MessageBoxA(NULL, msg.str().c_str(), "CPU Requirements Check!", 0); 
 	}
-	int x = ReadCPUSpeed();
-	MessageBox(NULL, LPCWSTR(x), L"CPU Speed", 0); 
+	else {
+		std::ostringstream msg;
+		msg << "Check CPU Speed Okay" << std::endl << "CPU Speed: " << cpuSpeed << "Mhz" << std::endl;
+		MessageBoxA(NULL, msg.str().c_str(), "CPU Requirements Check", 0); 
+	}
+	std::ostringstream msg;
+	msg << "Check CPU Speed Failure: Not enough MhZ. only have " << cpuSpeed << "Mhz" << std::endl; 
+	
+
 
 	SYSTEM_INFO stInfo;
 	GetSystemInfo(&stInfo);
@@ -177,10 +193,10 @@ bool DXApp::InitWindow()
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.hInstance = m_hAppInstance;
 	wcex.hIcon = LoadIcon(0, IDI_APPLICATION);
-	wcex.hCursor = LoadCursor(0, IDC_ARROW);
+	wcex.hCursor = LoadCursor(0, IDC_ARROW); 
 	wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
 	wcex.lpszMenuName = 0;
-	wcex.lpszClassName = L"DXAPPWNDCLASS";
+	wcex.lpszClassName = L"DXAPPWNDCLASS"; 
 
 	//register with Windows OS
 	if (!RegisterClassEx(&wcex))

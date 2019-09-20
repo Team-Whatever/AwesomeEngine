@@ -36,4 +36,5 @@ protected:
 protected:
 	bool InitWindow();
 
+
 };
