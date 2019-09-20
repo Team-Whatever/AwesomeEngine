@@ -80,21 +80,27 @@ void displayProcessorArchitecture(SYSTEM_INFO &stInfo)
 {
 	switch (stInfo.wProcessorArchitecture)
 	{
-	case PROCESSOR_ARCHITECTURE_INTEL:
+	case PROCESSOR_ARCHITECTURE_INTEL: //0-(x86)
 		//printf("Processor Architecture: Intel x86\n");
-		MessageBox(NULL, L"x86", L"Intel", 0);
+		MessageBox(NULL, L"Intel x86", L"Processor Type:", 0); 
 		break;
-	case PROCESSOR_ARCHITECTURE_IA64:
+	case PROCESSOR_ARCHITECTURE_ARM: //5-ARM processor type
+		MessageBox(NULL, L"ARM", L"Processor Type:", 0);
+		break;
+	case PROCESSOR_ARCHITECTURE_IA64: //6-Intel Itanium-Based
 		//printf("Processor Type: Intel x64\n");
-		MessageBox(NULL, L"x64", L"Intel", 0);
+		MessageBox(NULL, L"Intel Itanium-Based", L"Processor Type:", 0);
 		break;
-	case PROCESSOR_ARCHITECTURE_AMD64:
+	case PROCESSOR_ARCHITECTURE_AMD64: //Intel OR AMD x64 bit
 		//printf("Processor Type: AMD 64\n");
-		MessageBox(NULL, L"64", L"AMD", 0);
+		MessageBox(NULL, L"64 Bit (AMD or Intel)", L"Processor Type:", 0);
+		break;
+	case PROCESSOR_ARCHITECTURE_ARM64: //ARM64
+		MessageBox(NULL, L"ARM 64 Processor", L"Processor Type", 0);
 		break;
 	default:
 		//printf("Unknown processor architecture\n");
-		MessageBox(NULL, L"?? Unknown ??", L"Processor Info", 0); 
+		MessageBox(NULL, L"Unknown Architecture", L"Processor Info", 0); 
 	}
 }
 
@@ -130,12 +136,12 @@ DWORD DXApp::ReadCPUSpeed()
 }
 bool DXApp::Init()
 {
+	//
 	if (!IsOnlyInstance(L"test"))
 	{
 		MessageBox(NULL, L"the game has multiple instances", L"ERROR", 0);
 		return false;
 	}
-
 	// Ask for 100 GB
 	if (!CheckStorage(1024 * 100))
 	{
@@ -145,17 +151,17 @@ bool DXApp::Init()
 	//Checks if system has minimum of 500Mhz CPU Speed.
 	if (ReadCPUSpeed() < 500) {
 
-		MessageBox(NULL, L"CPU too slow", L"ERROR", 0);
+		MessageBox(NULL, L"CPU too slow", L"ERROR", 0); 
 	}
 	int x = ReadCPUSpeed();
-	MessageBox(NULL, LPCWSTR(x), L"CPU Speed", 0);
+	MessageBox(NULL, LPCWSTR(x), L"CPU Speed", 0); 
 
 	SYSTEM_INFO stInfo;
 	GetSystemInfo(&stInfo);
 	displayProcessorArchitecture(stInfo);
 
 	if (!InitWindow())
-		return false;
+		return false; 
 	return true;
 }
 
@@ -194,7 +200,7 @@ bool DXApp::InitWindow()
 
 	if (!m_hAppWnd) {
 		OutputDebugString(L"Failed to create Window \n");
-		return false;
+		return false; 
 	}
 
 
