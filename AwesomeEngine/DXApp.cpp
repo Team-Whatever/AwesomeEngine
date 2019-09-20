@@ -1,5 +1,8 @@
 ﻿#include "DXApp.h"
-
+#include <iostream>
+#include <sstream>
+#include <direct.h>
+#include <string>
 
 namespace {
 	//used to forward messages to user defined proc function
@@ -9,7 +12,7 @@ namespace {
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	//step4:Window procedures are functions we implement which contain code that is to be executed in response to specific messages.
-	if (g_App) 
+	if (g_App)
 		return g_App->MsgProc(hwnd, msg, wParam, lParam);
 	else
 		//The messages a window does not handle should be forwarded to the default window
@@ -32,8 +35,6 @@ DXApp::DXApp(HINSTANCE hInstance)
 DXApp::~DXApp()
 {
 }
-
-
 
 int DXApp::Run()
 {
@@ -64,9 +65,93 @@ int DXApp::Run()
 
 	return static_cast<int>(msg.wParam);
 }
+std::wstring s2ws(const std::string& s)
+{
+	int len;
+	int slength = (int)s.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+	wchar_t* buf = new wchar_t[len];
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+	std::wstring r(buf);
+	delete[] buf;
+	return r;
+}
+void displayProcessorArchitecture(SYSTEM_INFO &stInfo)
+{
+	switch (stInfo.wProcessorArchitecture)
+	{
+	case PROCESSOR_ARCHITECTURE_INTEL:
+		//printf("Processor Architecture: Intel x86\n");
+		MessageBox(NULL, L"x86", L"Intel", 0);
+		break;
+	case PROCESSOR_ARCHITECTURE_IA64:
+		//printf("Processor Type: Intel x64\n");
+		MessageBox(NULL, L"x64", L"Intel", 0);
+		break;
+	case PROCESSOR_ARCHITECTURE_AMD64:
+		//printf("Processor Type: AMD 64\n");
+		MessageBox(NULL, L"64", L"AMD", 0);
+		break;
+	default:
+		//printf("Unknown processor architecture\n");
+		MessageBox(NULL, L"?? Unknown ??", L"Processor Info", 0);
+	}
+}
 
+DWORD ReadCPUSpeed() {
+	DWORD dwMHz = 0;
+	HKEY hKey;
+	//open key where proc speed is hidden
+	std::string myString = "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0";
+
+	std::wstring stemp = s2ws(myString);
+	LPCWSTR result = stemp.c_str();
+
+	long lError = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+		result,
+		0,
+		KEY_READ,
+		&hKey);
+
+	if (lError == ERROR_SUCCESS)
+	{
+		DWORD dwLen = 4;
+		if (RegQueryValueEx(hKey, L"~MHz", NULL, NULL, (LPBYTE)&dwMHz, &dwLen) != ERROR_SUCCESS)
+		{
+			return 0;
+		}
+		RegCloseKey(hKey);
+		std::cout << dwMHz;
+
+	}
+	return dwMHz;
+}
 bool DXApp::Init()
 {
+	if (!IsOnlyInstance(L"test"))
+	{
+		MessageBox(NULL, L"the game has multiple instances", L"ERROR", 0);
+		return false;
+	}
+
+	// Ask for 100 GB
+	if (!CheckStorage(1024 * 100))
+	{
+		MessageBox(NULL, L"not enough space int the disk", L"ERROR", 0);
+		return false;
+	}
+	//Checks if system has minimum of 500Mhz CPU Speed.
+	if (ReadCPUSpeed() < 500) {
+
+		MessageBox(NULL, L"CPU too slow", L"ERROR", 0);
+	}
+	int x = ReadCPUSpeed();
+	MessageBox(NULL, LPCWSTR(x), L"CPU Speed", 0);
+
+	SYSTEM_INFO stInfo;
+	GetSystemInfo(&stInfo);
+	displayProcessorArchitecture(stInfo);
+
 	if (!InitWindow())
 		return false;
 	return true;
@@ -110,6 +195,8 @@ bool DXApp::InitWindow()
 		return false;
 	}
 
+
+
 	//step2 to notify Windows to show a particular window. Note that Windows applications do not have direct access to hardware.
 	//For example, to display a window you must call the Win32 API function ShowWindow; you cannot write to video memory directly.
 	ShowWindow(m_hAppWnd, SW_SHOW);
@@ -117,16 +204,7 @@ bool DXApp::InitWindow()
 	return true;
 }
 
-double DXApp::ReadCPUSpeed()
-{
 
-	double BufSize = sizeof(double); 
-	double dwMHz = 0;
-	//double type = double;
-	HKEY hKey; 
-
-	//open the key where the proc speed is hidden 	long lError = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &hKey); 	if (lError == ERROR_SUCCESS) { 		// query the key: 		RegQueryValueEx(hKey,"Mhz", NULL, NULL, (LPBTYLE)&dwMHz, &BufSize); 	} 	return dwMHz;
-}
 
 
 //step5: Once upon a time, Windows was 16 - bit.Each message could carry with it two pieces of data, called WPARAMand LPARAM.The first one was a 16 - bit value(“word”), so it was called W.The second one was a 32 - bit value(“long”), so it was called L.
@@ -151,4 +229,46 @@ LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return DefWindowProc(hwnd, msg, wParam, lParam); //wParam, lParam..mouse position..ket down...
 	}
 
+}
+
+bool DXApp::IsOnlyInstance(LPCTSTR gameTitle)
+{
+	HANDLE handle = CreateMutex(NULL, TRUE, gameTitle);
+	if (GetLastError() != ERROR_SUCCESS)
+	{
+		HWND hWnd = FindWindow(NULL, gameTitle);
+		if (hWnd)
+		{
+			// An instance of your game is already running. 
+			ShowWindow(hWnd, SW_SHOWNORMAL);
+			SetFocus(hWnd);
+			SetForegroundWindow(hWnd);
+			SetActiveWindow(hWnd);
+			return false;
+		}
+	}
+	return true;
+}
+
+bool DXApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
+{
+	// Check for enough free disk space on the current disk. 
+	int const drive = _getdrive();
+	struct _diskfree_t diskfree;
+	_getdiskfree(drive, &diskfree);
+	unsigned __int64 const bytes_per_cluster = diskfree.sectors_per_cluster * diskfree.bytes_per_sector;
+	unsigned __int64 const neededClusters = (diskSpaceNeededInMB / bytes_per_cluster) * 1024 * 1024;
+
+	if (diskfree.avail_clusters < neededClusters)
+	{
+		unsigned __int64 const avaliableSpaces = (unsigned __int64)
+			((double)diskfree.avail_clusters / 1024.0 / 1024.0 * (double)bytes_per_cluster);
+
+		std::ostringstream msg;
+		msg << "CheckStorage Failure: Not enough physical storage. only has " << avaliableSpaces << "MB in the disk" << std::endl;
+		// if you get here you don’t have enough disk space! 
+		MessageBoxA(NULL, msg.str().c_str(), "ERROR", 0);
+		return false;
+	}
+	return true;
 }
