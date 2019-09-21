@@ -112,6 +112,7 @@ bool DXApp::Init()
 		return false;
 	}
 
+
 	// First variable passed in is total RAM needed (in GB), second is total virtual RAM needed (also in GB)
 	if (!CheckMemory(0, 0))
 	{
