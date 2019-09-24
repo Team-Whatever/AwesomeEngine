@@ -12,7 +12,7 @@ public:
 	int Run();
 
 	//Framework Methods
-	virtual bool Init();
+	virtual bool Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz);
 	virtual void Update(float dt) = 0;
 	virtual void Render(float dt) = 0; // dt for animation
 	virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
