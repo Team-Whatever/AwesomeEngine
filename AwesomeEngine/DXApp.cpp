@@ -333,20 +333,22 @@ bool DXApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
 	unsigned __int64 const bytes_per_cluster = diskfree.sectors_per_cluster * diskfree.bytes_per_sector;
 	unsigned __int64 const neededClusters = (diskSpaceNeededInMB / bytes_per_cluster) * 1024 * 1024;
 
+	unsigned __int64 const avaliableSpaces = (unsigned __int64)
+		((double)diskfree.avail_clusters / 1024.0 / 1024.0 * (double)bytes_per_cluster);
+
+	std::ostringstream msg;
+	bool hasEnoughStorage = true;
 	if (diskfree.avail_clusters < neededClusters)
 	{
-		unsigned __int64 const avaliableSpaces = (unsigned __int64)
-			((double)diskfree.avail_clusters / 1024.0 / 1024.0 * (double)bytes_per_cluster);
-
-		std::ostringstream msg;
 		msg << "CheckStorage Failure: Not enough physical storage. only has " << avaliableSpaces << "MB in the disk" << std::endl;
-
-		// if you get here you don?™t have enough disk space! 
-
-		MessageBoxA(NULL, msg.str().c_str(), "ERROR", 0);
-		return false;
+		hasEnoughStorage = false;
 	}
-	return true;
+	else
+	{
+		msg << "CheckStorage Success: " << (avaliableSpaces / 1024) << "GB in the disk available" << std::endl;
+	}
+	MessageBoxA(NULL, msg.str().c_str(), "ERROR", 0);
+	return hasEnoughStorage;
 
 }
 
