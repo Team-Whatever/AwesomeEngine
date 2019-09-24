@@ -79,30 +79,22 @@ std::wstring s2ws(const std::string& s)
 }
 void displayProcessorArchitecture(SYSTEM_INFO &stInfo)
 {
+	std::cout << "CPU : ";
 	switch (stInfo.wProcessorArchitecture)
 	{
 	case PROCESSOR_ARCHITECTURE_INTEL: //0-(x86)
 		//printf("Processor Architecture: Intel x86\n");
-		MessageBox(NULL, L"Intel x86", L"Processor Type:", 0); 
+		std::cout << "Intel x86"; 
 		break;
 	case PROCESSOR_ARCHITECTURE_ARM: //5-ARM processor type
-		MessageBox(NULL, L"ARM", L"Processor Type:", 0);
-		break;
-	case PROCESSOR_ARCHITECTURE_IA64: //6-Intel Itanium-Based
-		//printf("Processor Type: Intel x64\n");
-		MessageBox(NULL, L"Intel Itanium-Based", L"Processor Type:", 0);
-		break;
-	case PROCESSOR_ARCHITECTURE_AMD64: //Intel OR AMD x64 bit
-		//printf("Processor Type: AMD 64\n");
-		MessageBox(NULL, L"64 Bit (AMD or Intel)", L"Processor Type:", 0);
-		break;
-	case PROCESSOR_ARCHITECTURE_ARM64: //ARM64
-		MessageBox(NULL, L"ARM 64 Processor", L"Processor Type", 0);
+		std::cout << L"ARM";
 		break;
 	default:
 		//printf("Unknown processor architecture\n");
-		MessageBox(NULL, L"Unknown Architecture", L"Processor Info", 0); 
+		std::cout << "Unknown Architecture";
 	}
+
+	std::cout << std::endl;
 }
 
 
@@ -112,26 +104,35 @@ bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNe
 	MEMORYSTATUSEX status = { sizeof status };
 	GlobalMemoryStatusEx(&status);
 
-	status.ullTotalPhys = status.ullTotalPhys / (1024 * 1024 * 1024);
-	status.ullAvailPhys = status.ullAvailPhys / (1024 * 1024 * 1024);
-	status.ullTotalVirtual = status.ullTotalVirtual / (1024 * 1024 * 1024);
-	status.ullAvailVirtual = status.ullAvailVirtual / (1024 * 1024 * 1024);
 
-	if (status.ullTotalPhys < physicalRAMNeeded)
+	status.ullTotalPhys = status.ullTotalPhys / (1024 * 1024 * 1024);		// GB
+	status.ullAvailPhys = status.ullAvailPhys / (1024 * 1024);				// MB
+	status.ullTotalVirtual = status.ullTotalVirtual / (1024 * 1024 * 1024);	// GB
+	status.ullAvailVirtual = status.ullAvailVirtual / (1024 * 1024);		// MB
+
+	std::cout << "Total physics physics = " << status.ullTotalPhys << " GB" << std::endl;
+	std::cout << "Current Physical Memory Available: " << status.ullAvailPhys / 1024 << "GB" << std::endl;
+	std::cout << "Total virtual memory = " << status.ullTotalVirtual << " GB" << std::endl;
+	std::cout << "Current Virtual Memory Available: " << status.ullAvailVirtual / 1024 << "GB" << std::endl;
+
+	if (status.ullAvailPhys < physicalRAMNeeded )
 	{
-		MessageBox(NULL, L"CheckMemory Failure: Not enough physical memory", L"Memory", NULL);
+		std::ostringstream msg;
+		msg << "CheckMemory Failure: " << physicalRAMNeeded << "MB Required" << std::endl << "Memory Available: " << status.ullAvailPhys << "MB" << std::endl;
+		MessageBoxA(NULL, msg.str().c_str(), "Not Enough Memory", 0);
 		return false;
 	}
 
 	if (status.ullAvailVirtual < virtualRAMNeeded)
 	{
-		MessageBox(NULL, L"CheckMemory Failure: Not enough virtual memory", L"Memory", NULL);
+		std::ostringstream msg;
+		msg << "CheckMemory Failure: " << virtualRAMNeeded << "MB Required" << std::endl << "Memory Available: " << status.ullAvailVirtual << "MB" << std::endl;
+
+		MessageBoxA(NULL, msg.str().c_str(), "Not Enough Virtual Memory", NULL);
 		return false;
 	}
 
-	std::ostringstream msg;
-	msg << "Current Virtual Memory Available: " << status.ullAvailVirtual << "gb" << std::endl << "Current Physical Memory Available: " << status.ullAvailPhys << "gb" << std::endl;
-	MessageBoxA(NULL, msg.str().c_str(), "Memory", 0);
+	
 	return true;
 
 }
@@ -165,7 +166,7 @@ DWORD DXApp::ReadCPUSpeed()
 }
 
 
-bool DXApp::Init()
+bool DXApp::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz)
 {
 	if (!IsOnlyInstance(L"test"))
 	{
@@ -174,16 +175,15 @@ bool DXApp::Init()
 	}
 
 	// Ask for 100 GB
-	if (!CheckStorage(1024 * 100))
+	if (!CheckStorage(diskRequiredInMB))
 	{
-		MessageBox(NULL, L"not enough space int the disk", L"ERROR", 0);
 		return false;
 	}
 
 	// First variable passed in is total RAM needed (in GB), second is total virtual RAM needed (also in GB)
-	if (!CheckMemory(0, 0))
+	if (!CheckMemory(memoryRequiredInMB, virtualMemoryRequriedInMB))
 	{
-		MessageBox(NULL, L"Not Enough memory available", L"ERROR", NULL);
+		return false;
 	}
 
 
@@ -191,37 +191,19 @@ bool DXApp::Init()
 	{
 		return false;
 	}
-	// Ask for 100 GB
-	if (!CheckStorage(1024 * 100))
-	{
-		MessageBox(NULL, L"not enough space int the disk", L"ERROR", 0);
-		return false; 
-	}
+
 	//Checks if system has minimum of 500Mhz CPU Speed.
 	DWORD cpuSpeed = ReadCPUSpeed();
 
-	int temp = int(cpuSpeed);
-	//std::string temp2 = temp.toString(); 
-
-	//LPCWSTR text = std::string(temp); 
-	
-	int minimumCPUSpeed = 5000;
-
-	if (cpuSpeed < minimumCPUSpeed)
+	if (cpuSpeed < cpuSpeedRequiredInMHz)
 	{
 		std::ostringstream msg;
-		msg << "Check CPU failed, below required minimum of: "<< minimumCPUSpeed << "Mhz" << std::endl << "Actual: " << cpuSpeed << "Mhz" << std::endl; 
+		msg << "Check CPU failed, below required minimum of: "<< cpuSpeedRequiredInMHz << "Mhz" << std::endl << "Actual: " << cpuSpeed << "Mhz" << std::endl;
 		MessageBoxA(NULL, msg.str().c_str(), "CPU Requirements Check!", 0); 
 	}
 	else {
-		std::ostringstream msg;
-		msg << "Check CPU Speed Okay" << std::endl << "CPU Speed: " << cpuSpeed << "Mhz" << std::endl;
-		MessageBoxA(NULL, msg.str().c_str(), "CPU Requirements Check", 0); 
+		std::cout << "Check CPU Speed Okay" << std::endl << "CPU Speed: " << cpuSpeed << "Mhz" << std::endl;
 	}
-	std::ostringstream msg;
-	msg << "Check CPU Speed Failure: Not enough MhZ. only have " << cpuSpeed << "Mhz" << std::endl; 
-	
-
 
 	SYSTEM_INFO stInfo;
 	GetSystemInfo(&stInfo);
@@ -336,19 +318,17 @@ bool DXApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
 	unsigned __int64 const avaliableSpaces = (unsigned __int64)
 		((double)diskfree.avail_clusters / 1024.0 / 1024.0 * (double)bytes_per_cluster);
 
-	std::ostringstream msg;
-	bool hasEnoughStorage = true;
 	if (diskfree.avail_clusters < neededClusters)
 	{
+		std::ostringstream msg;
 		msg << "CheckStorage Failure: Not enough physical storage. only has " << avaliableSpaces << "MB in the disk" << std::endl;
-		hasEnoughStorage = false;
+		MessageBoxA(NULL, msg.str().c_str(), "ERROR", 0);
+		return false;
 	}
 	else
 	{
-		msg << "CheckStorage Success: " << (avaliableSpaces / 1024) << "GB in the disk available" << std::endl;
+		std::cout << "CheckStorage Success: " << (avaliableSpaces / 1024) << "GB in the disk available" << std::endl;
+		return true;
 	}
-	MessageBoxA(NULL, msg.str().c_str(), "ERROR", 0);
-	return hasEnoughStorage;
-
 }
 
