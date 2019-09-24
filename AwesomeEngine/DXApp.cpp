@@ -137,6 +137,19 @@ bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNe
 
 }
 
+LPWSTR GetRegistry(LPCWSTR StringName)
+{
+	DWORD dwType = REG_SZ;
+	HKEY hKey = 0;
+	TCHAR value[1024];
+	DWORD value_length = 1024;
+	LPCWSTR subkey = L"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0";
+	RegOpenKey(HKEY_LOCAL_MACHINE, subkey, &hKey);
+	RegQueryValueEx(hKey, StringName, NULL, &dwType, (LPBYTE)&value, &value_length);
+	std::wcout << "CPU Type : " << value << std::endl;
+	return  value;
+}
+
 DWORD DXApp::ReadCPUSpeed()
 {
 	DWORD dwMHz = 0;
@@ -162,6 +175,9 @@ DWORD DXApp::ReadCPUSpeed()
 		}
 		RegCloseKey(hKey);
 	}
+
+	GetRegistry(L"ProcessorNameString");
+	
 	return dwMHz;
 }
 
@@ -207,7 +223,7 @@ bool DXApp::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInM
 
 	SYSTEM_INFO stInfo;
 	GetSystemInfo(&stInfo);
-	displayProcessorArchitecture(stInfo);
+	//displayProcessorArchitecture(stInfo);
 
 	return true;
 }
