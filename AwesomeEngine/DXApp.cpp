@@ -1,8 +1,9 @@
+
 #include "DXApp.h"
 #include <iostream>
 #include <sstream>
 #include <direct.h>
-
+#include <string.h>
 
 namespace {
 	//used to forward messages to user defined proc function
@@ -42,7 +43,7 @@ int DXApp::Run()
 	//An event can be generated in a number of ways:key presses, mouse clicks,
 	//and when a window is created, resized, moved, closed, minimized, maximized, or becomes visible.
 	//When an event occurs, Windows sends a message to the application the event
-	//occurred for, and adds the message to the application’s message queue
+	//occurred for, and adds the message to the application?™s message queue
 	//The application constantly checks the message queue for messages in a message loop
 
 	//Main Message Loop
@@ -65,6 +66,45 @@ int DXApp::Run()
 
 	return static_cast<int>(msg.wParam);
 }
+std::wstring s2ws(const std::string& s)
+{
+	int len;
+	int slength = (int)s.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+	wchar_t* buf = new wchar_t[len];
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+	std::wstring r(buf);
+	delete[] buf;
+	return r;
+}
+void displayProcessorArchitecture(SYSTEM_INFO &stInfo)
+{
+	switch (stInfo.wProcessorArchitecture)
+	{
+	case PROCESSOR_ARCHITECTURE_INTEL: //0-(x86)
+		//printf("Processor Architecture: Intel x86\n");
+		MessageBox(NULL, L"Intel x86", L"Processor Type:", 0); 
+		break;
+	case PROCESSOR_ARCHITECTURE_ARM: //5-ARM processor type
+		MessageBox(NULL, L"ARM", L"Processor Type:", 0);
+		break;
+	case PROCESSOR_ARCHITECTURE_IA64: //6-Intel Itanium-Based
+		//printf("Processor Type: Intel x64\n");
+		MessageBox(NULL, L"Intel Itanium-Based", L"Processor Type:", 0);
+		break;
+	case PROCESSOR_ARCHITECTURE_AMD64: //Intel OR AMD x64 bit
+		//printf("Processor Type: AMD 64\n");
+		MessageBox(NULL, L"64 Bit (AMD or Intel)", L"Processor Type:", 0);
+		break;
+	case PROCESSOR_ARCHITECTURE_ARM64: //ARM64
+		MessageBox(NULL, L"ARM 64 Processor", L"Processor Type", 0);
+		break;
+	default:
+		//printf("Unknown processor architecture\n");
+		MessageBox(NULL, L"Unknown Architecture", L"Processor Info", 0); 
+	}
+}
+
 
 
 bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded)
@@ -96,6 +136,34 @@ bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNe
 
 }
 
+DWORD DXApp::ReadCPUSpeed()
+{
+	DWORD dwMHz = 0;
+	HKEY hKey;
+	//open key where proc speed is hidden
+	std::string myString = "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0";
+
+	std::wstring stemp = s2ws(myString);
+	LPCWSTR result = stemp.c_str();
+
+	long lError = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+		result,
+		0,
+		KEY_READ,
+		&hKey);
+
+	if (lError == ERROR_SUCCESS)
+	{
+		DWORD dwLen = 4;
+		if (RegQueryValueEx(hKey, L"~MHz", NULL, NULL, (LPBYTE)&dwMHz, &dwLen) != ERROR_SUCCESS)
+		{
+			return 0;
+		}
+		RegCloseKey(hKey);
+	}
+	return dwMHz;
+}
+
 
 bool DXApp::Init()
 {
@@ -120,9 +188,48 @@ bool DXApp::Init()
 
 
 	if (!InitWindow())
+	{
 		return false;
+	}
+	// Ask for 100 GB
+	if (!CheckStorage(1024 * 100))
+	{
+		MessageBox(NULL, L"not enough space int the disk", L"ERROR", 0);
+		return false; 
+	}
+	//Checks if system has minimum of 500Mhz CPU Speed.
+	DWORD cpuSpeed = ReadCPUSpeed();
+
+	int temp = int(cpuSpeed);
+	//std::string temp2 = temp.toString(); 
+
+	//LPCWSTR text = std::string(temp); 
+	
+	int minimumCPUSpeed = 5000;
+
+	if (cpuSpeed < minimumCPUSpeed)
+	{
+		std::ostringstream msg;
+		msg << "Check CPU failed, below required minimum of: "<< minimumCPUSpeed << "Mhz" << std::endl << "Actual: " << cpuSpeed << "Mhz" << std::endl; 
+		MessageBoxA(NULL, msg.str().c_str(), "CPU Requirements Check!", 0); 
+	}
+	else {
+		std::ostringstream msg;
+		msg << "Check CPU Speed Okay" << std::endl << "CPU Speed: " << cpuSpeed << "Mhz" << std::endl;
+		MessageBoxA(NULL, msg.str().c_str(), "CPU Requirements Check", 0); 
+	}
+	std::ostringstream msg;
+	msg << "Check CPU Speed Failure: Not enough MhZ. only have " << cpuSpeed << "Mhz" << std::endl; 
+	
+
+
+	SYSTEM_INFO stInfo;
+	GetSystemInfo(&stInfo);
+	displayProcessorArchitecture(stInfo);
+
 	return true;
 }
+
 
 bool DXApp::InitWindow()
 {
@@ -136,10 +243,10 @@ bool DXApp::InitWindow()
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.hInstance = m_hAppInstance;
 	wcex.hIcon = LoadIcon(0, IDI_APPLICATION);
-	wcex.hCursor = LoadCursor(0, IDC_ARROW);
+	wcex.hCursor = LoadCursor(0, IDC_ARROW); 
 	wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
 	wcex.lpszMenuName = 0;
-	wcex.lpszClassName = L"DXAPPWNDCLASS";
+	wcex.lpszClassName = L"DXAPPWNDCLASS"; 
 
 	//register with Windows OS
 	if (!RegisterClassEx(&wcex))
@@ -159,20 +266,24 @@ bool DXApp::InitWindow()
 
 	if (!m_hAppWnd) {
 		OutputDebugString(L"Failed to create Window \n");
-		return false;
+		return false; 
 	}
+
+
 
 	//step2 to notify Windows to show a particular window. Note that Windows applications do not have direct access to hardware.
 	//For example, to display a window you must call the Win32 API function ShowWindow; you cannot write to video memory directly.
-	ShowWindow(m_hAppWnd, SW_SHOW);
+	ShowWindow(m_hAppWnd, SW_SHOW); 
 
 	return true;
 }
 
 
-//step5: Once upon a time, Windows was 16 - bit.Each message could carry with it two pieces of data, called WPARAMand LPARAM.The first one was a 16 - bit value(“word”), so it was called W.The second one was a 32 - bit value(“long”), so it was called L.
+
+
+//step5: Once upon a time, Windows was 16 - bit.Each message could carry with it two pieces of data, called WPARAMand LPARAM.The first one was a 16 - bit value(?œword??, so it was called W.The second one was a 32 - bit value(?œlong??, so it was called L.
 //You used the W parameter to pass things like handles and integers.You used the L parameter to pass pointers.
-//When Windows was converted to 32 - bit, the WPARAM parameter grew to a 32 - bit value as well.So even though the “W” stands for “word”, it isn’t a word any more. (And in 64 - bit Windows, both parameters are 64 - bit values!)
+//When Windows was converted to 32 - bit, the WPARAM parameter grew to a 32 - bit value as well.So even though the ?œW??stands for ?œword?? it isn?™t a word any more. (And in 64 - bit Windows, both parameters are 64 - bit values!)
 
 //typedef LONG_PTR LRESULT
 LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -229,9 +340,13 @@ bool DXApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
 
 		std::ostringstream msg;
 		msg << "CheckStorage Failure: Not enough physical storage. only has " << avaliableSpaces << "MB in the disk" << std::endl;
-		// if you get here you don’t have enough disk space! 
+
+		// if you get here you don?™t have enough disk space! 
+
 		MessageBoxA(NULL, msg.str().c_str(), "ERROR", 0);
 		return false;
 	}
 	return true;
+
 }
+

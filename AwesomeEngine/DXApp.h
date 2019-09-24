@@ -18,7 +18,11 @@ public:
 	virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	bool IsOnlyInstance(LPCTSTR gameTitle);
+
+
 	bool CheckStorage(const DWORDLONG diskSpaceNeededInMB);
+
+	DWORD ReadCPUSpeed();
 
 protected:
 
@@ -32,5 +36,6 @@ protected:
 
 protected:
 	bool InitWindow();
+
 
 };

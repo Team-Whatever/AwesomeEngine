@@ -18,7 +18,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//MessageBox(NULL,L"Hello World", L"Test",NULL);
 
 	TestApp tApp(hInstance);
-	if (!tApp.Init()) return 1;
+	if (!tApp.Init()) return 1; 
 
 	return tApp.Run();
 
