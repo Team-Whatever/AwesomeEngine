@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Actor>
+	<Transform>
+		<Position>
+			<X>1.385883</X>
+			<Y>10.21463</Y>
+			<Z>-2.88255</Z>
+		</Position>
+		<Rotation>
+			<X>3.461321</X>
+			<Y>355.6992</Y>
+			<Z>204.3322</Z>
+		</Rotation>
+		<Scale>
+			<X>7.2182</X>
+			<Y>7.2182</Y>
+			<Z>5</Z>
+		</Scale>
+	</Transform>
+	<MeshFilter>
+		<Mesh>Cube</Mesh>
+	</MeshFilter>
+	<BoxCollider>
+		<IsTrigger>False</IsTrigger>
+		<Material>None</Material>
+		<Center>
+			<X>0</X>
+			<Y>0</Y>
+			<Z>0</Z>
+		</Center>
+		<Size>
+			<X>1</X>
+			<Y>1</Y>
+			<Z>1</Z>
+		</Size>
+	</BoxCollider>
+	<MeshRenderer>
+		<CastShadows>True</CastShadows>
+		<RecieveSHadows>True</RecieveSHadows>
+		<Materials>
+			<Size>1</Size>
+			<Element value="0">White</Element>
+		</Materials>
+		<UseLightProbes>False</UseLightProbes>
+	</MeshRenderer>
+	<Rigidbody>
+		<Mass>7.2182</Mass>
+		<Drag>0</Drag>
+		<AngularDrag>0</AngularDrag>
+		<UseGravity>False</UseGravity>
+		<IsKinematic>False</IsKinematic>
+		<Interpolate>None</Interpolate>
+		<CollisionDetection>Continuous</CollisionDetection>
+		<Constraints></Constraints>
+	</Rigidbody>
+</Actor>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
