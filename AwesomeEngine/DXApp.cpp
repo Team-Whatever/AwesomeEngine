@@ -118,8 +118,8 @@ bool CheckMemory(const DWORDLONG physicalRAMNeededInMB, const DWORDLONG virtualR
 
 	std::cout << "Total physics physics = " << status.ullTotalPhys << " GB" << std::endl;
 	std::cout << "Current Physical Memory Available: " << status.ullAvailPhys / 1024 << "GB" << std::endl;
-	std::cout << "Total virtual memory = " << status.ullTotalVirtual << " GB" << std::endl;
-	std::cout << "Current Virtual Memory Available: " << status.ullAvailVirtual / 1024 << "GB" << std::endl;
+	std::cout << "Total virtual memory = " << totalVirtualMem / 1024 << " GB" << std::endl;
+	std::cout << "Current Virtual Memory Available: " << availVirtualMem / 1024 << "GB" << std::endl;
 
 	if (status.ullAvailPhys < physicalRAMNeededInMB)
 	{
