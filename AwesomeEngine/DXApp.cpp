@@ -99,7 +99,7 @@ void displayProcessorArchitecture(SYSTEM_INFO &stInfo)
 
 
 
-bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded)
+bool CheckMemory(const DWORDLONG physicalRAMNeededInMB, const DWORDLONG virtualRAMNeededInMB)
 {
 	MEMORYSTATUSEX status = { sizeof status };
 	GlobalMemoryStatusEx(&status);
@@ -110,23 +110,29 @@ bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNe
 	status.ullTotalVirtual = status.ullTotalVirtual / (1024 * 1024 * 1024);	// GB
 	status.ullAvailVirtual = status.ullAvailVirtual / (1024 * 1024);		// MB
 
+	MEMORYSTATUSEX memInfo;
+	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+	GlobalMemoryStatusEx(&memInfo);
+	DWORDLONG totalVirtualMem = memInfo.ullTotalPageFile / (1024 * 1024);	// MB
+	DWORDLONG availVirtualMem = memInfo.ullAvailPageFile / (1024 * 1024);	// MB
+
 	std::cout << "Total physics physics = " << status.ullTotalPhys << " GB" << std::endl;
 	std::cout << "Current Physical Memory Available: " << status.ullAvailPhys / 1024 << "GB" << std::endl;
 	std::cout << "Total virtual memory = " << status.ullTotalVirtual << " GB" << std::endl;
 	std::cout << "Current Virtual Memory Available: " << status.ullAvailVirtual / 1024 << "GB" << std::endl;
 
-	if (status.ullAvailPhys < physicalRAMNeeded )
+	if (status.ullAvailPhys < physicalRAMNeededInMB)
 	{
 		std::ostringstream msg;
-		msg << "CheckMemory Failure: " << physicalRAMNeeded << "MB Required" << std::endl << "Memory Available: " << status.ullAvailPhys << "MB" << std::endl;
+		msg << "CheckMemory Failure: " << physicalRAMNeededInMB << "MB Required" << std::endl << "Memory Available: " << status.ullAvailPhys << "MB" << std::endl;
 		MessageBoxA(NULL, msg.str().c_str(), "Not Enough Memory", 0);
 		return false;
 	}
 
-	if (status.ullAvailVirtual < virtualRAMNeeded)
+	if (availVirtualMem < virtualRAMNeededInMB)
 	{
 		std::ostringstream msg;
-		msg << "CheckMemory Failure: " << virtualRAMNeeded << "MB Required" << std::endl << "Memory Available: " << status.ullAvailVirtual << "MB" << std::endl;
+		msg << "CheckMemory Failure: " << virtualRAMNeededInMB << "MB Required" << std::endl << "Memory Available: " << status.ullAvailVirtual << "MB" << std::endl;
 
 		MessageBoxA(NULL, msg.str().c_str(), "Not Enough Virtual Memory", NULL);
 		return false;
