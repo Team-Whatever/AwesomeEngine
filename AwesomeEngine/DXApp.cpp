@@ -3,6 +3,9 @@
 #include <sstream>
 #include <direct.h>
 
+#include <windows.h>
+#include <stdio.h>
+#include <tchar.h>
 
 namespace {
 	//used to forward messages to user defined proc function
@@ -66,6 +69,8 @@ int DXApp::Run()
 	return static_cast<int>(msg.wParam);
 }
 
+#define DIV 1024
+#define WIDTH 7
 
 bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded)
 {
@@ -74,8 +79,13 @@ bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNe
 
 	status.ullTotalPhys = status.ullTotalPhys / (1024 * 1024 * 1024);
 	status.ullAvailPhys = status.ullAvailPhys / (1024 * 1024 * 1024);
-	status.ullTotalVirtual = status.ullTotalVirtual / (1024 * 1024 * 1024);
-	status.ullAvailVirtual = status.ullAvailVirtual / (1024 * 1024 * 1024);
+
+	MEMORYSTATUSEX memInfo;
+	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+	GlobalMemoryStatusEx(&memInfo);
+	DWORDLONG totalVirtualMem = memInfo.ullTotalPageFile / (1024 * 1024 * 1024);
+	DWORDLONG availVirtualMem = memInfo.ullAvailPageFile / (1024 * 1024 * 1024);
+		
 
 	if (status.ullTotalPhys < physicalRAMNeeded)
 	{
@@ -86,12 +96,13 @@ bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNe
 	if (status.ullAvailVirtual < virtualRAMNeeded)
 	{
 		MessageBox(NULL, L"CheckMemory Failure: Not enough virtual memory", L"Memory", NULL);
-		return false;
+		return false; 
 	}
 
 	std::ostringstream msg;
-	msg << "Current Virtual Memory Available: " << status.ullAvailVirtual << "gb" << std::endl << "Current Physical Memory Available: " << status.ullAvailPhys << "gb" << std::endl;
+	msg << "Current Virtual Memory Available: " << availVirtualMem << "GB" << std::endl << "Current Physical Memory Available: " << status.ullAvailPhys << "GB" << std::endl;
 	MessageBoxA(NULL, msg.str().c_str(), "Memory", 0);
+
 	return true;
 
 }
