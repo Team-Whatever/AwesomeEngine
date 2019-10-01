@@ -91,7 +91,7 @@ bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNe
 		return false;
 	}
 
-	if (status.ullAvailVirtual < virtualRAMNeeded)
+	if (availVirtualMem < virtualRAMNeeded)
 	{
 		MessageBox(NULL, L"CheckMemory Failure: Not enough virtual memory", L"Memory", NULL);
 		return false; 
