@@ -3,9 +3,7 @@
 #include <sstream>
 #include <direct.h>
 
-#include <windows.h>
-#include <stdio.h>
-#include <tchar.h>
+
 
 namespace {
 	//used to forward messages to user defined proc function
