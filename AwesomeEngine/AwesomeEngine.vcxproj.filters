@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{8a57f6e5-d9e3-4889-9cec-c31d1b21623b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -24,6 +27,9 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Actors\SpecialAbilityComponent.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXApp.h">
@@ -31,6 +37,12 @@
     </ClInclude>
     <ClInclude Include="TestApp.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actors\AbilitiesInterface.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actors\SpecialAbilityComponent.h">
+      <Filter>Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

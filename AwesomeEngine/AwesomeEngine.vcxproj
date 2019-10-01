@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actors\SpecialAbilityComponent.cpp" />
     <ClCompile Include="DXApp.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="WinMain.cpp">
@@ -134,6 +135,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actors\AbilitiesInterface.h" />
+    <ClInclude Include="Actors\SpecialAbilityComponent.h" />
     <ClInclude Include="DXApp.h" />
     <ClInclude Include="TestApp.h" />
   </ItemGroup>
