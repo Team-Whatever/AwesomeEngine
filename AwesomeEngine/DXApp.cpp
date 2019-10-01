@@ -5,6 +5,7 @@
 #include <direct.h>
 #include <string.h>
 
+
 namespace {
 	//used to forward messages to user defined proc function
 	DXApp* g_App = nullptr;
@@ -98,12 +99,23 @@ void displayProcessorArchitecture(SYSTEM_INFO &stInfo)
 }
 
 
+#define DIV 1024
+#define WIDTH 7
 
 bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded)
 {
 	MEMORYSTATUSEX status = { sizeof status };
 	GlobalMemoryStatusEx(&status);
 
+	status.ullTotalPhys = status.ullTotalPhys / (1024 * 1024 * 1024);
+	status.ullAvailPhys = status.ullAvailPhys / (1024 * 1024 * 1024);
+
+	MEMORYSTATUSEX memInfo;
+	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+	GlobalMemoryStatusEx(&memInfo);
+	DWORDLONG totalVirtualMem = memInfo.ullTotalPageFile / (1024 * 1024 * 1024);
+	DWORDLONG availVirtualMem = memInfo.ullAvailPageFile / (1024 * 1024 * 1024);
+		
 
 	status.ullTotalPhys = status.ullTotalPhys / (1024 * 1024 * 1024);		// GB
 	status.ullAvailPhys = status.ullAvailPhys / (1024 * 1024);				// MB
@@ -123,7 +135,7 @@ bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNe
 		return false;
 	}
 
-	if (status.ullAvailVirtual < virtualRAMNeeded)
+	if (availVirtualMem < virtualRAMNeeded)
 	{
 		std::ostringstream msg;
 		msg << "CheckMemory Failure: " << virtualRAMNeeded << "MB Required" << std::endl << "Memory Available: " << status.ullAvailVirtual << "MB" << std::endl;
@@ -133,6 +145,14 @@ bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNe
 	}
 
 	
+		MessageBox(NULL, L"CheckMemory Failure: Not enough virtual memory", L"Memory", NULL);
+		return false; 
+	}
+
+	std::ostringstream msg;
+	msg << "Current Virtual Memory Available: " << availVirtualMem << "GB" << std::endl << "Current Physical Memory Available: " << status.ullAvailPhys << "GB" << std::endl;
+	MessageBoxA(NULL, msg.str().c_str(), "Memory", 0);
+
 	return true;
 
 }
@@ -195,6 +215,7 @@ bool DXApp::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInM
 	{
 		return false;
 	}
+
 
 	// First variable passed in is total RAM needed (in GB), second is total virtual RAM needed (also in GB)
 	if (!CheckMemory(memoryRequiredInMB, virtualMemoryRequriedInMB))
