@@ -129,6 +129,7 @@
     <ClCompile Include="DXApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\TransformComponent.h" />
     <ClInclude Include="DXApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
