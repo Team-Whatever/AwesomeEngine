@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
 
+#include "BaseComponent.h"
+
 namespace AwesomeEngine
 {
-	struct MeshComponent
+	struct MeshComponent : BaseComponent
 	{
 		MeshComponent() {}
 

@@ -1,26 +1,24 @@
 #pragma once
 #include "AbilitiesInterface.h"
 
+#include "Components/BaseComponent.h"
+
 namespace Escape
 {
 
-	namespace AwesomeGame
+	class SpecialAbilityComponent : public AwesomeEngine::BaseComponent, IAbility
 	{
-		class SpecialAbilityComponent : public IAbility
-		{
-		public:
-			SpecialAbilityComponent();
-			~SpecialAbilityComponent();
+	public:
+		SpecialAbilityComponent();
+		~SpecialAbilityComponent();
 
-		public:
-			virtual bool IsAbleToUseAbility() override;
-			virtual void UseAbility() override;
+	public:
+		virtual bool IsAbleToUseAbility() override;
+		virtual void UseAbility() override;
 
-		private:
-			static const int MAX_MANA = 100;
-			int mMana;
-		};
-
-	}
+	private:
+		static const int MAX_MANA = 100;
+		int mMana;
+	};
 
 }

@@ -1,9 +1,10 @@
 #pragma once
 
+#include "BaseComponent.h"
 
 namespace AwesomeEngine
 {
-	struct HealthComponent
+	struct HealthComponent : BaseComponent
 	{
 		int health;
 		int maxHealth;

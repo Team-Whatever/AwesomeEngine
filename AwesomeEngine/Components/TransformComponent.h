@@ -1,10 +1,11 @@
 #pragma once
 
 #include <DirectXMath.h>
+#include "BaseComponent.h"
 
 namespace AwesomeEngine
 {
-	struct TransformComponent
+	struct TransformComponent : BaseComponent
 	{
 
 		TransformComponent(FXMVECTOR _pos, FXMVECTOR _scale, FXMVECTOR _angle)

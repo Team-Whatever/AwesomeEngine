@@ -133,6 +133,7 @@
     <ClCompile Include="Systems\RenderingSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\BaseComponent.h" />
     <ClInclude Include="Components\HealthComponent.h" />
     <ClInclude Include="Components\MeshComponent.h" />
     <ClInclude Include="Components\TransformComponent.h" />

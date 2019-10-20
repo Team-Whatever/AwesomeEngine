@@ -3,33 +3,27 @@
 
 namespace Escape
 {
-
-	namespace AwesomeGame
+	SpecialAbilityComponent::SpecialAbilityComponent()
+		: mMana(MAX_MANA)
 	{
-
-		SpecialAbilityComponent::SpecialAbilityComponent()
-			: mMana(MAX_MANA)
-		{
-			abilityCost = 30;
-		}
+		abilityCost = 30;
+	}
 
 
-		SpecialAbilityComponent::~SpecialAbilityComponent()
-		{
-		}
+	SpecialAbilityComponent::~SpecialAbilityComponent()
+	{
+	}
 
 
-		bool SpecialAbilityComponent::IsAbleToUseAbility()
-		{
-			return mMana >= abilityCost;
-		}
+	bool SpecialAbilityComponent::IsAbleToUseAbility()
+	{
+		return mMana >= abilityCost;
+	}
 
-		void SpecialAbilityComponent::UseAbility()
-		{
-			mMana -= abilityCost;
-			// do soemthing special here.
-			std::cout << "Use Special Ability : " << std::endl;
-		}
-
+	void SpecialAbilityComponent::UseAbility()
+	{
+		mMana -= abilityCost;
+		// do soemthing special here.
+		std::cout << "Use Special Ability : " << std::endl;
 	}
 }
