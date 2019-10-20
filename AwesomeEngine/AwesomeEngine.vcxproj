@@ -127,10 +127,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DXApp.cpp" />
+    <ClCompile Include="Entities\Entity.cpp" />
+    <ClCompile Include="Systems\EntitySystem.cpp" />
+    <ClCompile Include="Systems\EntityWorld.cpp" />
+    <ClCompile Include="Systems\RenderingSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\HealthComponent.h" />
+    <ClInclude Include="Components\MeshComponent.h" />
     <ClInclude Include="Components\TransformComponent.h" />
     <ClInclude Include="DXApp.h" />
+    <ClInclude Include="Entities\Entity.h" />
+    <ClInclude Include="Systems\EntitySystem.h" />
+    <ClInclude Include="Systems\EntityWorld.h" />
+    <ClInclude Include="Systems\RenderingSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

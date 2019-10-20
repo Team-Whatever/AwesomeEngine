@@ -16,6 +16,18 @@
     <Filter Include="Components">
       <UniqueIdentifier>{2f9fde1a-c0a0-4de3-9156-88e2ae369e47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{72e8c852-9895-49bf-864f-57e0edaef16b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{577fcd70-e354-4c5b-b059-ed4ca972293f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Characters">
+      <UniqueIdentifier>{f52cfe33-1d06-42a5-aad3-3723296b91d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{ff83bf1a-cf9f-4e83-8eaa-f008c96596c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -30,6 +42,24 @@
     <ClInclude Include="Components\SpecialAbilityComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Managers\GameplayManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\EventManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\Character.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\Enemy.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\PlayerCharacter.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameWorld.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -40,6 +70,24 @@
     </ClCompile>
     <ClCompile Include="Components\SpecialAbilityComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\GameplayManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\EventManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\Character.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\Enemy.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\PlayerCharacter.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameWorld.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

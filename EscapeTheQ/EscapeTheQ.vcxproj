@@ -108,7 +108,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
@@ -123,7 +123,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -161,19 +161,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Characters\Character.h" />
+    <ClInclude Include="Characters\Enemy.h" />
+    <ClInclude Include="Characters\PlayerCharacter.h" />
     <ClInclude Include="Components\AbilitiesInterface.h" />
     <ClInclude Include="Components\SpecialAbilityComponent.h" />
+    <ClInclude Include="Game\GameWorld.h" />
+    <ClInclude Include="Managers\EventManager.h" />
+    <ClInclude Include="Managers\GameplayManager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="TestApp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Characters\Character.cpp" />
+    <ClCompile Include="Characters\Enemy.cpp" />
+    <ClCompile Include="Characters\PlayerCharacter.cpp" />
     <ClCompile Include="Components\SpecialAbilityComponent.cpp" />
     <ClCompile Include="EscapeTheQ.cpp" />
+    <ClCompile Include="Game\GameWorld.cpp" />
+    <ClCompile Include="Managers\EventManager.cpp" />
+    <ClCompile Include="Managers\GameplayManager.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

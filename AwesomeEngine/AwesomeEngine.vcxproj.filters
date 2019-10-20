@@ -16,10 +16,28 @@
     <Filter Include="Components">
       <UniqueIdentifier>{c6d51c14-b380-41b7-b198-e35824184b06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{9e585adb-6ccd-46ca-a917-9a15a35d44cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{d6a948df-0def-420b-8716-a86fdeaeffc2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXApp.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\RenderingSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Entity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\EntitySystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\EntityWorld.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -28,6 +46,24 @@
     </ClInclude>
     <ClInclude Include="Components\TransformComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\MeshComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\HealthComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\RenderingSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Entity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\EntitySystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\EntityWorld.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
