@@ -7,6 +7,9 @@ namespace AwesomeEngine
 	public:
 		Entity();
 		~Entity();
+
+	public:
+		unsigned int entityId;
 	};
 
 }

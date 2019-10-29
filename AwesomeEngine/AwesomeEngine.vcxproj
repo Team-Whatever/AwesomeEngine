@@ -72,10 +72,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(SolutionDir)Intermediate\$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Output\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IntDir>$(SolutionDir)Intermediate\$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Output\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -128,9 +136,10 @@
   <ItemGroup>
     <ClCompile Include="DXApp.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
-    <ClCompile Include="Systems\EntitySystem.cpp" />
-    <ClCompile Include="Systems\EntityWorld.cpp" />
-    <ClCompile Include="Systems\RenderingSystem.cpp" />
+    <ClCompile Include="Entities\EntityManager.cpp" />
+    <ClCompile Include="EntitySystems\EntitySystem.cpp" />
+    <ClCompile Include="EntitySystems\EntityWorld.cpp" />
+    <ClCompile Include="EntitySystems\RenderingSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\BaseComponent.h" />
@@ -139,9 +148,10 @@
     <ClInclude Include="Components\TransformComponent.h" />
     <ClInclude Include="DXApp.h" />
     <ClInclude Include="Entities\Entity.h" />
-    <ClInclude Include="Systems\EntitySystem.h" />
-    <ClInclude Include="Systems\EntityWorld.h" />
-    <ClInclude Include="Systems\RenderingSystem.h" />
+    <ClInclude Include="Entities\EntityManager.h" />
+    <ClInclude Include="EntitySystems\EntitySystem.h" />
+    <ClInclude Include="EntitySystems\EntityWorld.h" />
+    <ClInclude Include="EntitySystems\RenderingSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

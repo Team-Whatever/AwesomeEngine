@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="14.3.0">
+<diagram program="umlet" version="14.2">
   <zoom_level>7</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>280</x>
-      <y>588</y>
+      <x>231</x>
+      <y>679</y>
       <w>147</w>
       <h>49</h>
     </coordinates>
@@ -18,8 +18,8 @@ id: int
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>455</x>
-      <y>588</y>
+      <x>406</x>
+      <y>679</y>
       <w>147</w>
       <h>49</h>
     </coordinates>
@@ -32,8 +32,8 @@ id: int
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>392</x>
-      <y>448</y>
+      <x>343</x>
+      <y>539</y>
       <w>147</w>
       <h>77</h>
     </coordinates>
@@ -47,8 +47,8 @@ ability : AbilityComponent
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>343</x>
-      <y>518</y>
+      <x>294</x>
+      <y>609</y>
       <w>119</w>
       <h>84</h>
     </coordinates>
@@ -58,8 +58,8 @@ ability : AbilityComponent
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>455</x>
-      <y>518</y>
+      <x>406</x>
+      <y>609</y>
       <w>84</w>
       <h>84</h>
     </coordinates>
@@ -69,8 +69,8 @@ ability : AbilityComponent
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>588</x>
-      <y>21</y>
+      <x>539</x>
+      <y>112</y>
       <w>147</w>
       <h>49</h>
     </coordinates>
@@ -82,8 +82,8 @@ ability : AbilityComponent
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>770</x>
-      <y>21</y>
+      <x>721</x>
+      <y>112</y>
       <w>147</w>
       <h>49</h>
     </coordinates>
@@ -95,8 +95,8 @@ ability : AbilityComponent
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>574</x>
-      <y>315</y>
+      <x>525</x>
+      <y>406</y>
       <w>147</w>
       <h>56</h>
     </coordinates>
@@ -109,8 +109,8 @@ id: int
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>630</x>
-      <y>707</y>
+      <x>581</x>
+      <y>798</y>
       <w>147</w>
       <h>49</h>
     </coordinates>
@@ -123,8 +123,8 @@ cost : int
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>581</x>
-      <y>175</y>
+      <x>532</x>
+      <y>266</y>
       <w>147</w>
       <h>49</h>
     </coordinates>
@@ -137,8 +137,8 @@ entities : Entity[]
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>350</x>
-      <y>105</y>
+      <x>301</x>
+      <y>196</y>
       <w>147</w>
       <h>56</h>
     </coordinates>
@@ -153,8 +153,8 @@ void Update( float dt )
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>455</x>
-      <y>364</y>
+      <x>406</x>
+      <y>455</y>
       <w>196</w>
       <h>98</h>
     </coordinates>
@@ -164,8 +164,8 @@ void Update( float dt )
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>350</x>
-      <y>210</y>
+      <x>301</x>
+      <y>301</y>
       <w>147</w>
       <h>49</h>
     </coordinates>
@@ -178,8 +178,8 @@ void Draw()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>406</x>
-      <y>154</y>
+      <x>357</x>
+      <y>245</y>
       <w>21</w>
       <h>70</h>
     </coordinates>
@@ -189,8 +189,8 @@ void Draw()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>945</x>
-      <y>700</y>
+      <x>896</x>
+      <y>791</y>
       <w>147</w>
       <h>49</h>
     </coordinates>
@@ -202,8 +202,8 @@ shape : Mesh</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>791</x>
-      <y>700</y>
+      <x>742</x>
+      <y>791</y>
       <w>147</w>
       <h>56</h>
     </coordinates>
@@ -217,8 +217,8 @@ maxHealth : int
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1113</x>
-      <y>700</y>
+      <x>1064</x>
+      <y>791</y>
       <w>147</w>
       <h>63</h>
     </coordinates>
@@ -233,8 +233,8 @@ rotation : Vector3
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>784</x>
-      <y>434</y>
+      <x>735</x>
+      <y>525</y>
       <w>147</w>
       <h>49</h>
     </coordinates>
@@ -246,8 +246,8 @@ id : int</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>651</x>
-      <y>581</y>
+      <x>602</x>
+      <y>672</y>
       <w>70</w>
       <h>21</h>
     </coordinates>
@@ -258,8 +258,8 @@ id : int</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>847</x>
-      <y>476</y>
+      <x>798</x>
+      <y>567</y>
       <w>35</w>
       <h>238</h>
     </coordinates>
@@ -269,8 +269,8 @@ id : int</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>868</x>
-      <y>476</y>
+      <x>819</x>
+      <y>567</y>
       <w>315</w>
       <h>238</h>
     </coordinates>
@@ -280,8 +280,8 @@ id : int</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>854</x>
-      <y>476</y>
+      <x>805</x>
+      <y>567</y>
       <w>175</w>
       <h>238</h>
     </coordinates>
@@ -291,8 +291,8 @@ id : int</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>686</x>
-      <y>476</y>
+      <x>637</x>
+      <y>567</y>
       <w>168</w>
       <h>245</h>
     </coordinates>
@@ -302,8 +302,8 @@ id : int</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>679</x>
-      <y>595</y>
+      <x>630</x>
+      <y>686</y>
       <w>28</w>
       <h>126</h>
     </coordinates>
@@ -313,8 +313,8 @@ id : int</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>637</x>
-      <y>217</y>
+      <x>588</x>
+      <y>308</y>
       <w>21</w>
       <h>112</h>
     </coordinates>
@@ -324,8 +324,8 @@ id : int</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>644</x>
-      <y>364</y>
+      <x>595</x>
+      <y>455</y>
       <w>210</w>
       <h>84</h>
     </coordinates>
@@ -335,12 +335,27 @@ id : int</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>644</x>
-      <y>63</y>
+      <x>595</x>
+      <y>154</y>
       <w>28</w>
       <h>126</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>20.0;10.0;10.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>763</x>
+      <y>364</y>
+      <w>182</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>EntityManager
+--
+Entity CreateEntity()
+void RemoveEntity(Entity e)
+[waiting for message]</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

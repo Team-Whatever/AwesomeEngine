@@ -4,6 +4,6 @@ namespace AwesomeEngine
 {
 	struct BaseComponent
 	{
-		int id;
+		unsigned int id;
 	};
 }
