@@ -3,9 +3,9 @@
 #include <memory>
 
 #include "Entities/Entity.h"
+#include "Entities/EntityManager.h"
 
-
-class EntityManager;
+//class EntityManager;
 
 namespace AwesomeEngine
 {
@@ -21,6 +21,6 @@ namespace AwesomeEngine
 		std::vector<Entity> destroying;
 
 		std::unique_ptr<EntityManager> entityManager;
-
+		
 	};
 }
