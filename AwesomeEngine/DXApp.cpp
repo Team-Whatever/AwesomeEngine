@@ -333,6 +333,10 @@ LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		PostQuitMessage(0);  //Indicates to the system that a thread has made a request to terminate
 		return 0;
+		
+	case WM_MOUSEMOVE:
+		
+		//TextOut(hdc, 10, 10, "hi", )
 
 	default:
 		return DefWindowProc(hwnd, msg, wParam, lParam); //wParam, lParam..mouse position..ket down...
