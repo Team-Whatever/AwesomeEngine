@@ -152,6 +152,10 @@
     <ClInclude Include="EntitySystems\EntitySystem.h" />
     <ClInclude Include="EntitySystems\EntityWorld.h" />
     <ClInclude Include="EntitySystems\RenderingSystem.h" />
+    <ClInclude Include="Input\IGamepadHandler.h" />
+    <ClInclude Include="Input\IJoystickHandler.h" />
+    <ClInclude Include="Input\IKeyboardHandler.h" />
+    <ClInclude Include="Input\IPointerHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
