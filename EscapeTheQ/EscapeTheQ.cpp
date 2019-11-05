@@ -12,6 +12,7 @@ int main()
 	if (!tApp.Init(100, 100, 1024, 2000))
 		return 1;
 
+
 	return tApp.Run();
 }
 
