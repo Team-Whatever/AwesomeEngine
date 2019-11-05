@@ -4,6 +4,8 @@
 #include <sstream>
 #include <direct.h>
 #include <string.h>
+#include <Windows.h>
+#include <tchar.h>
 
 namespace {
 	//used to forward messages to user defined proc function
@@ -27,8 +29,8 @@ DXApp::DXApp(HINSTANCE hInstance)
 	m_hAppInstance = hInstance;
 	m_hAppWnd = NULL; //we don't have a window yet
 	m_ClientWidth = 800;
-	m_ClientHeight = 800;
-	m_AppTitle = "DirectX12 Application";
+	m_ClientHeight = 600;
+	m_AppTitle = "Game Engine Dev";
 	m_WndStyle = WS_OVERLAPPEDWINDOW; //basic maximize, minimize, etc.. 
 	g_App = this;
 }
@@ -237,6 +239,10 @@ bool DXApp::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInM
 
 bool DXApp::InitWindow()
 {
+	static TCHAR szWindowClass[] = _T("DXAPPWNDCLASS");
+	static TCHAR szTitle[] = _T("Game Engine Dev");
+
+
 	//WNDCLASSEX - Bear in mind that the only difference between CreateWindow and CreateWindowEx is the addition of extended styles to the latter. You can use either type of window class structure with them.
 	WNDCLASSEX wcex;
 	ZeroMemory(&wcex, sizeof(WNDCLASSEX)); //Fills a block of memory with zeros.
@@ -250,26 +256,34 @@ bool DXApp::InitWindow()
 	wcex.hCursor = LoadCursor(0, IDC_ARROW); 
 	wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
 	wcex.lpszMenuName = 0;
-	wcex.lpszClassName = L"DXAPPWNDCLASS"; 
+	wcex.lpszClassName = szWindowClass;
 
 	//register with Windows OS
 	if (!RegisterClassEx(&wcex))
 	{
-		OutputDebugString(L"Failed to create Window Class\n");
+		//OutputDebugString(L"Failed to create Window Class\n");
+		MessageBox(NULL,
+			_T("Call to RegisterClassEx failed!"),
+			_T("Awesome Engine"),
+			NULL);
 		return false;
 	}
+
 
 	RECT r = { 0, 0, m_ClientWidth, m_ClientHeight };
 	AdjustWindowRect(&r, m_WndStyle, FALSE);
 	UINT width = r.right - r.left;
 	UINT height = r.bottom - r.top;
 	UINT x = GetSystemMetrics(SM_CXSCREEN) / 2 - width / 2;
-	UINT y = GetSystemMetrics(SM_CXSCREEN) / 2 - height / 2;
+	UINT y = GetSystemMetrics(SM_CXSCREEN) / 2 - height;
 	//step1 we use WIN32 API to create window - when using 16-bit wide-characters (unicode), we must prefix a string literal with a capital L!
-	m_hAppWnd = CreateWindow(L"DXAPPWNDCLASS", L"test", m_WndStyle, x, y, width, height, NULL, NULL, m_hAppInstance, NULL);
+	m_hAppWnd = CreateWindow(szWindowClass, szTitle, m_WndStyle, x, y, width, height, NULL, NULL, m_hAppInstance, NULL);
 
 	if (!m_hAppWnd) {
-		OutputDebugString(L"Failed to create Window \n");
+		MessageBox(NULL,
+			_T("Call to CreateWindow failed!"),
+			_T("Awesome Engine"),
+			NULL);
 		return false; 
 	}
 
@@ -278,6 +292,7 @@ bool DXApp::InitWindow()
 	//step2 to notify Windows to show a particular window. Note that Windows applications do not have direct access to hardware.
 	//For example, to display a window you must call the Win32 API function ShowWindow; you cannot write to video memory directly.
 	ShowWindow(m_hAppWnd, SW_SHOW); 
+	UpdateWindow(m_hAppWnd);
 
 	return true;
 }
@@ -292,9 +307,25 @@ bool DXApp::InitWindow()
 //typedef LONG_PTR LRESULT
 LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	PAINTSTRUCT ps;
+	HDC hdc;
+	TCHAR greeting[] = _T("Hello, World!");
 	//step6: For instance, we may want to destroy a window when the Escape key is pressed.
 	switch (msg)
 	{
+	case WM_PAINT:
+		hdc = BeginPaint(m_hAppWnd, &ps);
+
+		// Here your application is laid out.  
+		// For this introduction, we just print out "Hello, World!"  
+		// in the top left corner.  
+		TextOut(hdc,
+			5, 5,
+			greeting, _tcslen(greeting));
+		// End application specific layout section.  
+
+		EndPaint(m_hAppWnd, &ps);
+		break;
 	case WM_KEYDOWN:
 		if (wParam == VK_ESCAPE)
 			DestroyWindow(m_hAppWnd);
