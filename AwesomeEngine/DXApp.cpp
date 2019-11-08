@@ -366,4 +366,3 @@ bool DXApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
 		return true;
 	}
 }
-
