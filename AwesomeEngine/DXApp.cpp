@@ -300,7 +300,7 @@ LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			DestroyWindow(m_hAppWnd);
 		return 0;
 	case WM_DESTROY:
-		PostQuitMessage(0);  //Indicates to the system that a thread has made a request to terminate
+		PostQuitMessage(0);  //Indicates to the system that a thread has made a request to terminate osndfosindfosidnfsdf
 		return 0;
 
 	default:
