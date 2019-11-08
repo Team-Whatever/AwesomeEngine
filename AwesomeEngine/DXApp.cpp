@@ -4,6 +4,7 @@
 #include <sstream>
 #include <direct.h>
 #include <string.h>
+#include <windowsx.h>
 
 namespace {
 	//used to forward messages to user defined proc function
@@ -292,21 +293,33 @@ bool DXApp::InitWindow()
 //typedef LONG_PTR LRESULT
 LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	int xPos = GET_X_LPARAM(lParam);
+	int yPos = GET_Y_LPARAM(lParam);
+	char CurrentKeyDown = wParam;
+
 	//step6: For instance, we may want to destroy a window when the Escape key is pressed.
 	switch (msg)
 	{
 	case WM_KEYDOWN:
 		if (wParam == VK_ESCAPE)
 			DestroyWindow(m_hAppWnd);
+		std::cout << CurrentKeyDown << " : is pressed" << std::endl;
+		return 0;
+	case WM_MOUSEMOVE:
+		std::cout << "Mouse x: " << xPos << ". Mouse y: " << yPos << std::endl;
+		return 0;
+	case WM_LBUTTONDOWN:
+		std::cout << "Left Button pressed" << std::endl;
+		return 0;
+	case WM_RBUTTONDOWN:
+		std::cout << "Right Button pressed" << std::endl;
 		return 0;
 	case WM_DESTROY:
-		PostQuitMessage(0);  //Indicates to the system that a thread has made a request to terminate osndfosindfosidnfsdf
+		PostQuitMessage(0);  //Indicates to the system that a thread has made a request to terminate
 		return 0;
-
 	default:
 		return DefWindowProc(hwnd, msg, wParam, lParam); //wParam, lParam..mouse position..ket down...
 	}
-
 }
 
 bool DXApp::IsOnlyInstance(LPCTSTR gameTitle)
