@@ -1,5 +1,7 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN //not cryptography and networking...
+#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_NON_CONFORMING_SWPRINTFS
 #include <Windows.h>
 #include <string>
 #include "atltypes.h"

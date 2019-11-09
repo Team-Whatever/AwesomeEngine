@@ -287,8 +287,6 @@ bool DXApp::InitWindow()
 		return false; 
 	}
 
-
-
 	//step2 to notify Windows to show a particular window. Note that Windows applications do not have direct access to hardware.
 	//For example, to display a window you must call the Win32 API function ShowWindow; you cannot write to video memory directly.
 	ShowWindow(m_hAppWnd, SW_SHOW); 
@@ -296,8 +294,6 @@ bool DXApp::InitWindow()
 
 	return true;
 }
-
-
 
 
 //step5: Once upon a time, Windows was 16 - bit.Each message could carry with it two pieces of data, called WPARAMand LPARAM.The first one was a 16 - bit value(?œword??, so it was called W.The second one was a 32 - bit value(?œlong??, so it was called L.
@@ -313,7 +309,8 @@ LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	PAINTSTRUCT ps;
 	HDC hdc;
-	TCHAR greeting[] = _T("Hello, World!");
+	static TCHAR eventType[100] = _T("");
+	static size_t messageLength = 0;
 
 	//step6: For instance, we may want to destroy a window when the Escape key is pressed.
 	switch (msg)
@@ -321,36 +318,45 @@ LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 		hdc = BeginPaint(m_hAppWnd, &ps);
 
-		// Here your application is laid out.  
-		// For this introduction, we just print out "Hello, World!"  
 		// in the top left corner.  
 		TextOut(hdc,
 			5, 5,
-			greeting, _tcslen(greeting));
+			eventType, _tcslen(eventType));
+
 		// End application specific layout section.  
 
 		EndPaint(m_hAppWnd, &ps);
 		break;
+
 	case WM_KEYDOWN:
 		if (wParam == VK_ESCAPE)
 			DestroyWindow(m_hAppWnd);
-		std::cout << CurrentKeyDown << " : is pressed" << std::endl;
-		return 0;
+		InvalidateRect(m_hAppWnd, NULL, true);
+		swprintf(&eventType[0], _T("%c key pressed\n"), CurrentKeyDown);
+		
+		break;
 	case WM_MOUSEMOVE:
-		std::cout << "Mouse x: " << xPos << ". Mouse y: " << yPos << std::endl;
-		return 0;
+		InvalidateRect(m_hAppWnd, NULL, true);
+		swprintf(&eventType[0], _T("Mouse x : %d, y : %d\n"), xPos, yPos );
+		
+		break;
 	case WM_LBUTTONDOWN:
-		std::cout << "Left Button pressed" << std::endl;
-		return 0;
+		InvalidateRect(m_hAppWnd, NULL, true);
+		swprintf(&eventType[0], _T("Left Button pressed\n"));
+		
+		break;
 	case WM_RBUTTONDOWN:
-		std::cout << "Right Button pressed" << std::endl;
-		return 0;
+		InvalidateRect(m_hAppWnd, NULL, true);
+		swprintf(&eventType[0], _T("Right Button pressed\n"));
+		
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);  //Indicates to the system that a thread has made a request to terminate
-		return 0;
+		break;
 	default:
 		return DefWindowProc(hwnd, msg, wParam, lParam); //wParam, lParam..mouse position..ket down...
 	}
+	return 0;
 }
 
 bool DXApp::IsOnlyInstance(LPCTSTR gameTitle)
