@@ -23,29 +23,6 @@ public:
 
 	bool CheckStorage(const DWORDLONG diskSpaceNeededInMB);
 
-	//keyboard handler
-	virtual bool VOnKeyDown(unsigned int const keycode) = 0;
-	virtual bool VOnKeyUp(unsigned int const keycode) = 0; 
-
-	//mouse handler
-	virtual bool VOnPointerMove(const CPoint &mousePos) = 0;
-	virtual bool VOnPointerButtonDown(const CPoint &mousePos, const std::string &buttonName) = 0;
-	virtual bool VOnPointerButtonUp(const CPoint &mousePos, const std::string &buttonName) = 0;
-	virtual bool VGetPointerRadius()=0;
-
-	//joystick
-	virtual bool VOnButtonDown(const std::string &buttonName, int const pressure) = 0;
-	virtual bool VOnButtonUp(const std::string &buttonName) = 0;
-	virtual bool VOnJoystick(float const x, float const y) = 0;
-
-	//gamepad
-	virtual bool VOnTrigger(const std::string &triggerName, float const pressure) = 0;
-	virtual bool VOnButtonDown(const std::string &buttonName, int const pressure) = 0;
-	virtual bool VOnButtonUp(const std::string &buttonName) = 0; 
-	virtual bool VOnDirectionalPad(const std::string &direction) = 0;
-	virtual bool VOnThumbstick(const std::string &stickName, float const x, float const y) = 0; 
-
-
 	DWORD ReadCPUSpeed();
 
 protected:

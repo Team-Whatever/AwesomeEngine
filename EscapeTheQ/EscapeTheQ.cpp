@@ -6,7 +6,12 @@
 
 #include "TestApp.h"
 
-int main()
+int CALLBACK WinMain(
+	_In_ HINSTANCE hInstance,
+	_In_ HINSTANCE hPrevInstance,
+	_In_ LPSTR     lpCmdLine,
+	_In_ int       nCmdShow
+)
 {
 	TestApp tApp(GetModuleHandle(NULL));
 	if (!tApp.Init(100, 100, 1024, 2000))

@@ -22,6 +22,9 @@
     <Filter Include="EntitySystems">
       <UniqueIdentifier>{9e585adb-6ccd-46ca-a917-9a15a35d44cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{2a84bdf1-eb06-47c9-80ac-65d82c6644a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXApp.cpp">
@@ -73,6 +76,18 @@
     </ClInclude>
     <ClInclude Include="Entities\EntityManager.h">
       <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\IKeyboardHandler.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\IPointerHandler.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\IJoystickHandler.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\IGamepadHandler.h">
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
