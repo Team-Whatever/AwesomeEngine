@@ -6,11 +6,11 @@
 #include <string>
 #include "atltypes.h"
 
-class DXApp
+class AwesomeEngine
 {
 public:
-	DXApp(HINSTANCE hInstance); //instance of the application (not window!)
-	virtual ~DXApp();
+	AwesomeEngine(HINSTANCE hInstance); //instance of the application (not window!)
+	virtual ~AwesomeEngine();
 
 	//Main Application Loop
 	int Run();

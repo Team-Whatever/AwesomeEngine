@@ -1,5 +1,5 @@
 
-#include "DXApp.h"
+#include "AwesomeEngine.h"
 #include <iostream>
 #include <sstream>
 #include <direct.h>
@@ -9,7 +9,7 @@
 
 namespace {
 	//used to forward messages to user defined proc function
-	DXApp* g_App = nullptr;
+	AwesomeEngine* g_App = nullptr;
 }
 
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -24,7 +24,7 @@ LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-DXApp::DXApp(HINSTANCE hInstance)
+AwesomeEngine::AwesomeEngine(HINSTANCE hInstance)
 {
 	m_hAppInstance = hInstance;
 	m_hAppWnd = NULL; //we don't have a window yet
@@ -35,11 +35,11 @@ DXApp::DXApp(HINSTANCE hInstance)
 	g_App = this;
 }
 
-DXApp::~DXApp()
+AwesomeEngine::~AwesomeEngine()
 {
 }
 
-int DXApp::Run()
+int AwesomeEngine::Run()
 {
 	//step3: A Windows application follows an event-driven programming model.
 	//An event can be generated in a number of ways:key presses, mouse clicks,
@@ -158,7 +158,7 @@ LPWSTR GetRegistry(LPCWSTR StringName)
 	return  value;
 }
 
-DWORD DXApp::ReadCPUSpeed()
+DWORD AwesomeEngine::ReadCPUSpeed()
 {
 	DWORD dwMHz = 0;
 	HKEY hKey;
@@ -190,7 +190,7 @@ DWORD DXApp::ReadCPUSpeed()
 }
 
 
-bool DXApp::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz)
+bool AwesomeEngine::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz)
 {
 	if (!IsOnlyInstance(L"test"))
 	{
@@ -237,7 +237,7 @@ bool DXApp::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInM
 }
 
 
-bool DXApp::InitWindow()
+bool AwesomeEngine::InitWindow()
 {
 	static TCHAR szWindowClass[] = _T("DXAPPWNDCLASS");
 	static TCHAR szTitle[] = _T("Game Engine Dev");
@@ -301,7 +301,7 @@ bool DXApp::InitWindow()
 //When Windows was converted to 32 - bit, the WPARAM parameter grew to a 32 - bit value as well.So even though the ?œW??stands for ?œword?? it isn?™t a word any more. (And in 64 - bit Windows, both parameters are 64 - bit values!)
 
 //typedef LONG_PTR LRESULT
-LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT AwesomeEngine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int xPos = GET_X_LPARAM(lParam);
 	int yPos = GET_Y_LPARAM(lParam);
@@ -359,7 +359,7 @@ LRESULT DXApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-bool DXApp::IsOnlyInstance(LPCTSTR gameTitle)
+bool AwesomeEngine::IsOnlyInstance(LPCTSTR gameTitle)
 {
 	HANDLE handle = CreateMutex(NULL, TRUE, gameTitle);
 	if (GetLastError() != ERROR_SUCCESS)
@@ -378,7 +378,7 @@ bool DXApp::IsOnlyInstance(LPCTSTR gameTitle)
 	return true;
 }
 
-bool DXApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
+bool AwesomeEngine::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
 {
 	// Check for enough free disk space on the current disk. 
 	int const drive = _getdrive();

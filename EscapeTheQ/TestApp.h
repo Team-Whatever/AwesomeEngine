@@ -1,7 +1,7 @@
 #pragma once
-#include "DXApp.h"
+#include "AwesomeEngine.h"
 
-class TestApp :public DXApp
+class TestApp :public AwesomeEngine
 {
 public:
 	TestApp(HINSTANCE hInstance);
@@ -14,7 +14,7 @@ public:
 
 };
 
-TestApp::TestApp(HINSTANCE hInstance) : DXApp(hInstance)
+TestApp::TestApp(HINSTANCE hInstance) : AwesomeEngine(hInstance)
 {
 }
 
@@ -24,7 +24,7 @@ TestApp::~TestApp()
 
 bool TestApp::Init( unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz)
 {
-	return DXApp::Init(diskRequiredInMB, memoryRequiredInMB, virtualMemoryRequriedInMB, cpuSpeedRequiredInMHz);
+	return AwesomeEngine::Init(diskRequiredInMB, memoryRequiredInMB, virtualMemoryRequriedInMB, cpuSpeedRequiredInMHz);
 }
 
 void TestApp::Update(float dt)

@@ -18,4 +18,21 @@ public:
 
 typedef std::shared_ptr<IEventData> IEventDataPtr; // smart ptr to IEventData
 typedef std::function<void()> SimpleFunctionDelegate;
+typedef std::function<void(int)> SimpleFunctionDelegate1;
+typedef std::function<void(int, int)> SimpleFunctionDelegate2;
+typedef std::function<void(int, int, int)> SimpleFunctionDelegate3;
+
 //typedef fastdelegate::FastDelegate1<IEventDataPtr> EventListenerDelegate;
+
+class MouseEvent
+{
+	//Register()
+	//{
+	//	EventManager.Instance.AddListender(this, EventType::MouseClicked, &MouseEvent::MouseClicked);
+	//}
+
+	//void MouseClicked( bool isLeft, int x, int y)
+	//{
+
+	//}
+};

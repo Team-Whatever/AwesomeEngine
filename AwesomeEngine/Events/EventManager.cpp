@@ -16,6 +16,10 @@ namespace AwesomeEngine
 	}
 	bool EventManager::VTriggerEvent(const IEventDataPtr & pEvent) const
 	{
+		for (auto& listener : m_eventListeners)
+		{
+			
+		}
 		return false;
 	}
 	bool EventManager::VQueueEvent(const IEventDataPtr & pEvent)
