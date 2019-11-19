@@ -25,6 +25,9 @@
     <Filter Include="Input">
       <UniqueIdentifier>{2a84bdf1-eb06-47c9-80ac-65d82c6644a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{ff7b7157-9ac5-4152-a997-7200ea3bef1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXApp.cpp">
@@ -44,6 +47,12 @@
     </ClCompile>
     <ClCompile Include="Entities\EntityManager.cpp">
       <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\EventManager.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\IEventManage.h">
+      <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +97,12 @@
     </ClInclude>
     <ClInclude Include="Input\IGamepadHandler.h">
       <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\IEventData.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EventManager.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

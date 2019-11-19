@@ -140,6 +140,8 @@
     <ClCompile Include="EntitySystems\EntitySystem.cpp" />
     <ClCompile Include="EntitySystems\EntityWorld.cpp" />
     <ClCompile Include="EntitySystems\RenderingSystem.cpp" />
+    <ClCompile Include="Events\EventManager.cpp" />
+    <ClCompile Include="Events\IEventManage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\BaseComponent.h" />
@@ -152,6 +154,8 @@
     <ClInclude Include="EntitySystems\EntitySystem.h" />
     <ClInclude Include="EntitySystems\EntityWorld.h" />
     <ClInclude Include="EntitySystems\RenderingSystem.h" />
+    <ClInclude Include="Events\EventManager.h" />
+    <ClInclude Include="Events\IEventData.h" />
     <ClInclude Include="Input\IGamepadHandler.h" />
     <ClInclude Include="Input\IJoystickHandler.h" />
     <ClInclude Include="Input\IKeyboardHandler.h" />
