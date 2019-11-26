@@ -4,7 +4,7 @@
 #include "pch.h"
 #include <iostream>
 
-#include "TestApp.h"
+#include "GameApp.h"
 
 int CALLBACK WinMain(
 	_In_ HINSTANCE hInstance,
@@ -13,7 +13,7 @@ int CALLBACK WinMain(
 	_In_ int       nCmdShow
 )
 {
-	TestApp tApp(GetModuleHandle(NULL));
+	GameApp tApp(GetModuleHandle(NULL));
 	if (!tApp.Init(100, 100, 1024, 2000))
 		return 1;
 

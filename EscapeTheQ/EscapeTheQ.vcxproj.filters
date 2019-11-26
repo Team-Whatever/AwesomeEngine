@@ -33,9 +33,6 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Components\AbilitiesInterface.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -59,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameWorld.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameApp.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

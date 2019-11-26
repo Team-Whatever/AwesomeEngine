@@ -1,16 +1,20 @@
 
-#include "AwesomeEngine.h"
+#include "AwesomeEngineApp.h"
 #include <iostream>
 #include <sstream>
 #include <direct.h>
 #include <string.h>
 #include <windowsx.h>
 #include <tchar.h>
+#include "Events/EventManager.h"
+
 
 namespace {
 	//used to forward messages to user defined proc function
-	AwesomeEngine* g_App = nullptr;
+	AwesomeEngineApp* g_App = nullptr;
 }
+
+using namespace AwesomeEngine;
 
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -24,7 +28,7 @@ LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-AwesomeEngine::AwesomeEngine(HINSTANCE hInstance)
+AwesomeEngineApp::AwesomeEngineApp(HINSTANCE hInstance)
 {
 	m_hAppInstance = hInstance;
 	m_hAppWnd = NULL; //we don't have a window yet
@@ -35,11 +39,11 @@ AwesomeEngine::AwesomeEngine(HINSTANCE hInstance)
 	g_App = this;
 }
 
-AwesomeEngine::~AwesomeEngine()
+AwesomeEngineApp::~AwesomeEngineApp()
 {
 }
 
-int AwesomeEngine::Run()
+int AwesomeEngineApp::Run()
 {
 	//step3: A Windows application follows an event-driven programming model.
 	//An event can be generated in a number of ways:key presses, mouse clicks,
@@ -158,7 +162,7 @@ LPWSTR GetRegistry(LPCWSTR StringName)
 	return  value;
 }
 
-DWORD AwesomeEngine::ReadCPUSpeed()
+DWORD AwesomeEngineApp::ReadCPUSpeed()
 {
 	DWORD dwMHz = 0;
 	HKEY hKey;
@@ -190,7 +194,7 @@ DWORD AwesomeEngine::ReadCPUSpeed()
 }
 
 
-bool AwesomeEngine::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz)
+bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz)
 {
 	if (!IsOnlyInstance(L"test"))
 	{
@@ -237,7 +241,7 @@ bool AwesomeEngine::Init(unsigned long diskRequiredInMB, unsigned long memoryReq
 }
 
 
-bool AwesomeEngine::InitWindow()
+bool AwesomeEngineApp::InitWindow()
 {
 	static TCHAR szWindowClass[] = _T("DXAPPWNDCLASS");
 	static TCHAR szTitle[] = _T("Game Engine Dev");
@@ -292,6 +296,17 @@ bool AwesomeEngine::InitWindow()
 	ShowWindow(m_hAppWnd, SW_SHOW); 
 	UpdateWindow(m_hAppWnd);
 
+
+	EventListenerDelegate mouseMoveListener(this, &AwesomeEngineApp::EventMouseMoved);
+	EventManager::GetInstance().VAddListener(mouseMoveListener, EnumEventType::Event_Mouse_Moved);
+
+	EventListenerDelegate mouseClickListener(this, &AwesomeEngineApp::EventMouseClicked);
+	EventManager::GetInstance().VAddListener(mouseClickListener, EnumEventType::Event_Mouse_Clicked);
+
+	EventListenerDelegate keyDownListener(this, &AwesomeEngineApp::EventKeyPressed);
+	EventManager::GetInstance().VAddListener(keyDownListener, EnumEventType::Event_CharKey_Pressed);
+
+
 	return true;
 }
 
@@ -301,7 +316,8 @@ bool AwesomeEngine::InitWindow()
 //When Windows was converted to 32 - bit, the WPARAM parameter grew to a 32 - bit value as well.So even though the ?œW??stands for ?œword?? it isn?™t a word any more. (And in 64 - bit Windows, both parameters are 64 - bit values!)
 
 //typedef LONG_PTR LRESULT
-LRESULT AwesomeEngine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static TCHAR eventType[100] = _T("");
+LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int xPos = GET_X_LPARAM(lParam);
 	int yPos = GET_Y_LPARAM(lParam);
@@ -309,7 +325,7 @@ LRESULT AwesomeEngine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 	PAINTSTRUCT ps;
 	HDC hdc;
-	static TCHAR eventType[100] = _T("");
+	
 	static size_t messageLength = 0;
 
 	//step6: For instance, we may want to destroy a window when the Escape key is pressed.
@@ -331,23 +347,30 @@ LRESULT AwesomeEngine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 	case WM_KEYDOWN:
 		if (wParam == VK_ESCAPE)
 			DestroyWindow(m_hAppWnd);
+		AwesomeEngine::EventManager::GetInstance().VTriggerEvent(EnumEventType::Event_CharKey_Pressed, { 0, CurrentKeyDown });
 		InvalidateRect(m_hAppWnd, NULL, true);
-		swprintf(&eventType[0], _T("%c key pressed\n"), CurrentKeyDown);
-		
+		break;
+
+	case WM_KEYUP:
+		AwesomeEngine::EventManager::GetInstance().VTriggerEvent(EnumEventType::Event_CharKey_Pressed, { 1, CurrentKeyDown });
+		InvalidateRect(m_hAppWnd, NULL, true);
 		break;
 	case WM_MOUSEMOVE:
+		AwesomeEngine::EventManager::GetInstance().VTriggerEvent(EnumEventType::Event_Mouse_Moved, { xPos, yPos });
 		InvalidateRect(m_hAppWnd, NULL, true);
-		swprintf(&eventType[0], _T("Mouse x : %d, y : %d\n"), xPos, yPos );
+		//swprintf(&eventType[0], _T("Mouse x : %d, y : %d\n"), xPos, yPos );
 		
 		break;
 	case WM_LBUTTONDOWN:
+		AwesomeEngine::EventManager::GetInstance().VTriggerEvent(EnumEventType::Event_Mouse_Clicked, { 0, 0 });
 		InvalidateRect(m_hAppWnd, NULL, true);
-		swprintf(&eventType[0], _T("Left Button pressed\n"));
+		//swprintf(&eventType[0], _T("Left Button pressed\n"));
 		
 		break;
 	case WM_RBUTTONDOWN:
+		AwesomeEngine::EventManager::GetInstance().VTriggerEvent(EnumEventType::Event_Mouse_Clicked, { 1, 0 });
 		InvalidateRect(m_hAppWnd, NULL, true);
-		swprintf(&eventType[0], _T("Right Button pressed\n"));
+		//swprintf(&eventType[0], _T("Right Button pressed\n"));
 		
 		break;
 	case WM_DESTROY:
@@ -359,7 +382,7 @@ LRESULT AwesomeEngine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 	return 0;
 }
 
-bool AwesomeEngine::IsOnlyInstance(LPCTSTR gameTitle)
+bool AwesomeEngineApp::IsOnlyInstance(LPCTSTR gameTitle)
 {
 	HANDLE handle = CreateMutex(NULL, TRUE, gameTitle);
 	if (GetLastError() != ERROR_SUCCESS)
@@ -378,7 +401,7 @@ bool AwesomeEngine::IsOnlyInstance(LPCTSTR gameTitle)
 	return true;
 }
 
-bool AwesomeEngine::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
+bool AwesomeEngineApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
 {
 	// Check for enough free disk space on the current disk. 
 	int const drive = _getdrive();
@@ -403,3 +426,33 @@ bool AwesomeEngine::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
 		return true;
 	}
 }
+
+
+// Event Listener
+
+void AwesomeEngineApp::EventMouseMoved(EventParam param)
+{
+	//std::cout << "Mouse moved x = " << param.param1 << " " << param.param2 << std::endl;
+	swprintf(&eventType[0], _T("Mouse x : %d, y : %d             "), param.param1, param.param2);
+}
+
+void AwesomeEngineApp::EventMouseClicked(const EventParam param)
+{
+	//std::cout << "Mouse clicked x = " << param.param1 << " " << param.param2 << std::endl;
+	if( param.param1 == 0 )
+		swprintf(&eventType[0], _T("Left Button pressed           "));
+	else if (param.param1 == 1)
+		swprintf(&eventType[0], _T("Right Button pressed          "));
+}
+
+void AwesomeEngineApp::EventKeyPressed(const EventParam param)
+{
+	//std::cout << "Mouse clicked x = " << param.param1 << " " << param.param2 << std::endl;
+	if (param.param1 == 0)
+		swprintf(&eventType[0], _T("%c key down                   "), (char)param.param2);
+	else if (param.param1 == 1)
+		swprintf(&eventType[0], _T("%c key up                     "), (char)param.param2);
+}
+
+
+//

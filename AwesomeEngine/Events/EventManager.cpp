@@ -3,8 +3,9 @@
 
 namespace AwesomeEngine
 {
-	EventManager::EventManager(const char * pName, bool setAsGlobal)
+	bool EventManager::VAddListener(const EventListenerDelegate & eventDelegate, const EnumEventType & type)
 	{
+		return VAddListener(eventDelegate, (EventType)type);
 	}
 
 	bool EventManager::VAddListener(const EventListenerDelegate & eventDelegate, const EventType & type)
@@ -18,6 +19,11 @@ namespace AwesomeEngine
 		}
 		eventListenerList.push_back(eventDelegate);
 		return true;
+	}
+
+	bool EventManager::VRemoveListener(const EventListenerDelegate & eventDelegate, const EnumEventType & type)
+	{
+		return VRemoveListener(eventDelegate, (EventType)type);
 	}
 
 	bool EventManager::VRemoveListener(const EventListenerDelegate & eventDelegate, const EventType & type)
@@ -39,12 +45,19 @@ namespace AwesomeEngine
 		}
 		return success;
 	}
-	bool EventManager::VTriggerEvent(const IEventDataPtr & pEvent) const
+
+	//bool EventManager::VTriggerEvent(const IEventDataPtr & pEvent) const
+	bool EventManager::VTriggerEvent(const EnumEventType pEvent, const EventParam param)
 	{
-		for (auto& listener : m_eventListeners)
-		{
-			
+		auto findIt = m_eventListeners.find(pEvent);
+		if (findIt != m_eventListeners.end()) {
+			EventListenerList& listeners = findIt->second;
+			for (auto it = listeners.begin(); it != listeners.end(); ++it) {
+				(*it)(param);
+			}
+
 		}
+
 		return false;
 	}
 
@@ -85,48 +98,49 @@ namespace AwesomeEngine
 	}
 	bool EventManager::VTickVUpdate(unsigned long maxMillis)
 	{
-		unsigned long currMs = GetTickCount();
-		unsigned long maxMs = ((maxMillis == IEventManager::kINFINITE) ?
-			(IEventManager::kINFINITE) : (currMs + maxMillis));
-		// swap active queues and clear the new queue after the swap
-		int queueToProcess = m_activeQueue;
-		m_activeQueue = (m_activeQueue + 1) % EVENTMANAGER_NUM_QUEUES;
-		m_queues[m_activeQueue].clear();
-		// Process the queue
-		while (!m_queues[queueToProcess].empty()) {
-			// pop the front of the queue
-			IEventDataPtr pEvent = m_queues[queueToProcess].front();
-			m_queues[queueToProcess].pop_front();
-			const EventType& eventType = pEvent->VGetEventType();
+		//unsigned long currMs = GetTickCount();
+		//unsigned long maxMs = ((maxMillis == IEventManager::kINFINITE) ?
+		//	(IEventManager::kINFINITE) : (currMs + maxMillis));
+		//// swap active queues and clear the new queue after the swap
+		//int queueToProcess = m_activeQueue;
+		//m_activeQueue = (m_activeQueue + 1) % EVENTMANAGER_NUM_QUEUES;
+		//m_queues[m_activeQueue].clear();
+		//// Process the queue
+		//while (!m_queues[queueToProcess].empty()) {
+		//	// pop the front of the queue
+		//	IEventDataPtr pEvent = m_queues[queueToProcess].front();
+		//	m_queues[queueToProcess].pop_front();
+		//	const EventType& eventType = pEvent->VGetEventType();
 
-			// find all the delegate functions registered for this event
-			auto findIt = m_eventListeners.find(eventType);
-			if (findIt != m_eventListeners.end()) {
-				const EventListenerList& eventListeners = findIt->second;
-				// call each listener
-				for (auto it = eventListeners.begin(); it != eventListeners.end(); ++it) {
-					EventListenerDelegate listener = (*it);
-					listener(pEvent);
-				}
-			}
+		//	// find all the delegate functions registered for this event
+		//	auto findIt = m_eventListeners.find(eventType);
+		//	if (findIt != m_eventListeners.end()) {
+		//		const EventListenerList& eventListeners = findIt->second;
+		//		// call each listener
+		//		for (auto it = eventListeners.begin(); it != eventListeners.end(); ++it) {
+		//			EventListenerDelegate listener = (*it);
+		//			listener(pEvent);
+		//		}
+		//	}
 
-			// check to see if time ran out
-			currMs = GetTickCount();
-			if (maxMillis != IEventManager::kINFINITE && currMs >= maxMs) {
-				break;
-			}
-			// If we couldn¡¯t process all of the events, push the remaining
-			// events to the new active queue.Note: To preserve sequencing, go
-			// back - to - front, inserting them at the head of the active queue.
-			bool queueFlushed = (m_queues[queueToProcess].empty());
-			if (!queueFlushed) {
-				while (!m_queues[queueToProcess].empty()) {
-					IEventDataPtr pEvent = m_queues[queueToProcess].back();
-					m_queues[queueToProcess].pop_back();
-					m_queues[m_activeQueue].push_front(pEvent);
-				}
-			}
-			return queueFlushed;
-		}
+		//	// check to see if time ran out
+		//	currMs = GetTickCount();
+		//	if (maxMillis != IEventManager::kINFINITE && currMs >= maxMs) {
+		//		break;
+		//	}
+		//	// If we couldn¡¯t process all of the events, push the remaining
+		//	// events to the new active queue.Note: To preserve sequencing, go
+		//	// back - to - front, inserting them at the head of the active queue.
+		//	bool queueFlushed = (m_queues[queueToProcess].empty());
+		//	if (!queueFlushed) {
+		//		while (!m_queues[queueToProcess].empty()) {
+		//			IEventDataPtr pEvent = m_queues[queueToProcess].back();
+		//			m_queues[queueToProcess].pop_back();
+		//			m_queues[m_activeQueue].push_front(pEvent);
+		//		}
+		//	}
+		//	return queueFlushed;
+		//}
+		return false;
 	}
 }

@@ -134,7 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AwesomeEngine.cpp" />
+    <ClCompile Include="AwesomeEngineApp.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\EntityManager.cpp" />
     <ClCompile Include="EntitySystems\EntitySystem.cpp" />
@@ -154,7 +154,7 @@
     <ClInclude Include="Components\HealthComponent.h" />
     <ClInclude Include="Components\MeshComponent.h" />
     <ClInclude Include="Components\TransformComponent.h" />
-    <ClInclude Include="AwesomeEngine.h" />
+    <ClInclude Include="AwesomeEngineApp.h" />
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Entities\EntityManager.h" />
     <ClInclude Include="EntitySystems\EntitySystem.h" />

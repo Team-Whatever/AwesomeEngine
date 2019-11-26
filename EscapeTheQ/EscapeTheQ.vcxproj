@@ -178,7 +178,7 @@
     <ClInclude Include="Managers\EventManager.h" />
     <ClInclude Include="Managers\GameplayManager.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="TestApp.h" />
+    <ClInclude Include="GameApp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Characters\Character.cpp" />

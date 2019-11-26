@@ -5,12 +5,13 @@
 #include <Windows.h>
 #include <string>
 #include "atltypes.h"
+#include "Events/IEventData.h"
 
-class AwesomeEngine
+class AwesomeEngineApp
 {
 public:
-	AwesomeEngine(HINSTANCE hInstance); //instance of the application (not window!)
-	virtual ~AwesomeEngine();
+	AwesomeEngineApp(HINSTANCE hInstance); //instance of the application (not window!)
+	virtual ~AwesomeEngineApp();
 
 	//Main Application Loop
 	int Run();
@@ -26,6 +27,11 @@ public:
 	bool CheckStorage(const DWORDLONG diskSpaceNeededInMB);
 
 	DWORD ReadCPUSpeed();
+
+	// Event Listener Test
+	void EventMouseClicked(const EventParam param);
+	void EventMouseMoved(const EventParam param);
+	void EventKeyPressed(const EventParam param);
 
 protected:
 
