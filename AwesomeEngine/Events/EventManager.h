@@ -1,8 +1,8 @@
 #pragma once
-#include "IEventData.h"
-#include "IEventManage.h"
 #include <list>
 #include <map>
+#include "IEventData.h"
+#include "IEventManage.h"
 
 namespace AwesomeEngine
 {
@@ -16,7 +16,7 @@ namespace AwesomeEngine
 		virtual ~EventManager() {}
 
 
-		typedef std::list<SimpleFunctionDelegate> EventListenerList;
+		typedef std::list<EventListenerDelegate> EventListenerList;
 		typedef std::map<EventType, EventListenerList> EventListenerMap;
 		typedef std::list<IEventDataPtr> EventQueue;
 		EventListenerMap m_eventListeners;
@@ -25,8 +25,8 @@ namespace AwesomeEngine
 		// enque to the opposing queue 
 
 	public:
-		virtual bool VAddListener(const SimpleFunctionDelegate& eventDelegate, const EventType& type);
-		virtual bool VRemoveListener(const SimpleFunctionDelegate& eventDelegate, const EventType& type);
+		virtual bool VAddListener(const EventListenerDelegate& eventDelegate, const EventType& type);
+		virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const EventType& type);
 		virtual bool VTriggerEvent(const IEventDataPtr& pEvent)const;
 		virtual bool VQueueEvent(const IEventDataPtr& pEvent);
 		virtual bool VAbortEvent(const EventType& type, bool allOfType = false);

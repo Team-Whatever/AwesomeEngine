@@ -140,6 +140,12 @@
     <ClCompile Include="EntitySystems\EntitySystem.cpp" />
     <ClCompile Include="EntitySystems\EntityWorld.cpp" />
     <ClCompile Include="EntitySystems\RenderingSystem.cpp" />
+    <ClCompile Include="Events\Demo.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Events\EventManager.cpp" />
     <ClCompile Include="Events\IEventManage.h" />
   </ItemGroup>
@@ -155,7 +161,10 @@
     <ClInclude Include="EntitySystems\EntityWorld.h" />
     <ClInclude Include="EntitySystems\RenderingSystem.h" />
     <ClInclude Include="Events\EventManager.h" />
+    <ClInclude Include="Events\FastDelegate.h" />
+    <ClInclude Include="Events\FastDelegateBind.h" />
     <ClInclude Include="Events\IEventData.h" />
+    <ClInclude Include="Events\Timer.h" />
     <ClInclude Include="Input\IGamepadHandler.h" />
     <ClInclude Include="Input\IJoystickHandler.h" />
     <ClInclude Include="Input\IKeyboardHandler.h" />

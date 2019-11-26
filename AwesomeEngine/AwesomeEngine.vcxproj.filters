@@ -54,6 +54,9 @@
     <ClCompile Include="AwesomeEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Events\Demo.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\TransformComponent.h">
@@ -103,6 +106,15 @@
     </ClInclude>
     <ClInclude Include="AwesomeEngine.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\FastDelegate.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\FastDelegateBind.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\Timer.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
