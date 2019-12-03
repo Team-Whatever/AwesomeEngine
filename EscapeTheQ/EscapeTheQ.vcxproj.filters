@@ -28,6 +28,9 @@
     <Filter Include="Game">
       <UniqueIdentifier>{ff83bf1a-cf9f-4e83-8eaa-f008c96596c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{234b95d8-18c9-4614-9d41-7d60526bc67e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -40,9 +43,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Managers\GameplayManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Managers\EventManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="Characters\Character.h">
@@ -74,9 +74,6 @@
     <ClCompile Include="Managers\GameplayManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Managers\EventManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
     <ClCompile Include="Characters\Character.cpp">
       <Filter>Characters</Filter>
     </ClCompile>
@@ -89,5 +86,10 @@
     <ClCompile Include="Game\GameWorld.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\TestScript.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -33,6 +33,9 @@ public:
 	void EventMouseMoved(const EventParam param);
 	void EventKeyPressed(const EventParam param);
 
+private:
+	void InitLuaScript();
+
 protected:
 
 	//WIN32 Attributes

@@ -9,6 +9,14 @@
 #include "Events/EventManager.h"
 
 
+extern "C" {
+# include "lua.h"
+# include "lauxlib.h"
+# include "lualib.h"
+}
+#include <LuaBridge.h>
+using namespace luabridge;
+
 namespace {
 	//used to forward messages to user defined proc function
 	AwesomeEngineApp* g_App = nullptr;
@@ -296,6 +304,7 @@ bool AwesomeEngineApp::InitWindow()
 	ShowWindow(m_hAppWnd, SW_SHOW); 
 	UpdateWindow(m_hAppWnd);
 
+	InitLuaScript();
 
 	EventListenerDelegate mouseMoveListener(this, &AwesomeEngineApp::EventMouseMoved);
 	EventManager::GetInstance().VAddListener(mouseMoveListener, EnumEventType::Event_Mouse_Moved);
@@ -455,4 +464,18 @@ void AwesomeEngineApp::EventKeyPressed(const EventParam param)
 }
 
 
+void AwesomeEngineApp::InitLuaScript()
+{
+	lua_State* L = luaL_newstate();
+	luaL_dofile(L, "Scripts/TestScript.lua");
+	luaL_openlibs(L);
+	lua_pcall(L, 0, 0, 0);
+	LuaRef s = getGlobal(L, "testString");
+	LuaRef n = getGlobal(L, "number");
+	std::string luaString = s.cast<std::string>();
+	int answer = n.cast<int>();
+	std::cout << luaString << std::endl;
+	std::cout << "And here's our number:" << answer << std::endl;
+
+}
 //
