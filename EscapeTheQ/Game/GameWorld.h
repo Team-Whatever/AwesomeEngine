@@ -6,5 +6,8 @@ namespace Escape
 	{
 	public:
 		GameWorld();
+
+		void Initialize();
+		void Update(float dt);
 	};
 }

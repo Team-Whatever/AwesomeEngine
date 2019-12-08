@@ -6,4 +6,14 @@ namespace Escape
 	{
 
 	}
+
+	void GameWorld::Initialize()
+	{
+
+	}
+
+	void GameWorld::Update(float dt)
+	{
+
+	}
 }
