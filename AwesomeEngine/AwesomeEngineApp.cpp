@@ -304,7 +304,7 @@ bool AwesomeEngineApp::InitWindow()
 	ShowWindow(m_hAppWnd, SW_SHOW); 
 	UpdateWindow(m_hAppWnd);
 
-	InitLuaScript();
+	//InitLuaScript();
 
 	EventListenerDelegate mouseMoveListener(this, &AwesomeEngineApp::EventMouseMoved);
 	EventManager::GetInstance().VAddListener(mouseMoveListener, EnumEventType::Event_Mouse_Moved);

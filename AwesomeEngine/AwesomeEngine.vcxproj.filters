@@ -24,13 +24,13 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Mix">
+      <UniqueIdentifier>{c0a5e916-12b2-4444-a1dc-8e629e0efc7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entities\Entity.cpp">
       <Filter>Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="EntitySystems\EntitySystem.cpp">
-      <Filter>EntitySystems</Filter>
     </ClCompile>
     <ClCompile Include="EntitySystems\EntityWorld.cpp">
       <Filter>EntitySystems</Filter>
@@ -47,11 +47,38 @@
     <ClCompile Include="Events\IEventManage.h">
       <Filter>Events</Filter>
     </ClCompile>
-    <ClCompile Include="Events\Demo.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
     <ClCompile Include="AwesomeEngineApp.cpp">
       <Filter>EngineApp</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\LuaScriptComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\LuaScriptSystem.cpp">
+      <Filter>EntitySystems</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\BaseComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\EntitySystem.cpp">
+      <Filter>EntitySystems</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\SystemManager.cpp">
+      <Filter>EntitySystems</Filter>
+    </ClCompile>
+    <ClCompile Include="Mix\Component.cpp">
+      <Filter>Mix</Filter>
+    </ClCompile>
+    <ClCompile Include="Mix\Entity.cpp">
+      <Filter>Mix</Filter>
+    </ClCompile>
+    <ClCompile Include="Mix\Event.cpp">
+      <Filter>Mix</Filter>
+    </ClCompile>
+    <ClCompile Include="Mix\System.cpp">
+      <Filter>Mix</Filter>
+    </ClCompile>
+    <ClCompile Include="Mix\World.cpp">
+      <Filter>Mix</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +138,39 @@
     </ClInclude>
     <ClInclude Include="AwesomeEngineApp.h">
       <Filter>EngineApp</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\LuaScriptComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\LuaScriptSystem.h">
+      <Filter>EntitySystems</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\SystemManager.h">
+      <Filter>EntitySystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\InputEventSystem.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Mix\Component.h">
+      <Filter>Mix</Filter>
+    </ClInclude>
+    <ClInclude Include="Mix\Config.h">
+      <Filter>Mix</Filter>
+    </ClInclude>
+    <ClInclude Include="Mix\Entity.h">
+      <Filter>Mix</Filter>
+    </ClInclude>
+    <ClInclude Include="Mix\Event.h">
+      <Filter>Mix</Filter>
+    </ClInclude>
+    <ClInclude Include="Mix\Pool.h">
+      <Filter>Mix</Filter>
+    </ClInclude>
+    <ClInclude Include="Mix\System.h">
+      <Filter>Mix</Filter>
+    </ClInclude>
+    <ClInclude Include="Mix\World.h">
+      <Filter>Mix</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

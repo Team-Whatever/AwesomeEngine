@@ -176,17 +176,18 @@
     <ClInclude Include="Characters\PlayerCharacter.h" />
     <ClInclude Include="Components\AbilitiesInterface.h" />
     <ClInclude Include="Components\SpecialAbilityComponent.h" />
+    <ClInclude Include="Game\EscapeTheQ.h" />
     <ClInclude Include="Game\GameWorld.h" />
     <ClInclude Include="Managers\GameplayManager.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="GameApp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Characters\Character.cpp" />
     <ClCompile Include="Characters\Enemy.cpp" />
     <ClCompile Include="Characters\PlayerCharacter.cpp" />
     <ClCompile Include="Components\SpecialAbilityComponent.cpp" />
-    <ClCompile Include="EscapeTheQ.cpp" />
+    <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="Game\EscapeTheQ.cpp" />
     <ClCompile Include="Game\GameWorld.cpp" />
     <ClCompile Include="Managers\GameplayManager.cpp" />
     <ClCompile Include="pch.cpp">

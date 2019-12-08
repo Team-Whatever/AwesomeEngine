@@ -143,31 +143,77 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AwesomeEngineApp.cpp" />
-    <ClCompile Include="Entities\Entity.cpp" />
-    <ClCompile Include="Entities\EntityManager.cpp" />
-    <ClCompile Include="EntitySystems\EntitySystem.cpp" />
-    <ClCompile Include="EntitySystems\EntityWorld.cpp" />
-    <ClCompile Include="EntitySystems\RenderingSystem.cpp" />
-    <ClCompile Include="Events\Demo.cpp">
+    <ClCompile Include="Components\BaseComponent.cpp" />
+    <ClCompile Include="Components\LuaScriptComponent.cpp" />
+    <ClCompile Include="Entities\Entity.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Entities\EntityManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\EntitySystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\EntityWorld.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\LuaScriptSystem.cpp" />
+    <ClCompile Include="EntitySystems\RenderingSystem.cpp" />
+    <ClCompile Include="EntitySystems\SystemManager.cpp" />
     <ClCompile Include="Events\EventManager.cpp" />
     <ClCompile Include="Events\IEventManage.h" />
+    <ClCompile Include="Mix\Component.cpp" />
+    <ClCompile Include="Mix\Entity.cpp" />
+    <ClCompile Include="Mix\Event.cpp" />
+    <ClCompile Include="Mix\System.cpp" />
+    <ClCompile Include="Mix\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\BaseComponent.h" />
     <ClInclude Include="Components\HealthComponent.h" />
+    <ClInclude Include="Components\LuaScriptComponent.h" />
     <ClInclude Include="Components\MeshComponent.h" />
     <ClInclude Include="Components\TransformComponent.h" />
     <ClInclude Include="AwesomeEngineApp.h" />
-    <ClInclude Include="Entities\Entity.h" />
-    <ClInclude Include="Entities\EntityManager.h" />
-    <ClInclude Include="EntitySystems\EntitySystem.h" />
-    <ClInclude Include="EntitySystems\EntityWorld.h" />
+    <ClInclude Include="Entities\Entity.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Entities\EntityManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\EntitySystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\EntityWorld.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\LuaScriptSystem.h" />
     <ClInclude Include="EntitySystems\RenderingSystem.h" />
+    <ClInclude Include="EntitySystems\SystemManager.h" />
     <ClInclude Include="Events\EventManager.h" />
     <ClInclude Include="Events\FastDelegate.h" />
     <ClInclude Include="Events\FastDelegateBind.h" />
@@ -176,7 +222,15 @@
     <ClInclude Include="Input\IGamepadHandler.h" />
     <ClInclude Include="Input\IJoystickHandler.h" />
     <ClInclude Include="Input\IKeyboardHandler.h" />
+    <ClInclude Include="Input\InputEventSystem.h" />
     <ClInclude Include="Input\IPointerHandler.h" />
+    <ClInclude Include="Mix\Component.h" />
+    <ClInclude Include="Mix\Config.h" />
+    <ClInclude Include="Mix\Entity.h" />
+    <ClInclude Include="Mix\Event.h" />
+    <ClInclude Include="Mix\Pool.h" />
+    <ClInclude Include="Mix\System.h" />
+    <ClInclude Include="Mix\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
