@@ -20,7 +20,7 @@ template <typename T>
 class Pool : public AbstractPool
 {
 public:
-    Pool(int size = 0)
+    Pool(int size = 1)
     {
         resize(size);
     }

@@ -15,6 +15,7 @@ namespace AwesomeEngine
 
 	private:
 		lua_State* mLuaState;
+		std::string mLuaFileName;
 
 	};
 }
