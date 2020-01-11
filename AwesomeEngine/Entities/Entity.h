@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 namespace AwesomeEngine
 {
@@ -7,6 +8,7 @@ namespace AwesomeEngine
 	{
 	public:
 		Entity(int id, EntityManager* manager);
+		Entity(int id, EntityManager* manager, Entity* Parent);
 		~Entity();
 
 		Entity& operator=(const Entity&) = default;
@@ -30,12 +32,21 @@ namespace AwesomeEngine
 			return pEntityManager->getComponent<T>(*this);
 		}
 
+		void SetParent(Entity* newParent);
+		void RemoveParent();
+		void AddChild(Entity* newChild);
+		void RemoveLastChild();
+		void RemoveAllChildren();
+		void DeleteEntity(Entity* newParentForChildren);
+
 	public:
 		unsigned int entityId;
 
 	private:
 		EntityManager* pEntityManager;
 		friend class EntityManager;
+		Entity* parent;
+		std::vector<Entity*> children;
 	};
 
 }
