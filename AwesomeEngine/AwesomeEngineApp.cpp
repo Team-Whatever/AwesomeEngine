@@ -7,6 +7,7 @@
 #include <windowsx.h>
 #include <tchar.h>
 #include "Events/EventManager.h"
+#include <Windows.h>
 
 
 extern "C" {
@@ -324,6 +325,20 @@ bool AwesomeEngineApp::InitWindow()
 //You used the W parameter to pass things like handles and integers.You used the L parameter to pass pointers.
 //When Windows was converted to 32 - bit, the WPARAM parameter grew to a 32 - bit value as well.So even though the ?œW??stands for ?œword?? it isn?™t a word any more. (And in 64 - bit Windows, both parameters are 64 - bit values!)
 
+
+void drawImage(HDC hdc, HDC imageDC) {
+	BitBlt(
+		hdc,         // tell it we want to draw to the screen
+		0, 0,            // as position 0,0 (upper-left corner)
+		400,   // width of the rect to draw
+		400,   // height of the rect
+		imageDC,        // the DC to get the rect from (our image DC)
+		0, 0,            // take it from position 0,0 in the image DC
+		SRCCOPY         // tell it to do a pixel-by-pixel copy
+	);
+}
+
+
 //typedef LONG_PTR LRESULT
 static TCHAR eventType[100] = _T("");
 LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -335,20 +350,36 @@ LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	PAINTSTRUCT ps;
 	HDC hdc;
 	
+	HDC imageDC;
+	HBITMAP imageBmp;
+	HBITMAP imageBmpOld;
+	imageDC = CreateCompatibleDC(NULL);    // create an offscreen DC
+	imageBmp = (HBITMAP)LoadImageA(        // load the bitmap from a file
+		NULL,                              // not loading from a module, so this is NULL
+		"loadingImage.bmp",      // the path we're loading from
+		IMAGE_BITMAP,                      // we are loading a bitmap
+		0, 0,                              // don't need to specify width/height
+		LR_DEFAULTSIZE | LR_LOADFROMFILE   // use the default bitmap size (whatever the file is), and load it from a file
+	);
+	imageBmpOld = (HBITMAP)SelectObject(imageDC, imageBmp);  // put the loaded image into our DC
+
+
+	
 	static size_t messageLength = 0;
 
 	//step6: For instance, we may want to destroy a window when the Escape key is pressed.
 	switch (msg)
 	{
 	case WM_PAINT:
-		hdc = BeginPaint(m_hAppWnd, &ps);
+		hdc = BeginPaint(m_hAppWnd, &ps); 
 
 		// in the top left corner.  
 		TextOut(hdc,
 			5, 5,
-			eventType, _tcslen(eventType));
+			eventType, _tcslen(eventType)); 
 
 		// End application specific layout section.  
+		drawImage(hdc, imageDC);
 
 		EndPaint(m_hAppWnd, &ps);
 		break;
