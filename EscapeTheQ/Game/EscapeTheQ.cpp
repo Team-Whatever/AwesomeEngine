@@ -29,15 +29,10 @@ bool EscapeTheQ::Init(unsigned long diskRequiredInMB, unsigned long memoryRequir
 	return isInit;
 }
 
-void EscapeTheQ::Update(float dt)
+void EscapeTheQ::Update(const GameTimer& gt)
 {
 	mWorld.update();
 	// TODO : polish entity component system
-	//mWorld.getSystemManager().getSystem<InputEventSystem>().Update(dt);
-	mWorld.getSystemManager().getSystem<LuaScriptSystem>().Update(dt);
-}
-
-void EscapeTheQ::Render(float dt)
-{
-
+	//mWorld.getSystemManager().getSystem<InputEventSystem>().Update(gt.DeltaTime());
+	mWorld.getSystemManager().getSystem<LuaScriptSystem>().Update(gt.DeltaTime());
 }

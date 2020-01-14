@@ -27,6 +27,9 @@
     <Filter Include="Mix">
       <UniqueIdentifier>{c0a5e916-12b2-4444-a1dc-8e629e0efc7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{a35949e6-329a-4aa8-9069-75ac3b7617e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entities\Entity.cpp">
@@ -79,6 +82,30 @@
     </ClCompile>
     <ClCompile Include="Mix\World.cpp">
       <Filter>Mix</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Camera.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\d3dApp.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\d3dUtil.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\DDSTextureLoader.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\GameTimer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\GeometryGenerator.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\MathHelper.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameResource.cpp">
+      <Filter>EngineApp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +198,36 @@
     </ClInclude>
     <ClInclude Include="Mix\World.h">
       <Filter>Mix</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Camera.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dApp.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dUtil.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\DDSTextureLoader.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\GameTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\GeometryGenerator.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\MathHelper.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\UploadBuffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameResource.h">
+      <Filter>EngineApp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

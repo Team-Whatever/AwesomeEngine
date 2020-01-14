@@ -9,8 +9,8 @@ public:
 	~EscapeTheQ();
 
 	bool Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz) override;
-	void Update(float dt) override;
-	void Render(float dt) override;
+	virtual void Update(const GameTimer& gt) override;
+
 
 	Mix::World mWorld;
 };

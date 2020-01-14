@@ -6,6 +6,8 @@
 #include <string.h>
 #include <windowsx.h>
 #include <tchar.h>
+
+#include "Common/d3dUtil.h"
 #include "Events/EventManager.h"
 
 
@@ -15,71 +17,23 @@ extern "C" {
 # include "lualib.h"
 }
 #include <LuaBridge.h>
+
+using namespace DirectX;
+using namespace Microsoft::WRL;
 using namespace luabridge;
-
-namespace {
-	//used to forward messages to user defined proc function
-	AwesomeEngineApp* g_App = nullptr;
-}
-
 using namespace AwesomeEngine;
 
-LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	//step4:Window procedures are functions we implement which contain code that is to be executed in response to specific messages.
-	if (g_App)
-		return g_App->MsgProc(hwnd, msg, wParam, lParam);
-	else
-		//The messages a window does not handle should be forwarded to the default window
-		//procedure, which then handles the message.The Win32 API supplies the default window
-		//procedure, which is called DefWindowProc.
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-}
+const int gNumFrameResources = 3;
 
 AwesomeEngineApp::AwesomeEngineApp(HINSTANCE hInstance)
+	: D3DApp( hInstance )
 {
-	m_hAppInstance = hInstance;
-	m_hAppWnd = NULL; //we don't have a window yet
-	m_ClientWidth = 800;
-	m_ClientHeight = 600;
-	m_AppTitle = "Game Engine Dev";
-	m_WndStyle = WS_OVERLAPPEDWINDOW; //basic maximize, minimize, etc.. 
-	g_App = this;
 }
 
 AwesomeEngineApp::~AwesomeEngineApp()
 {
 }
 
-int AwesomeEngineApp::Run()
-{
-	//step3: A Windows application follows an event-driven programming model.
-	//An event can be generated in a number of ways:key presses, mouse clicks,
-	//and when a window is created, resized, moved, closed, minimized, maximized, or becomes visible.
-	//When an event occurs, Windows sends a message to the application the event
-	//occurred for, and adds the message to the application?™s message queue
-	//The application constantly checks the message queue for messages in a message loop
-
-	//Main Message Loop
-	MSG msg = { 0 };
-	while (WM_QUIT != msg.message)
-	{
-		//when the application receives a message, it dispatches the message to the window procedure of the particular window the message is for
-		if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE)) //peek and remove from the stack
-		{
-			TranslateMessage(&msg);  //Translates virtual-key messages (alt + ctrl + escape..) into character messages. WM_KEYDOWN and WM_KEYUP combinations produce a WM_CHAR
-			DispatchMessage(&msg);   //Dispatches a message to a window procedure (MainWndProc).
-		}
-		else
-		{
-			//In off-time we update and render
-			Update(0.0);
-			Render(0.0);
-		}
-	}
-
-	return static_cast<int>(msg.wParam);
-}
 std::wstring s2ws(const std::string& s)
 {
 	int len;
@@ -91,6 +45,7 @@ std::wstring s2ws(const std::string& s)
 	delete[] buf;
 	return r;
 }
+
 void displayProcessorArchitecture(SYSTEM_INFO &stInfo)
 {
 	std::cout << "CPU : ";
@@ -110,8 +65,6 @@ void displayProcessorArchitecture(SYSTEM_INFO &stInfo)
 
 	std::cout << std::endl;
 }
-
-
 
 bool CheckMemory(const DWORDLONG physicalRAMNeededInMB, const DWORDLONG virtualRAMNeededInMB)
 {
@@ -151,7 +104,6 @@ bool CheckMemory(const DWORDLONG physicalRAMNeededInMB, const DWORDLONG virtualR
 		MessageBoxA(NULL, msg.str().c_str(), "Not Enough Virtual Memory", NULL);
 		return false;
 	}
-
 	
 	return true;
 
@@ -222,12 +174,6 @@ bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memory
 		return false;
 	}
 
-
-	if (!InitWindow())
-	{
-		return false;
-	}
-
 	//Checks if system has minimum of 500Mhz CPU Speed.
 	DWORD cpuSpeed = ReadCPUSpeed();
 
@@ -245,67 +191,10 @@ bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memory
 	GetSystemInfo(&stInfo);
 	//displayProcessorArchitecture(stInfo);
 
-	return true;
-}
-
-
-bool AwesomeEngineApp::InitWindow()
-{
-	static TCHAR szWindowClass[] = _T("DXAPPWNDCLASS");
-	static TCHAR szTitle[] = _T("Game Engine Dev");
-
-
-	//WNDCLASSEX - Bear in mind that the only difference between CreateWindow and CreateWindowEx is the addition of extended styles to the latter. You can use either type of window class structure with them.
-	WNDCLASSEX wcex;
-	ZeroMemory(&wcex, sizeof(WNDCLASSEX)); //Fills a block of memory with zeros.
-	wcex.style = CS_HREDRAW | CS_VREDRAW;
-	wcex.lpfnWndProc = MainWndProc;
-	wcex.cbClsExtra = 0;
-	wcex.cbWndExtra = 0;
-	wcex.cbSize = sizeof(WNDCLASSEX);
-	wcex.hInstance = m_hAppInstance;
-	wcex.hIcon = LoadIcon(0, IDI_APPLICATION);
-	wcex.hCursor = LoadCursor(0, IDC_ARROW); 
-	wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
-	wcex.lpszMenuName = 0;
-	wcex.lpszClassName = szWindowClass;
-
-	//register with Windows OS
-	if (!RegisterClassEx(&wcex))
-	{
-		//OutputDebugString(L"Failed to create Window Class\n");
-		MessageBox(NULL,
-			_T("Call to RegisterClassEx failed!"),
-			_T("Awesome Engine"),
-			NULL);
+	if (!D3DApp::Initialize())
 		return false;
-	}
 
-
-	RECT r = { 0, 0, m_ClientWidth, m_ClientHeight };
-	AdjustWindowRect(&r, m_WndStyle, FALSE);
-	UINT width = r.right - r.left;
-	UINT height = r.bottom - r.top;
-	UINT x = GetSystemMetrics(SM_CXSCREEN) / 2 - width / 2;
-	UINT y = GetSystemMetrics(SM_CXSCREEN) / 2 - height;
-	//step1 we use WIN32 API to create window - when using 16-bit wide-characters (unicode), we must prefix a string literal with a capital L!
-	m_hAppWnd = CreateWindow(szWindowClass, szTitle, m_WndStyle, x, y, width, height, NULL, NULL, m_hAppInstance, NULL);
-
-	if (!m_hAppWnd) {
-		MessageBox(NULL,
-			_T("Call to CreateWindow failed!"),
-			_T("Awesome Engine"),
-			NULL);
-		return false; 
-	}
-
-	//step2 to notify Windows to show a particular window. Note that Windows applications do not have direct access to hardware.
-	//For example, to display a window you must call the Win32 API function ShowWindow; you cannot write to video memory directly.
-	ShowWindow(m_hAppWnd, SW_SHOW); 
-	UpdateWindow(m_hAppWnd);
-
-	//InitLuaScript();
-
+	// event handler
 	EventListenerDelegate mouseMoveListener(this, &AwesomeEngineApp::EventMouseMoved);
 	EventManager::GetInstance().VAddListener(mouseMoveListener, EnumEventType::Event_Mouse_Moved);
 
@@ -319,76 +208,120 @@ bool AwesomeEngineApp::InitWindow()
 	return true;
 }
 
-
-//step5: Once upon a time, Windows was 16 - bit.Each message could carry with it two pieces of data, called WPARAMand LPARAM.The first one was a 16 - bit value(?œword??, so it was called W.The second one was a 32 - bit value(?œlong??, so it was called L.
-//You used the W parameter to pass things like handles and integers.You used the L parameter to pass pointers.
-//When Windows was converted to 32 - bit, the WPARAM parameter grew to a 32 - bit value as well.So even though the ?œW??stands for ?œword?? it isn?™t a word any more. (And in 64 - bit Windows, both parameters are 64 - bit values!)
-
-//typedef LONG_PTR LRESULT
-static TCHAR eventType[100] = _T("");
-LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+void AwesomeEngineApp::Update(const GameTimer& gt)
 {
-	int xPos = GET_X_LPARAM(lParam);
-	int yPos = GET_Y_LPARAM(lParam);
-	char CurrentKeyDown = wParam;
+	//OnKeyboardInput(gt);
+	//UpdateCamera(gt);
 
-	PAINTSTRUCT ps;
-	HDC hdc;
-	
-	static size_t messageLength = 0;
+	// Cycle through the circular frame resource array.
+	mCurrFrameResourceIndex = (mCurrFrameResourceIndex + 1) % gNumFrameResources;
+	mCurrFrameResource = mFrameResources[mCurrFrameResourceIndex].get();
 
-	//step6: For instance, we may want to destroy a window when the Escape key is pressed.
-	switch (msg)
+	// Has the GPU finished processing the commands of the current frame resource?
+	// If not, wait until the GPU has completed commands up to this fence point.
+	if (mCurrFrameResource->Fence != 0 && mFence->GetCompletedValue() < mCurrFrameResource->Fence)
 	{
-	case WM_PAINT:
-		hdc = BeginPaint(m_hAppWnd, &ps);
-
-		// in the top left corner.  
-		TextOut(hdc,
-			5, 5,
-			eventType, _tcslen(eventType));
-
-		// End application specific layout section.  
-
-		EndPaint(m_hAppWnd, &ps);
-		break;
-
-	case WM_KEYDOWN:
-		if (wParam == VK_ESCAPE)
-			DestroyWindow(m_hAppWnd);
-		AwesomeEngine::EventManager::GetInstance().VTriggerEvent(EnumEventType::Event_CharKey_Pressed, { 0, CurrentKeyDown });
-		InvalidateRect(m_hAppWnd, NULL, true);
-		break;
-
-	case WM_KEYUP:
-		AwesomeEngine::EventManager::GetInstance().VTriggerEvent(EnumEventType::Event_CharKey_Pressed, { 1, CurrentKeyDown });
-		InvalidateRect(m_hAppWnd, NULL, true);
-		break;
-	case WM_MOUSEMOVE:
-		AwesomeEngine::EventManager::GetInstance().VTriggerEvent(EnumEventType::Event_Mouse_Moved, { xPos, yPos });
-		InvalidateRect(m_hAppWnd, NULL, true);
-		//swprintf(&eventType[0], _T("Mouse x : %d, y : %d\n"), xPos, yPos );
-		
-		break;
-	case WM_LBUTTONDOWN:
-		AwesomeEngine::EventManager::GetInstance().VTriggerEvent(EnumEventType::Event_Mouse_Clicked, { 0, 0 });
-		InvalidateRect(m_hAppWnd, NULL, true);
-		//swprintf(&eventType[0], _T("Left Button pressed\n"));
-		
-		break;
-	case WM_RBUTTONDOWN:
-		AwesomeEngine::EventManager::GetInstance().VTriggerEvent(EnumEventType::Event_Mouse_Clicked, { 1, 0 });
-		InvalidateRect(m_hAppWnd, NULL, true);
-		//swprintf(&eventType[0], _T("Right Button pressed\n"));
-		
-		break;
-	case WM_DESTROY:
-		PostQuitMessage(0);  //Indicates to the system that a thread has made a request to terminate
-		break;
-	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam); //wParam, lParam..mouse position..ket down...
+		HANDLE eventHandle = CreateEventEx(nullptr, nullptr, false, EVENT_ALL_ACCESS);
+		ThrowIfFailed(mFence->SetEventOnCompletion(mCurrFrameResource->Fence, eventHandle));
+		WaitForSingleObject(eventHandle, INFINITE);
+		CloseHandle(eventHandle);
 	}
-	return 0;
+
+	//AnimateMaterials(gt);
+	//UpdateObjectCBs(gt);
+	//UpdateMaterialCBs(gt);
+	//UpdateMainPassCB(gt);
+}
+
+void AwesomeEngineApp::Draw(const GameTimer& gt)
+{
+	auto cmdListAlloc = mCurrFrameResource->CmdListAlloc;
+
+	// Reuse the memory associated with command recording.
+	// We can only reset when the associated command lists have finished execution on the GPU.
+	ThrowIfFailed(cmdListAlloc->Reset());
+
+	// A command list can be reset after it has been added to the command queue via ExecuteCommandList.
+	// Reusing the command list reuses memory.
+	ThrowIfFailed(mCommandList->Reset(cmdListAlloc.Get(), mOpaquePSO.Get()));
+
+	mCommandList->RSSetViewports(1, &mScreenViewport);
+	mCommandList->RSSetScissorRects(1, &mScissorRect);
+
+	// Indicate a state transition on the resource usage.
+	mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
+
+	// Clear the back buffer and depth buffer.
+	mCommandList->ClearRenderTargetView(CurrentBackBufferView(), DirectX::Colors::LightSteelBlue, 0, nullptr);
+	mCommandList->ClearDepthStencilView(DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
+
+	// Specify the buffers we are going to render to.
+	mCommandList->OMSetRenderTargets(1, &CurrentBackBufferView(), true, &DepthStencilView());
+
+	ID3D12DescriptorHeap* descriptorHeaps[] = { mSrvDescriptorHeap.Get() };
+	mCommandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+
+	mCommandList->SetGraphicsRootSignature(mRootSignature.Get());
+
+	auto passCB = mCurrFrameResource->PassCB->Resource();
+	mCommandList->SetGraphicsRootConstantBufferView(2, passCB->GetGPUVirtualAddress());
+
+	DrawRenderItems(mCommandList.Get(), mOpaqueRitems);
+
+	// Indicate a state transition on the resource usage.
+	mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
+
+	// Done recording commands.
+	ThrowIfFailed(mCommandList->Close());
+
+	// Add the command list to the queue for execution.
+	ID3D12CommandList* cmdsLists[] = { mCommandList.Get() };
+	mCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+	// Swap the back and front buffers
+	ThrowIfFailed(mSwapChain->Present(0, 0));
+	mCurrBackBuffer = (mCurrBackBuffer + 1) % SwapChainBufferCount;
+
+	// Advance the fence value to mark commands up to this fence point.
+	mCurrFrameResource->Fence = ++mCurrentFence;
+
+	// Add an instruction to the command queue to set a new fence point. 
+	// Because we are on the GPU timeline, the new fence point won't be 
+	// set until the GPU finishes processing all the commands prior to this Signal().
+	mCommandQueue->Signal(mFence.Get(), mCurrentFence);
+}
+
+void AwesomeEngineApp::DrawRenderItems(ID3D12GraphicsCommandList* cmdList, const std::vector<RenderItem*>& ritems)
+{
+	UINT objCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(ObjectConstants));
+	UINT matCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(MaterialConstants));
+
+	auto objectCB = mCurrFrameResource->ObjectCB->Resource();
+	auto matCB = mCurrFrameResource->MaterialCB->Resource();
+
+	// For each render item...
+	for (size_t i = 0; i < ritems.size(); ++i)
+	{
+		auto ri = ritems[i];
+
+		cmdList->IASetVertexBuffers(0, 1, &ri->Geo->VertexBufferView());
+		cmdList->IASetIndexBuffer(&ri->Geo->IndexBufferView());
+		cmdList->IASetPrimitiveTopology(ri->PrimitiveType);
+
+		CD3DX12_GPU_DESCRIPTOR_HANDLE tex(mSrvDescriptorHeap->GetGPUDescriptorHandleForHeapStart());
+		tex.Offset(ri->Mat->DiffuseSrvHeapIndex, mCbvSrvDescriptorSize);
+
+		D3D12_GPU_VIRTUAL_ADDRESS objCBAddress = objectCB->GetGPUVirtualAddress() + ri->ObjCBIndex * objCBByteSize;
+		D3D12_GPU_VIRTUAL_ADDRESS matCBAddress = matCB->GetGPUVirtualAddress() + ri->Mat->MatCBIndex * matCBByteSize;
+
+		cmdList->SetGraphicsRootDescriptorTable(0, tex);
+		cmdList->SetGraphicsRootConstantBufferView(1, objCBAddress);
+		cmdList->SetGraphicsRootConstantBufferView(3, matCBAddress);
+
+		cmdList->DrawIndexedInstanced(ri->IndexCount, 1, ri->StartIndexLocation, ri->BaseVertexLocation, 0);
+	}
 }
 
 bool AwesomeEngineApp::IsOnlyInstance(LPCTSTR gameTitle)
@@ -437,45 +370,279 @@ bool AwesomeEngineApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
 }
 
 
+void AwesomeEngineApp::LoadTextures()
+{
+	auto skullTex = std::make_unique<Texture>();
+	skullTex->Name = "skullTex";
+	skullTex->Filename = L"../../Textures/stone.dds";
+	ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
+		mCommandList.Get(), skullTex->Filename.c_str(),
+		skullTex->Resource, skullTex->UploadHeap));
+
+	mTextures[skullTex->Name] = std::move(skullTex);
+}
+
+void AwesomeEngineApp::BuildRootSignature()
+{
+	CD3DX12_DESCRIPTOR_RANGE texTable;
+	texTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+
+	// Root parameter can be a table, root descriptor or root constants.
+	CD3DX12_ROOT_PARAMETER slotRootParameter[4];
+
+	// Perfomance TIP: Order from most frequent to least frequent.
+	slotRootParameter[0].InitAsDescriptorTable(1, &texTable, D3D12_SHADER_VISIBILITY_PIXEL);
+	slotRootParameter[1].InitAsConstantBufferView(0);
+	slotRootParameter[2].InitAsConstantBufferView(1);
+	slotRootParameter[3].InitAsConstantBufferView(2);
+
+	auto staticSamplers = GetStaticSamplers();
+
+	// A root signature is an array of root parameters.
+	//The Init function of the CD3DX12_ROOT_SIGNATURE_DESC class has two parameters that allow you to
+		//define an array of so - called static samplers your application can use.
+	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(4, slotRootParameter,
+		(UINT)staticSamplers.size(), staticSamplers.data(),  //6 samplers!
+		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+
+	// create a root signature with a single slot which points to a descriptor range consisting of a single constant buffer
+	ComPtr<ID3DBlob> serializedRootSig = nullptr;
+	ComPtr<ID3DBlob> errorBlob = nullptr;
+	HRESULT hr = D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1,
+		serializedRootSig.GetAddressOf(), errorBlob.GetAddressOf());
+
+	if (errorBlob != nullptr)
+	{
+		::OutputDebugStringA((char*)errorBlob->GetBufferPointer());
+	}
+	ThrowIfFailed(hr);
+
+	ThrowIfFailed(md3dDevice->CreateRootSignature(
+		0,
+		serializedRootSig->GetBufferPointer(),
+		serializedRootSig->GetBufferSize(),
+		IID_PPV_ARGS(mRootSignature.GetAddressOf())));
+}
+
+//Once a texture resource is created, we need to create an SRV descriptor to it which we
+//can set to a root signature parameter slot for use by the shader programs.
+void AwesomeEngineApp::BuildDescriptorHeaps()
+{
+	//
+	// Create the SRV heap.
+	//
+	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
+	srvHeapDesc.NumDescriptors = 1;
+	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	ThrowIfFailed(md3dDevice->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&mSrvDescriptorHeap)));
+
+	//
+	// Fill out the heap with actual descriptors.
+	//
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(mSrvDescriptorHeap->GetCPUDescriptorHandleForHeapStart());
+
+	auto skullTex = mTextures["skullTex"]->Resource;
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+
+	//This mapping enables the shader resource view (SRV) to choose how memory gets routed to the 4 return components in a shader after a memory fetch.
+	//When a texture is sampled in a shader, it will return a vector of the texture data at the specified texture coordinates.
+	//This field provides a way to reorder the vector components returned when sampling the texture.
+	//D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING  will not reorder the components and just return the data in the order it is stored in the texture resource.
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+	srvDesc.Format = skullTex->GetDesc().Format;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+	//The number of mipmap levels to view, starting at MostDetailedMip.This field, along with MostDetailedMip allows us to
+	//specify a subrange of mipmap levels to view.You can specify - 1 to indicate to view
+	//all mipmap levels from MostDetailedMip down to the last mipmap level.
+
+	srvDesc.Texture2D.MipLevels = skullTex->GetDesc().MipLevels;
+
+	//Specifies the minimum mipmap level that can be accessed. 0.0 means all the mipmap levels can be accessed.
+	//Specifying 3.0 means mipmap levels 3.0 to MipCount - 1 can be accessed.
+	srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
+
+	md3dDevice->CreateShaderResourceView(skullTex.Get(), &srvDesc, hDescriptor);
+}
+
+void AwesomeEngineApp::BuildShadersAndInputLayout()
+{
+	mShaders["standardVS"] = d3dUtil::CompileShader(L"Shaders\\VS_Anisotropic.hlsl", nullptr, "VS", "vs_5_1");
+	mShaders["opaquePS"] = d3dUtil::CompileShader(L"Shaders\\PS_Anisotropic.hlsl", nullptr, "PS", "ps_5_1");
+
+	mInputLayout =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	};
+}
+
+
+void AwesomeEngineApp::BuildPSOs()
+{
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC opaquePsoDesc;
+
+	//
+	// PSO for opaque objects.
+	//
+	ZeroMemory(&opaquePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
+	opaquePsoDesc.InputLayout = { mInputLayout.data(), (UINT)mInputLayout.size() };
+	opaquePsoDesc.pRootSignature = mRootSignature.Get();
+	opaquePsoDesc.VS =
+	{
+		reinterpret_cast<BYTE*>(mShaders["standardVS"]->GetBufferPointer()),
+		mShaders["standardVS"]->GetBufferSize()
+	};
+	opaquePsoDesc.PS =
+	{
+		reinterpret_cast<BYTE*>(mShaders["opaquePS"]->GetBufferPointer()),
+		mShaders["opaquePS"]->GetBufferSize()
+	};
+	opaquePsoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+	opaquePsoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	opaquePsoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	opaquePsoDesc.SampleMask = UINT_MAX;
+	opaquePsoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	opaquePsoDesc.NumRenderTargets = 1;
+	opaquePsoDesc.RTVFormats[0] = mBackBufferFormat;
+	opaquePsoDesc.SampleDesc.Count = m4xMsaaState ? 4 : 1;
+	opaquePsoDesc.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - 1) : 0;
+	opaquePsoDesc.DSVFormat = mDepthStencilFormat;
+	ThrowIfFailed(md3dDevice->CreateGraphicsPipelineState(&opaquePsoDesc, IID_PPV_ARGS(&mOpaquePSO)));
+}
+
+void AwesomeEngineApp::BuildFrameResources()
+{
+	for (int i = 0; i < gNumFrameResources; ++i)
+	{
+		mFrameResources.push_back(std::make_unique<FrameResource>(md3dDevice.Get(),
+			1, (UINT)mAllRitems.size(), (UINT)mMaterials.size()));
+	}
+}
+
+void AwesomeEngineApp::BuildMaterials()
+{
+	auto skullMat = std::make_unique<Material>();
+	skullMat->Name = "skullMat";
+	skullMat->MatCBIndex = 0;
+	skullMat->DiffuseSrvHeapIndex = 0;
+	skullMat->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	skullMat->FresnelR0 = XMFLOAT3(0.05f, 0.05f, 0.05f);
+	skullMat->Roughness = 0.5f;
+	mMaterials["skullMat"] = std::move(skullMat);
+}
+
+void AwesomeEngineApp::BuildRenderItems()
+{
+	auto skullRitem = std::make_unique<RenderItem>();
+	skullRitem->ObjCBIndex = 0;
+	skullRitem->Mat = mMaterials["skullMat"].get();
+	skullRitem->Geo = mGeometries["skullGeo"].get();
+	skullRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	skullRitem->IndexCount = skullRitem->Geo->DrawArgs["skull"].IndexCount;
+	skullRitem->StartIndexLocation = skullRitem->Geo->DrawArgs["skull"].StartIndexLocation;
+	skullRitem->BaseVertexLocation = skullRitem->Geo->DrawArgs["skull"].BaseVertexLocation;
+	mAllRitems.push_back(std::move(skullRitem));
+
+	// All the render items are opaque.
+	for (auto& e : mAllRitems)
+		mOpaqueRitems.push_back(e.get());
+}
+
+std::array<const CD3DX12_STATIC_SAMPLER_DESC, 7> AwesomeEngineApp::GetStaticSamplers()
+{
+	// Applications usually only need a handful of samplers.  So just define them all up front
+	// and keep them available as part of the root signature.  
+
+	const CD3DX12_STATIC_SAMPLER_DESC pointWrap(
+		0, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC pointClamp(
+		1, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC linearWrap(
+		2, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC linearClamp(
+		3, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC anisotropicWrap(
+		4, // shaderRegister
+		D3D12_FILTER_ANISOTROPIC, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressW
+		0.0f,                             // mipLODBias
+		8);                               // maxAnisotropy
+
+	const CD3DX12_STATIC_SAMPLER_DESC anisotropicClamp(
+		5, // shaderRegister
+		D3D12_FILTER_ANISOTROPIC, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressW
+		0.0f,                              // mipLODBias
+		8);                                // maxAnisotropy
+
+	const CD3DX12_STATIC_SAMPLER_DESC mirror(
+		6, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_MIRROR,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_MIRROR,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_MIRROR); // addressW
+
+	return {
+		pointWrap, pointClamp,
+		linearWrap, linearClamp,
+		anisotropicWrap, anisotropicClamp, mirror };
+}
+
+
+
+
 // Event Listener
 
 void AwesomeEngineApp::EventMouseMoved(EventParam param)
 {
 	//std::cout << "Mouse moved x = " << param.param1 << " " << param.param2 << std::endl;
-	swprintf(&eventType[0], _T("Mouse x : %d, y : %d             "), param.param1, param.param2);
+	//swprintf(&eventType[0], _T("Mouse x : %d, y : %d             "), param.param1, param.param2);
 }
 
 void AwesomeEngineApp::EventMouseClicked(const EventParam param)
 {
 	//std::cout << "Mouse clicked x = " << param.param1 << " " << param.param2 << std::endl;
-	if( param.param1 == 0 )
-		swprintf(&eventType[0], _T("Left Button pressed           "));
-	else if (param.param1 == 1)
-		swprintf(&eventType[0], _T("Right Button pressed          "));
+	//if( param.param1 == 0 )
+	//	swprintf(&eventType[0], _T("Left Button pressed           "));
+	//else if (param.param1 == 1)
+	//	swprintf(&eventType[0], _T("Right Button pressed          "));
 }
 
 void AwesomeEngineApp::EventKeyPressed(const EventParam param)
 {
 	//std::cout << "Mouse clicked x = " << param.param1 << " " << param.param2 << std::endl;
-	if (param.param1 == 0)
-		swprintf(&eventType[0], _T("%c key down                   "), (char)param.param2);
-	else if (param.param1 == 1)
-		swprintf(&eventType[0], _T("%c key up                     "), (char)param.param2);
-}
-
-
-void AwesomeEngineApp::InitLuaScript()
-{
-	lua_State* L = luaL_newstate();
-	luaL_dofile(L, "Scripts/TestScript.lua");
-	luaL_openlibs(L);
-	lua_pcall(L, 0, 0, 0);
-	LuaRef s = getGlobal(L, "testString");
-	LuaRef n = getGlobal(L, "number");
-	std::string luaString = s.cast<std::string>();
-	int answer = n.cast<int>();
-	std::cout << luaString << std::endl;
-	std::cout << "And here's our number:" << answer << std::endl;
-
+	//if (param.param1 == 0)
+	//	swprintf(&eventType[0], _T("%c key down                   "), (char)param.param2);
+	//else if (param.param1 == 1)
+	//	swprintf(&eventType[0], _T("%c key up                     "), (char)param.param2);
 }
 //

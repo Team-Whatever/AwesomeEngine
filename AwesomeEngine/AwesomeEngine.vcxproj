@@ -143,6 +143,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AwesomeEngineApp.cpp" />
+    <ClCompile Include="Common\Camera.cpp" />
+    <ClCompile Include="Common\d3dApp.cpp" />
+    <ClCompile Include="Common\d3dUtil.cpp" />
+    <ClCompile Include="Common\DDSTextureLoader.cpp" />
+    <ClCompile Include="Common\GameTimer.cpp" />
+    <ClCompile Include="Common\GeometryGenerator.cpp" />
+    <ClCompile Include="Common\MathHelper.cpp" />
     <ClCompile Include="Components\BaseComponent.cpp" />
     <ClCompile Include="Components\LuaScriptComponent.cpp" />
     <ClCompile Include="Entities\Entity.cpp">
@@ -174,6 +181,7 @@
     <ClCompile Include="EntitySystems\SystemManager.cpp" />
     <ClCompile Include="Events\EventManager.cpp" />
     <ClCompile Include="Events\IEventManage.h" />
+    <ClCompile Include="FrameResource.cpp" />
     <ClCompile Include="Mix\Component.cpp" />
     <ClCompile Include="Mix\Entity.cpp" />
     <ClCompile Include="Mix\Event.cpp" />
@@ -181,6 +189,15 @@
     <ClCompile Include="Mix\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common\Camera.h" />
+    <ClInclude Include="Common\d3dApp.h" />
+    <ClInclude Include="Common\d3dUtil.h" />
+    <ClInclude Include="Common\d3dx12.h" />
+    <ClInclude Include="Common\DDSTextureLoader.h" />
+    <ClInclude Include="Common\GameTimer.h" />
+    <ClInclude Include="Common\GeometryGenerator.h" />
+    <ClInclude Include="Common\MathHelper.h" />
+    <ClInclude Include="Common\UploadBuffer.h" />
     <ClInclude Include="Components\BaseComponent.h" />
     <ClInclude Include="Components\HealthComponent.h" />
     <ClInclude Include="Components\LuaScriptComponent.h" />
@@ -219,6 +236,7 @@
     <ClInclude Include="Events\FastDelegateBind.h" />
     <ClInclude Include="Events\IEventData.h" />
     <ClInclude Include="Events\Timer.h" />
+    <ClInclude Include="FrameResource.h" />
     <ClInclude Include="Input\IGamepadHandler.h" />
     <ClInclude Include="Input\IJoystickHandler.h" />
     <ClInclude Include="Input\IKeyboardHandler.h" />
