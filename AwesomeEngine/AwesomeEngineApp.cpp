@@ -7,6 +7,13 @@
 #include <windowsx.h>
 #include <tchar.h>
 #include "Events/EventManager.h"
+#include <Windows.h>
+#include <objidl.h>
+#include <gdiplus.h>
+#include <gdiplusbase.h>
+#include <gdiplusgraphics.h>
+using namespace Gdiplus;
+#pragma comment (lib, "gdiplus.lib")
 
 
 extern "C" {
@@ -23,6 +30,9 @@ namespace {
 }
 
 using namespace AwesomeEngine;
+
+GdiplusStartupInput gdiplusStartupInput;
+ULONG_PTR gdiplusToken;
 
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -49,6 +59,10 @@ AwesomeEngineApp::AwesomeEngineApp(HINSTANCE hInstance)
 
 AwesomeEngineApp::~AwesomeEngineApp()
 {
+	if (m_LogoImage)
+		delete m_LogoImage;
+
+	GdiplusShutdown(gdiplusToken);
 }
 
 int AwesomeEngineApp::Run()
@@ -241,9 +255,14 @@ bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memory
 		std::cout << "Check CPU Speed Okay" << std::endl << "CPU Speed: " << cpuSpeed << "Mhz" << std::endl;
 	}
 
+	// Initialize GDI+.
+	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+
 	SYSTEM_INFO stInfo;
 	GetSystemInfo(&stInfo);
 	//displayProcessorArchitecture(stInfo);
+
+	m_LogoImage = Gdiplus::Image::FromFile(_T(".\\Assets\\loadingImage.jpg"));
 
 	return true;
 }
@@ -324,6 +343,20 @@ bool AwesomeEngineApp::InitWindow()
 //You used the W parameter to pass things like handles and integers.You used the L parameter to pass pointers.
 //When Windows was converted to 32 - bit, the WPARAM parameter grew to a 32 - bit value as well.So even though the ?œW??stands for ?œword?? it isn?™t a word any more. (And in 64 - bit Windows, both parameters are 64 - bit values!)
 
+
+void drawImage(HDC hdc, HDC imageDC) {
+	BitBlt(
+		hdc,         // tell it we want to draw to the screen
+		0, 0,            // as position 0,0 (upper-left corner)
+		400,   // width of the rect to draw
+		400,   // height of the rect
+		imageDC,        // the DC to get the rect from (our image DC)
+		0, 0,            // take it from position 0,0 in the image DC
+		SRCCOPY         // tell it to do a pixel-by-pixel copy
+	);
+}
+
+
 //typedef LONG_PTR LRESULT
 static TCHAR eventType[100] = _T("");
 LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -335,13 +368,16 @@ LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	PAINTSTRUCT ps;
 	HDC hdc;
 	
+
 	static size_t messageLength = 0;
 
 	//step6: For instance, we may want to destroy a window when the Escape key is pressed.
 	switch (msg)
 	{
 	case WM_PAINT:
+	{
 		hdc = BeginPaint(m_hAppWnd, &ps);
+		
 
 		// in the top left corner.  
 		TextOut(hdc,
@@ -349,10 +385,20 @@ LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			eventType, _tcslen(eventType));
 
 		// End application specific layout section.  
+		//drawImage(hdc, imageDC);
+
+		if (m_LogoImage)
+		{
+			Graphics graphics(hdc);
+			RECT rect;
+			GetWindowRect(hwnd, &rect);
+			RectF destRect(0, 0, ( rect.right - rect.left ), ( rect.bottom - rect.top ));
+			graphics.DrawImage(m_LogoImage, destRect, 0, 0, m_LogoImage->GetWidth(), m_LogoImage->GetHeight(), Gdiplus::Unit::UnitPixel );
+		}
 
 		EndPaint(m_hAppWnd, &ps);
 		break;
-
+	}
 	case WM_KEYDOWN:
 		if (wParam == VK_ESCAPE)
 			DestroyWindow(m_hAppWnd);

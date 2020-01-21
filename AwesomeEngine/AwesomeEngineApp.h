@@ -4,9 +4,12 @@
 #define _CRT_NON_CONFORMING_SWPRINTFS
 #include <Windows.h>
 #include <string>
-#include "atltypes.h"
 #include "Events/IEventData.h"
 
+namespace Gdiplus
+{
+	class Image;
+}
 class AwesomeEngineApp
 {
 public:
@@ -45,6 +48,7 @@ protected:
 	UINT m_ClientHeight;
 	std::string m_AppTitle;
 	DWORD m_WndStyle;
+	Gdiplus::Image* m_LogoImage;
 
 protected:
 	bool InitWindow();
