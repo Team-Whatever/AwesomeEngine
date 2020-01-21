@@ -12,6 +12,9 @@
 #include <gdiplus.h>
 #include <gdiplusbase.h>
 #include <gdiplusgraphics.h>
+#include <thread>
+#include <chrono>
+#include <mutex>
 using namespace Gdiplus;
 #pragma comment (lib, "gdiplus.lib")
 
@@ -215,6 +218,26 @@ DWORD AwesomeEngineApp::ReadCPUSpeed()
 	return dwMHz;
 }
 
+Image* g_LogoImage = nullptr;
+bool g_Initialized = false;
+std::mutex g_mutex;
+void DiminishLogo()
+{
+	if (g_Initialized == false)
+	{
+		static const auto start = std::chrono::system_clock::now();
+		const auto now = std::chrono::system_clock::now();
+		if (std::chrono::duration_cast<std::chrono::seconds>(now - start).count() > 3.0f)
+			g_Initialized = true;;
+
+		if (g_Initialized)
+		{
+			delete g_LogoImage;
+			g_LogoImage = nullptr;
+
+		}
+	}
+}
 
 bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz)
 {
@@ -262,10 +285,13 @@ bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memory
 	GetSystemInfo(&stInfo);
 	//displayProcessorArchitecture(stInfo);
 
-	m_LogoImage = Gdiplus::Image::FromFile(_T(".\\Assets\\loadingImage.jpg"));
+	g_LogoImage = Gdiplus::Image::FromFile(_T(".\\Assets\\loadingImage.jpg"));
 
 	return true;
 }
+
+
+
 
 
 bool AwesomeEngineApp::InitWindow()
@@ -343,20 +369,6 @@ bool AwesomeEngineApp::InitWindow()
 //You used the W parameter to pass things like handles and integers.You used the L parameter to pass pointers.
 //When Windows was converted to 32 - bit, the WPARAM parameter grew to a 32 - bit value as well.So even though the ?œW??stands for ?œword?? it isn?™t a word any more. (And in 64 - bit Windows, both parameters are 64 - bit values!)
 
-
-void drawImage(HDC hdc, HDC imageDC) {
-	BitBlt(
-		hdc,         // tell it we want to draw to the screen
-		0, 0,            // as position 0,0 (upper-left corner)
-		400,   // width of the rect to draw
-		400,   // height of the rect
-		imageDC,        // the DC to get the rect from (our image DC)
-		0, 0,            // take it from position 0,0 in the image DC
-		SRCCOPY         // tell it to do a pixel-by-pixel copy
-	);
-}
-
-
 //typedef LONG_PTR LRESULT
 static TCHAR eventType[100] = _T("");
 LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -367,6 +379,8 @@ LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 	PAINTSTRUCT ps;
 	HDC hdc;
+
+	DiminishLogo();
 	
 
 	static size_t messageLength = 0;
@@ -378,24 +392,29 @@ LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	{
 		hdc = BeginPaint(m_hAppWnd, &ps);
 		
-
-		// in the top left corner.  
-		TextOut(hdc,
-			5, 5,
-			eventType, _tcslen(eventType));
-
 		// End application specific layout section.  
 		//drawImage(hdc, imageDC);
 
-		if (m_LogoImage)
+
+		Graphics graphics(hdc);
+		RECT rect;
+		GetWindowRect(hwnd, &rect);
+
+		if (g_LogoImage)
 		{
-			Graphics graphics(hdc);
-			RECT rect;
-			GetWindowRect(hwnd, &rect);
 			RectF destRect(0, 0, ( rect.right - rect.left ), ( rect.bottom - rect.top ));
-			graphics.DrawImage(m_LogoImage, destRect, 0, 0, m_LogoImage->GetWidth(), m_LogoImage->GetHeight(), Gdiplus::Unit::UnitPixel );
+			graphics.DrawImage(g_LogoImage, destRect, 0, 0, g_LogoImage->GetWidth(), g_LogoImage->GetHeight(), Gdiplus::Unit::UnitPixel );
+		}
+		else
+		{
+			graphics.Clear(Gdiplus::Color::White);
+			TextOut(hdc,
+				5, 5,
+				eventType, _tcslen(eventType));
 		}
 
+		// in the top left corner.  
+		
 		EndPaint(m_hAppWnd, &ps);
 		break;
 	}
