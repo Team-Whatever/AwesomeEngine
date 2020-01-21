@@ -8,6 +8,12 @@
 #include <tchar.h>
 #include "Events/EventManager.h"
 #include <Windows.h>
+#include <objidl.h>
+#include <gdiplus.h>
+#include <gdiplusbase.h>
+#include <gdiplusgraphics.h>
+using namespace Gdiplus;
+#pragma comment (lib, "gdiplus.lib")
 
 
 extern "C" {
@@ -24,6 +30,9 @@ namespace {
 }
 
 using namespace AwesomeEngine;
+
+GdiplusStartupInput gdiplusStartupInput;
+ULONG_PTR gdiplusToken;
 
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -50,6 +59,10 @@ AwesomeEngineApp::AwesomeEngineApp(HINSTANCE hInstance)
 
 AwesomeEngineApp::~AwesomeEngineApp()
 {
+	if (m_LogoImage)
+		delete m_LogoImage;
+
+	GdiplusShutdown(gdiplusToken);
 }
 
 int AwesomeEngineApp::Run()
@@ -242,9 +255,14 @@ bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memory
 		std::cout << "Check CPU Speed Okay" << std::endl << "CPU Speed: " << cpuSpeed << "Mhz" << std::endl;
 	}
 
+	// Initialize GDI+.
+	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+
 	SYSTEM_INFO stInfo;
 	GetSystemInfo(&stInfo);
 	//displayProcessorArchitecture(stInfo);
+
+	m_LogoImage = Gdiplus::Image::FromFile(_T(".\\Assets\\loadingImage.jpg"));
 
 	return true;
 }
@@ -350,40 +368,37 @@ LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	PAINTSTRUCT ps;
 	HDC hdc;
 	
-	HDC imageDC;
-	HBITMAP imageBmp;
-	HBITMAP imageBmpOld;
-	imageDC = CreateCompatibleDC(NULL);    // create an offscreen DC
-	imageBmp = (HBITMAP)LoadImageA(        // load the bitmap from a file
-		NULL,                              // not loading from a module, so this is NULL
-		"loadingImage.bmp",      // the path we're loading from
-		IMAGE_BITMAP,                      // we are loading a bitmap
-		0, 0,                              // don't need to specify width/height
-		LR_DEFAULTSIZE | LR_LOADFROMFILE   // use the default bitmap size (whatever the file is), and load it from a file
-	);
-	imageBmpOld = (HBITMAP)SelectObject(imageDC, imageBmp);  // put the loaded image into our DC
 
-
-	
 	static size_t messageLength = 0;
 
 	//step6: For instance, we may want to destroy a window when the Escape key is pressed.
 	switch (msg)
 	{
 	case WM_PAINT:
-		hdc = BeginPaint(m_hAppWnd, &ps); 
+	{
+		hdc = BeginPaint(m_hAppWnd, &ps);
+		
 
 		// in the top left corner.  
 		TextOut(hdc,
 			5, 5,
-			eventType, _tcslen(eventType)); 
+			eventType, _tcslen(eventType));
 
 		// End application specific layout section.  
-		drawImage(hdc, imageDC);
+		//drawImage(hdc, imageDC);
+
+		if (m_LogoImage)
+		{
+			Graphics graphics(hdc);
+			RECT rect;
+			GetWindowRect(hwnd, &rect);
+			RectF destRect(0, 0, ( rect.right - rect.left ), ( rect.bottom - rect.top ));
+			graphics.DrawImage(m_LogoImage, destRect, 0, 0, m_LogoImage->GetWidth(), m_LogoImage->GetHeight(), Gdiplus::Unit::UnitPixel );
+		}
 
 		EndPaint(m_hAppWnd, &ps);
 		break;
-
+	}
 	case WM_KEYDOWN:
 		if (wParam == VK_ESCAPE)
 			DestroyWindow(m_hAppWnd);
