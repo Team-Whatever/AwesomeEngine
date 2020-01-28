@@ -194,6 +194,31 @@ bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memory
 	if (!D3DApp::Initialize())
 		return false;
 
+	// Reset the command list to prep for initialization commands.
+	ThrowIfFailed(mCommandList->Reset(mDirectCmdListAlloc.Get(), nullptr));
+
+	// Get the increment size of a descriptor in this heap type.  This is hardware specific, 
+	// so we have to query this information.
+	mCbvSrvDescriptorSize = md3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	LoadTextures();
+
+	BuildRootSignature();
+	BuildDescriptorHeaps();
+	BuildShadersAndInputLayout();
+	BuildMaterials();
+	BuildRenderItems();
+	BuildFrameResources();
+	BuildPSOs();
+
+	// Execute the initialization commands.
+	ThrowIfFailed(mCommandList->Close());
+	ID3D12CommandList* cmdsLists[] = { mCommandList.Get() };
+	mCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+	// Wait until initialization is complete.
+	FlushCommandQueue();
+
 	// event handler
 	EventListenerDelegate mouseMoveListener(this, &AwesomeEngineApp::EventMouseMoved);
 	EventManager::GetInstance().VAddListener(mouseMoveListener, EnumEventType::Event_Mouse_Moved);
@@ -227,9 +252,8 @@ void AwesomeEngineApp::Update(const GameTimer& gt)
 		CloseHandle(eventHandle);
 	}
 
-	//AnimateMaterials(gt);
-	//UpdateObjectCBs(gt);
-	//UpdateMaterialCBs(gt);
+	UpdateObjectCBs(gt);
+	UpdateMaterialCBs(gt);
 	//UpdateMainPassCB(gt);
 }
 
@@ -372,12 +396,16 @@ bool AwesomeEngineApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
 
 void AwesomeEngineApp::LoadTextures()
 {
+	
 	auto skullTex = std::make_unique<Texture>();
-	skullTex->Name = "skullTex";
-	skullTex->Filename = L"../../Textures/stone.dds";
-	ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
-		mCommandList.Get(), skullTex->Filename.c_str(),
-		skullTex->Resource, skullTex->UploadHeap));
+	skullTex->Name = "logoTex";
+	skullTex->Filename = L"../Assets/whatever_logo.png";
+	//ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
+	//	mCommandList.Get(), skullTex->Filename.c_str(),
+	//	skullTex->Resource, skullTex->UploadHeap));
+	ThrowIfFailed(
+		DirectX::LoadFromWICFile(m_d3dDevice.Get(), resourceUpload, L"cat.png",
+			m_texture.ReleaseAndGetAddressOf()));
 
 	mTextures[skullTex->Name] = std::move(skullTex);
 }
@@ -442,7 +470,7 @@ void AwesomeEngineApp::BuildDescriptorHeaps()
 	//
 	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(mSrvDescriptorHeap->GetCPUDescriptorHandleForHeapStart());
 
-	auto skullTex = mTextures["skullTex"]->Resource;
+	auto logoTex = mTextures["logoTex"]->Resource;
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 
@@ -452,20 +480,20 @@ void AwesomeEngineApp::BuildDescriptorHeaps()
 	//D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING  will not reorder the components and just return the data in the order it is stored in the texture resource.
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
-	srvDesc.Format = skullTex->GetDesc().Format;
+	srvDesc.Format = logoTex->GetDesc().Format;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MostDetailedMip = 0;
 	//The number of mipmap levels to view, starting at MostDetailedMip.This field, along with MostDetailedMip allows us to
 	//specify a subrange of mipmap levels to view.You can specify - 1 to indicate to view
 	//all mipmap levels from MostDetailedMip down to the last mipmap level.
 
-	srvDesc.Texture2D.MipLevels = skullTex->GetDesc().MipLevels;
+	srvDesc.Texture2D.MipLevels = logoTex->GetDesc().MipLevels;
 
 	//Specifies the minimum mipmap level that can be accessed. 0.0 means all the mipmap levels can be accessed.
 	//Specifying 3.0 means mipmap levels 3.0 to MipCount - 1 can be accessed.
 	srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
 
-	md3dDevice->CreateShaderResourceView(skullTex.Get(), &srvDesc, hDescriptor);
+	md3dDevice->CreateShaderResourceView(logoTex.Get(), &srvDesc, hDescriptor);
 }
 
 void AwesomeEngineApp::BuildShadersAndInputLayout()
@@ -646,3 +674,89 @@ void AwesomeEngineApp::EventKeyPressed(const EventParam param)
 	//	swprintf(&eventType[0], _T("%c key up                     "), (char)param.param2);
 }
 //
+
+
+void AwesomeEngineApp::UpdateObjectCBs(const GameTimer& gt)
+{
+	auto currObjectCB = mCurrFrameResource->ObjectCB.get();
+	for (auto& e : mAllRitems)
+	{
+		// Only update the cbuffer data if the constants have changed.  
+		// This needs to be tracked per frame resource.
+		if (e->NumFramesDirty > 0)
+		{
+			XMMATRIX world = XMLoadFloat4x4(&e->World);
+			XMMATRIX texTransform = XMLoadFloat4x4(&e->TexTransform);
+
+			ObjectConstants objConstants;
+			XMStoreFloat4x4(&objConstants.World, XMMatrixTranspose(world));
+			XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(texTransform));
+
+			currObjectCB->CopyData(e->ObjCBIndex, objConstants);
+
+			// Next FrameResource need to be updated too.
+			e->NumFramesDirty--;
+		}
+	}
+}
+
+void AwesomeEngineApp::UpdateMaterialCBs(const GameTimer& gt)
+{
+	auto currMaterialCB = mCurrFrameResource->MaterialCB.get();
+	for (auto& e : mMaterials)
+	{
+		// Only update the cbuffer data if the constants have changed.  If the cbuffer
+		// data changes, it needs to be updated for each FrameResource.
+		Material* mat = e.second.get();
+		if (mat->NumFramesDirty > 0)
+		{
+			XMMATRIX matTransform = XMLoadFloat4x4(&mat->MatTransform);
+
+			MaterialConstants matConstants;
+			matConstants.DiffuseAlbedo = mat->DiffuseAlbedo;
+			matConstants.FresnelR0 = mat->FresnelR0;
+			matConstants.Roughness = mat->Roughness;
+			XMStoreFloat4x4(&matConstants.MatTransform, XMMatrixTranspose(matTransform));
+
+			currMaterialCB->CopyData(mat->MatCBIndex, matConstants);
+
+			// Next FrameResource need to be updated too.
+			mat->NumFramesDirty--;
+		}
+	}
+}
+
+void AwesomeEngineApp::UpdateMainPassCB(const GameTimer& gt)
+{
+	//XMMATRIX view = XMLoadFloat4x4(&mView);
+	//XMMATRIX proj = XMLoadFloat4x4(&mProj);
+
+	//XMMATRIX viewProj = XMMatrixMultiply(view, proj);
+	//XMMATRIX invView = XMMatrixInverse(&XMMatrixDeterminant(view), view);
+	//XMMATRIX invProj = XMMatrixInverse(&XMMatrixDeterminant(proj), proj);
+	//XMMATRIX invViewProj = XMMatrixInverse(&XMMatrixDeterminant(viewProj), viewProj);
+
+	//XMStoreFloat4x4(&mMainPassCB.View, XMMatrixTranspose(view));
+	//XMStoreFloat4x4(&mMainPassCB.InvView, XMMatrixTranspose(invView));
+	//XMStoreFloat4x4(&mMainPassCB.Proj, XMMatrixTranspose(proj));
+	//XMStoreFloat4x4(&mMainPassCB.InvProj, XMMatrixTranspose(invProj));
+	//XMStoreFloat4x4(&mMainPassCB.ViewProj, XMMatrixTranspose(viewProj));
+	//XMStoreFloat4x4(&mMainPassCB.InvViewProj, XMMatrixTranspose(invViewProj));
+	//mMainPassCB.EyePosW = mEyePos;
+	//mMainPassCB.RenderTargetSize = XMFLOAT2((float)mClientWidth, (float)mClientHeight);
+	//mMainPassCB.InvRenderTargetSize = XMFLOAT2(1.0f / mClientWidth, 1.0f / mClientHeight);
+	//mMainPassCB.NearZ = 1.0f;
+	//mMainPassCB.FarZ = 1000.0f;
+	//mMainPassCB.TotalTime = gt.TotalTime();
+	//mMainPassCB.DeltaTime = gt.DeltaTime();
+	//mMainPassCB.AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
+	//mMainPassCB.Lights[0].Direction = { 0.57735f, -0.57735f, 0.57735f };
+	//mMainPassCB.Lights[0].Strength = { 0.6f, 0.6f, 0.6f };
+	//mMainPassCB.Lights[1].Direction = { -0.57735f, -0.57735f, 0.57735f };
+	//mMainPassCB.Lights[1].Strength = { 0.3f, 0.3f, 0.3f };
+	//mMainPassCB.Lights[2].Direction = { 0.0f, -0.707f, -0.707f };
+	//mMainPassCB.Lights[2].Strength = { 0.15f, 0.15f, 0.15f };
+
+	//auto currPassCB = mCurrFrameResource->PassCB.get();
+	//currPassCB->CopyData(0, mMainPassCB);
+}
