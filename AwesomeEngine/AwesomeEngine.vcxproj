@@ -145,6 +145,7 @@
     <ClCompile Include="AwesomeEngineApp.cpp" />
     <ClCompile Include="Components\BaseComponent.cpp" />
     <ClCompile Include="Components\LuaScriptComponent.cpp" />
+    <ClCompile Include="Components\PhysicsComponent.cpp" />
     <ClCompile Include="Entities\Entity.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -170,6 +171,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="EntitySystems\LuaScriptSystem.cpp" />
+    <ClCompile Include="EntitySystems\PhysicsSystem.cpp" />
     <ClCompile Include="EntitySystems\RenderingSystem.cpp" />
     <ClCompile Include="EntitySystems\SystemManager.cpp" />
     <ClCompile Include="Events\EventManager.cpp" />
@@ -185,6 +187,7 @@
     <ClInclude Include="Components\HealthComponent.h" />
     <ClInclude Include="Components\LuaScriptComponent.h" />
     <ClInclude Include="Components\MeshComponent.h" />
+    <ClInclude Include="Components\PhysicsComponent.h" />
     <ClInclude Include="Components\TransformComponent.h" />
     <ClInclude Include="AwesomeEngineApp.h" />
     <ClInclude Include="Entities\Entity.h">
@@ -212,6 +215,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="EntitySystems\LuaScriptSystem.h" />
+    <ClInclude Include="EntitySystems\PhysicsSystem.h" />
     <ClInclude Include="EntitySystems\RenderingSystem.h" />
     <ClInclude Include="EntitySystems\SystemManager.h" />
     <ClInclude Include="Events\EventManager.h" />

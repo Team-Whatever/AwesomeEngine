@@ -80,6 +80,12 @@
     <ClCompile Include="Mix\World.cpp">
       <Filter>Mix</Filter>
     </ClCompile>
+    <ClCompile Include="EntitySystems\PhysicsSystem.cpp">
+      <Filter>EntitySystems</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\PhysicsComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\TransformComponent.h">
@@ -171,6 +177,12 @@
     </ClInclude>
     <ClInclude Include="Mix\World.h">
       <Filter>Mix</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\PhysicsSystem.h">
+      <Filter>EntitySystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\PhysicsComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
