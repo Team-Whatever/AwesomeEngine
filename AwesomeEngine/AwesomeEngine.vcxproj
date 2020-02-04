@@ -181,6 +181,7 @@
     <ClCompile Include="Mix\Event.cpp" />
     <ClCompile Include="Mix\System.cpp" />
     <ClCompile Include="Mix\World.cpp" />
+    <ClCompile Include="PythonScriptComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\BaseComponent.h" />
@@ -235,6 +236,7 @@
     <ClInclude Include="Mix\Pool.h" />
     <ClInclude Include="Mix\System.h" />
     <ClInclude Include="Mix\World.h" />
+    <ClInclude Include="PythonScriptComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

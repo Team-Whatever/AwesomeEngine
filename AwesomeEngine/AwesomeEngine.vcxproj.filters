@@ -86,6 +86,9 @@
     <ClCompile Include="Components\PhysicsComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="PythonScriptComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\TransformComponent.h">
@@ -182,6 +185,9 @@
       <Filter>EntitySystems</Filter>
     </ClInclude>
     <ClInclude Include="Components\PhysicsComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PythonScriptComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

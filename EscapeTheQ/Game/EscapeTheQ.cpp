@@ -4,6 +4,7 @@
 #include "EntitySystems/LuaScriptSystem.h"
 #include "Input/InputEventSystem.h"
 #include "Mix/Entity.h"
+#include "PythonScriptComponent.h"
 
 using namespace AwesomeEngine;
 EscapeTheQ::EscapeTheQ(HINSTANCE hInstance)
@@ -27,6 +28,9 @@ bool EscapeTheQ::Init(unsigned long diskRequiredInMB, unsigned long memoryRequir
 		auto entity = mWorld.createEntity();
 		entity.addComponent(LuaScriptComponent("Scripts/TestScript.lua"));
 	}
+
+	//PythonScriptComponent("")
+
 	return isInit;
 }
 
