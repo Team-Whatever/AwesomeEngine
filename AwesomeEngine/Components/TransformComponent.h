@@ -8,14 +8,16 @@ namespace AwesomeEngine
 	struct TransformComponent : BaseComponent
 	{
 
-		TransformComponent(FXMVECTOR _pos, FXMVECTOR _scale, FXMVECTOR _angle)
+		TransformComponent(DirectX::XMVECTOR _pos = DirectX::XMVectorSet( 0, 0, 0, 0), 
+			DirectX::XMVECTOR _scale = DirectX::XMVectorSet(1, 1, 1, 1),
+			DirectX::XMVECTOR _angle = DirectX::XMVectorSet(0, 0, 0, 0))
 			: position( _pos ), scale( _scale ), eulerAngle( _angle )
 		{
 		}
 
 
-		FXMVECTOR position;
-		FXMVECTOR scale;
-		FXMVECTOR eulerAngle;
+		DirectX::XMVECTOR position;
+		DirectX::XMVECTOR scale;
+		DirectX::XMVECTOR eulerAngle;
 	};
 }

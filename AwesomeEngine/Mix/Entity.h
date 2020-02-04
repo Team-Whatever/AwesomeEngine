@@ -27,7 +27,11 @@ public:
     /*
         Id = index + version (kinda).
     */
-    Entity(Id index = 0, Version version = 0) { id = (version << IndexBits) | index; }
+    Entity(Id index = 0, Version version = 0) 
+	{ 
+		id = (version << IndexBits) | index; 
+		parent = nullptr;
+	}
 
     Entity(const Entity&) = default;
     Entity& operator=(const Entity&) = default;
@@ -85,6 +89,17 @@ public:
     */
     std::string toString() const;
 
+	/*
+		Entity Relationship
+	*/
+	void SetParent(Entity* newParent);
+	inline Mix::Entity* GetParent() const { return parent; };
+	void AddChild(Entity* newChild);
+	void RemoveChild(Entity* newChild);
+
+	inline std::vector<Mix::Entity*> GetChildren() { return children; }
+	void RemoveAllChildren();
+
 private:
     EntityManager& getEntityManager() const;
 
@@ -98,6 +113,10 @@ private:
 
     EntityManager *entityManager = nullptr;
     friend class EntityManager;
+
+	Mix::Entity* parent;
+	std::vector<Mix::Entity*> children;
+
 };
 
 class EntityManager

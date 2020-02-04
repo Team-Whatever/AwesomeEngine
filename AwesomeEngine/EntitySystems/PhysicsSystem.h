@@ -2,6 +2,7 @@
 
 #include "Mix/System.h"
 #include "Components/PhysicsComponent.h"
+#include "Components/TransformComponent.h"
 
 namespace AwesomeEngine
 {
@@ -12,6 +13,7 @@ namespace AwesomeEngine
 		~PhysicsSystem();
 
 		virtual void Update(float delta);
+		void UpdateEntity(Mix::Entity& entity, TransformComponent parentTransform, float delta);
 	};
 
 }

@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "World.h"
 #include <cassert>
+#include <algorithm>
 
 namespace Mix
 {
@@ -46,6 +47,36 @@ EntityManager& Entity::getEntityManager() const
     assert(entityManager != nullptr);
     return *entityManager;
 }
+
+void Entity::SetParent(Entity* newParent)
+{
+	parent = newParent;
+}
+
+void Entity::AddChild(Entity* newChild)
+{
+	newChild->SetParent(this);
+	children.push_back(newChild);
+}
+
+void Entity::RemoveChild(Entity* child)
+{
+	children.erase( std::remove(children.begin(), children.end(), child), children.end() );
+	child->SetParent(nullptr);
+}
+
+void Entity::RemoveAllChildren()
+{
+	for (auto it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->SetParent(nullptr);
+	}
+	children.clear();
+}
+
+///////////////////////////////////////////////////////////////////////////
+// Entity Manager
+///////////////////////////////////////////////////////////////////////////
 
 Entity EntityManager::createEntity()
 {
