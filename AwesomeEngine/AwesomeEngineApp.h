@@ -4,6 +4,7 @@
 #define _CRT_NON_CONFORMING_SWPRINTFS
 #include <Windows.h>
 #include <string>
+
 #include "Events/IEventData.h"
 
 namespace Gdiplus
@@ -50,8 +51,7 @@ protected:
 	DWORD m_WndStyle;
 	Gdiplus::Image* m_LogoImage;
 
+
 protected:
 	bool InitWindow();
-
-
 };
