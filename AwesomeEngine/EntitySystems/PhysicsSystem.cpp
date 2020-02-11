@@ -22,7 +22,7 @@ namespace AwesomeEngine
 			if (e.GetParent() == nullptr)
 			{
 				TransformComponent transform;
-				//UpdateEntity(e, transform, delta);
+				UpdateEntity(e, transform, delta);
 			}
 		}
 	}

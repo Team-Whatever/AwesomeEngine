@@ -147,6 +147,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AwesomeEngineApp.cpp" />
+    <ClCompile Include="Components\AudioComponent.cpp" />
+    <ClCompile Include="Components\AudioSystem.cpp" />
     <ClCompile Include="Components\BaseComponent.cpp" />
     <ClCompile Include="Components\LuaScriptComponent.cpp" />
     <ClCompile Include="Components\PhysicsComponent.cpp" />
@@ -185,8 +187,11 @@
     <ClCompile Include="Mix\Event.cpp" />
     <ClCompile Include="Mix\System.cpp" />
     <ClCompile Include="Mix\World.cpp" />
+    <ClCompile Include="PythonScriptComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\AudioComponent.h" />
+    <ClInclude Include="Components\AudioSystem.h" />
     <ClInclude Include="Components\BaseComponent.h" />
     <ClInclude Include="Components\HealthComponent.h" />
     <ClInclude Include="Components\LuaScriptComponent.h" />
@@ -239,8 +244,22 @@
     <ClInclude Include="Mix\Pool.h" />
     <ClInclude Include="Mix\System.h" />
     <ClInclude Include="Mix\World.h" />
+    <ClInclude Include="PythonScriptComponent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Assets\Explo1.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\directxtk_desktop_2015.2019.12.17.1\build\native\directxtk_desktop_2015.targets" Condition="Exists('..\packages\directxtk_desktop_2015.2019.12.17.1\build\native\directxtk_desktop_2015.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\directxtk_desktop_2015.2019.12.17.1\build\native\directxtk_desktop_2015.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\directxtk_desktop_2015.2019.12.17.1\build\native\directxtk_desktop_2015.targets'))" />
+  </Target>
 </Project>
