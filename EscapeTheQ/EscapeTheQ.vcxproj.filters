@@ -27,6 +27,9 @@
     <Filter Include="Scripts">
       <UniqueIdentifier>{234b95d8-18c9-4614-9d41-7d60526bc67e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{de3b7a7a-a221-4ece-a3d6-cc0c541d82b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\AbilitiesInterface.h">
@@ -50,17 +53,14 @@
     <ClInclude Include="Game\GameWorld.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Game\EscapeTheQ.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameApp.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Components\SpecialAbilityComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -79,10 +79,13 @@
     <ClCompile Include="Game\GameWorld.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="GameMain.cpp">
+    <ClCompile Include="Game\EscapeTheQ.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\EscapeTheQ.cpp">
+    <ClCompile Include="Game\GameApp.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -90,5 +93,25 @@
     <None Include="Scripts\TestScript.lua">
       <Filter>Scripts</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\HDR_PS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\HDR_VS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\HDRtoSDR_PS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\HDRtoSDR_VS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Skybox_PS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Skybox_VS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

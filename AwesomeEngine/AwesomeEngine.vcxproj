@@ -103,6 +103,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -114,6 +115,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link />
   </ItemDefinitionGroup>
@@ -125,6 +127,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -139,6 +142,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -188,6 +192,9 @@
     <ClCompile Include="Mix\System.cpp" />
     <ClCompile Include="Mix\World.cpp" />
     <ClCompile Include="PythonScriptComponent.cpp" />
+    <ClCompile Include="Render\Camera.cpp" />
+    <ClCompile Include="Render\Light.cpp" />
+    <ClCompile Include="Render\Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\AudioComponent.h" />
@@ -245,6 +252,9 @@
     <ClInclude Include="Mix\System.h" />
     <ClInclude Include="Mix\World.h" />
     <ClInclude Include="PythonScriptComponent.h" />
+    <ClInclude Include="Render\Camera.h" />
+    <ClInclude Include="Render\Light.h" />
+    <ClInclude Include="Render\Material.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
