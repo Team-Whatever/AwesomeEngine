@@ -1,14 +1,17 @@
 #pragma once
 
-#include "EntitySystem.h"
+#include "Mix/System.h"
+#include "Components/RenderComponent.h"
 
 namespace AwesomeEngine
 {
-	class RenderingSystem : EntitySystem
+	class RenderingSystem : public Mix::System
 	{
 	public:
 		RenderingSystem();
 		~RenderingSystem();
+
+		virtual void Update(float delta);
 	};
 
 }

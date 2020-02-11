@@ -19,6 +19,12 @@ using namespace Microsoft::WRL;
 
 using namespace DirectX;
 
+#include "EntitySystems/PhysicsSystem.h"
+#include "EntitySystems/LuaScriptSystem.h"
+#include "EntitySystems/RenderingSystem.h"
+using namespace AwesomeEngine;
+
+
 #include <algorithm> // For std::min and std::max.
 #if defined(min)
 #undef min
@@ -169,6 +175,18 @@ GameApp::GameApp(const std::wstring& name, int width, int height, bool vSync)
 GameApp::~GameApp()
 {
     _aligned_free(m_pAlignedCameraData);
+}
+
+bool GameApp::Initialize()
+{
+	bool init = Game::Initialize();
+	if (init)
+	{
+		mWorld.getSystemManager().addSystem<PhysicsSystem>();
+		mWorld.getSystemManager().addSystem<LuaScriptSystem>();
+		mWorld.getSystemManager().addSystem<RenderingSystem>();
+	}
+	return init;
 }
 
 bool GameApp::LoadContent()
@@ -548,6 +566,11 @@ void GameApp::OnUpdate(UpdateEventArgs& e)
         l.SpotAngle = XMConvertToRadians(45.0f);
         l.Attenuation = 0.0f;
     }
+
+	mWorld.update();
+	// TODO : polish entity component system
+	mWorld.getSystemManager().getSystem<PhysicsSystem>().Update(e.ElapsedTime);
+	mWorld.getSystemManager().getSystem<LuaScriptSystem>().Update(e.ElapsedTime);
 }
 
 // Helper to display a little (?) mark which shows a tooltip when hovered.
@@ -772,6 +795,10 @@ void GameApp::OnRender(RenderEventArgs& e)
 {
     super::OnRender(e);
 
+	// TODO : move below into the rendering system
+	mWorld.getSystemManager().getSystem<LuaScriptSystem>().Update(e.ElapsedTime);
+
+
     auto commandQueue = Application::Get().GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
     auto commandList = commandQueue->GetCommandList();
 
@@ -823,6 +850,7 @@ void GameApp::OnRender(RenderEventArgs& e)
     commandList->SetGraphics32BitConstants(RootParameters::LightPropertiesCB, lightProps);
     commandList->SetGraphicsDynamicStructuredBuffer(RootParameters::PointLights, m_PointLights);
     commandList->SetGraphicsDynamicStructuredBuffer(RootParameters::SpotLights, m_SpotLights);
+
 
     // Draw the earth sphere
     XMMATRIX translationMatrix = XMMatrixTranslation(-4.0f, 2.0f, -4.0f);

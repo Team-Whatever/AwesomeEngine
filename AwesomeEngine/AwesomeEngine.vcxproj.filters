@@ -107,6 +107,9 @@
     <ClCompile Include="Render\Material.cpp">
       <Filter>Render</Filter>
     </ClCompile>
+    <ClCompile Include="Components\RenderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\TransformComponent.h">
@@ -222,6 +225,9 @@
     </ClInclude>
     <ClInclude Include="Render\Material.h">
       <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\RenderComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -45,6 +45,8 @@
 
 #include <DirectXMath.h>
 
+#include "Mix/World.h"
+
 class GameApp : public Game
 {
 public:
@@ -52,6 +54,8 @@ public:
 
     GameApp(const std::wstring& name, int width, int height, bool vSync = false);
     virtual ~GameApp();
+
+	virtual bool Initialize() override;
 
     /**
      *  Load content required for the demo.
@@ -168,4 +172,7 @@ private:
     // Define some lights.
     std::vector<PointLight> m_PointLights;
     std::vector<SpotLight> m_SpotLights;
+
+	// Game Entity World
+	Mix::World mWorld;
 };
