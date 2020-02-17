@@ -1,4 +1,4 @@
-#include "GameApp.h"
+#include "DirectXApp.h"
 
 #include <Application.h>
 #include <CommandQueue.h>
@@ -140,7 +140,7 @@ XMMATRIX XM_CALLCONV LookAtMatrix(FXMVECTOR Position, FXMVECTOR Direction, FXMVE
     return M;
 }
 
-GameApp::GameApp(const std::wstring& name, int width, int height, bool vSync)
+DirectXApp::DirectXApp(const std::wstring& name, int width, int height, bool vSync)
     : super(name, width, height, vSync)
     , m_ScissorRect(CD3DX12_RECT(0, 0, LONG_MAX, LONG_MAX))
     , m_Forward(0)
@@ -172,12 +172,12 @@ GameApp::GameApp(const std::wstring& name, int width, int height, bool vSync)
     m_pAlignedCameraData->m_InitialFov = m_Camera.get_FoV();
 }
 
-GameApp::~GameApp()
+DirectXApp::~DirectXApp()
 {
     _aligned_free(m_pAlignedCameraData);
 }
 
-bool GameApp::Initialize()
+bool DirectXApp::Initialize()
 {
 	bool init = Game::Initialize();
 	if (init)
@@ -189,7 +189,7 @@ bool GameApp::Initialize()
 	return init;
 }
 
-bool GameApp::LoadContent()
+bool DirectXApp::LoadContent()
 {
     auto device = Application::Get().GetDevice();
     auto commandQueue = Application::Get().GetCommandQueue(D3D12_COMMAND_LIST_TYPE_COPY);
@@ -433,7 +433,7 @@ bool GameApp::LoadContent()
     return true;
 }
 
-void GameApp::RescaleHDRRenderTarget(float scale)
+void DirectXApp::RescaleHDRRenderTarget(float scale)
 {
     uint32_t width = static_cast<uint32_t>(m_Width * scale);
     uint32_t height = static_cast<uint32_t>(m_Height * scale);
@@ -444,7 +444,7 @@ void GameApp::RescaleHDRRenderTarget(float scale)
     m_HDRRenderTarget.Resize(width, height);
 }
 
-void GameApp::OnResize(ResizeEventArgs& e)
+void DirectXApp::OnResize(ResizeEventArgs& e)
 {
     super::OnResize(e);
 
@@ -461,13 +461,13 @@ void GameApp::OnResize(ResizeEventArgs& e)
     }
 }
 
-void GameApp::UnloadContent()
+void DirectXApp::UnloadContent()
 {
 }
 
 static double g_FPS = 0.0;
 
-void GameApp::OnUpdate(UpdateEventArgs& e)
+void DirectXApp::OnUpdate(UpdateEventArgs& e)
 {
     static uint64_t frameCount = 0;
     static double totalTime = 0.0;
@@ -638,7 +638,7 @@ float ACESFilmicTonemappingPlot(void*, int index)
         ACESFilmicTonemapping(g_TonemapParameters.LinearWhite, g_TonemapParameters.A, g_TonemapParameters.B, g_TonemapParameters.C, g_TonemapParameters.D, g_TonemapParameters.E, g_TonemapParameters.F);
 }
 
-void GameApp::OnGUI()
+void DirectXApp::OnGUI()
 {
     static bool showDemoWindow = false;
     static bool showOptions = true;
@@ -791,7 +791,7 @@ void XM_CALLCONV ComputeMatrices(FXMMATRIX model, CXMMATRIX view, CXMMATRIX view
     mat.ModelViewProjectionMatrix = model * viewProjection;
 }
 
-void GameApp::OnRender(RenderEventArgs& e)
+void DirectXApp::OnRender(RenderEventArgs& e)
 {
     super::OnRender(e);
 
@@ -1029,7 +1029,7 @@ void GameApp::OnRender(RenderEventArgs& e)
 
 static bool g_AllowFullscreenToggle = true;
 
-void GameApp::OnKeyPressed(KeyEventArgs& e)
+void DirectXApp::OnKeyPressed(KeyEventArgs& e)
 {
     super::OnKeyPressed(e);
 
@@ -1094,7 +1094,7 @@ void GameApp::OnKeyPressed(KeyEventArgs& e)
     }
 }
 
-void GameApp::OnKeyReleased(KeyEventArgs& e)
+void DirectXApp::OnKeyReleased(KeyEventArgs& e)
 {
     super::OnKeyReleased(e);
 
@@ -1138,7 +1138,7 @@ void GameApp::OnKeyReleased(KeyEventArgs& e)
     }
 }
 
-void GameApp::OnMouseMoved(MouseMotionEventArgs& e)
+void DirectXApp::OnMouseMoved(MouseMotionEventArgs& e)
 {
     super::OnMouseMoved(e);
 
@@ -1157,7 +1157,7 @@ void GameApp::OnMouseMoved(MouseMotionEventArgs& e)
 }
 
 
-void GameApp::OnMouseWheel(MouseWheelEventArgs& e)
+void DirectXApp::OnMouseWheel(MouseWheelEventArgs& e)
 {
     if (!ImGui::GetIO().WantCaptureMouse)
     {

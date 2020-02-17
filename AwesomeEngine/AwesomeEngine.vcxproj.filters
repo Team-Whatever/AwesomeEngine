@@ -110,6 +110,9 @@
     <ClCompile Include="Components\RenderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXApp.cpp">
+      <Filter>EngineApp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\TransformComponent.h">
@@ -228,6 +231,9 @@
     </ClInclude>
     <ClInclude Include="Components\RenderComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXApp.h">
+      <Filter>EngineApp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

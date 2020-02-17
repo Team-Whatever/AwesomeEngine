@@ -26,7 +26,7 @@
 #include <Application.h>
 #include <dxgidebug.h>
 
-#include "Game/GameApp.h"
+#include "DirectXApp.h"
 
 void ReportLiveObjects()
 {
@@ -61,7 +61,7 @@ int CALLBACK wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdL
 
 	Application::Create(hInstance);
 	{
-		std::shared_ptr<GameApp> demo = std::make_shared<GameApp>(L"Escape The Q", 1280, 720, true);
+		std::shared_ptr<DirectXApp> demo = std::make_shared<DirectXApp>(L"Escape The Q", 1280, 720, true);
 		retCode = Application::Get().Run(demo);
 	}
 	Application::Destroy();

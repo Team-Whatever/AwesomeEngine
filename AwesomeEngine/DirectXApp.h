@@ -47,13 +47,13 @@
 
 #include "Mix/World.h"
 
-class GameApp : public Game
+class DirectXApp : public Game
 {
 public:
     using super = Game;
 
-    GameApp(const std::wstring& name, int width, int height, bool vSync = false);
-    virtual ~GameApp();
+	DirectXApp(const std::wstring& name, int width, int height, bool vSync = false);
+    virtual ~DirectXApp();
 
 	virtual bool Initialize() override;
 

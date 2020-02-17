@@ -174,13 +174,13 @@ bool CheckMemory(const DWORDLONG physicalRAMNeededInMB, const DWORDLONG virtualR
 
 }
 
-LPWSTR GetRegistry(LPCWSTR StringName)
+LPSTR GetRegistry(LPCSTR StringName)
 {
 	DWORD dwType = REG_SZ;
 	HKEY hKey = 0;
-	TCHAR value[1024];
+	char value[1024];
 	DWORD value_length = 1024;
-	LPCWSTR subkey = L"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0";
+	LPCSTR subkey = _T("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0");
 	RegOpenKey(HKEY_LOCAL_MACHINE, subkey, &hKey);
 	RegQueryValueEx(hKey, StringName, NULL, &dwType, (LPBYTE)&value, &value_length);
 	std::wcout << "CPU Type : " << value << std::endl;
@@ -194,8 +194,7 @@ DWORD AwesomeEngineApp::ReadCPUSpeed()
 	//open key where proc speed is hidden
 	std::string myString = "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0";
 
-	std::wstring stemp = s2ws(myString);
-	LPCWSTR result = stemp.c_str();
+	LPCSTR result = myString.c_str();
 
 	long lError = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
 		result,
@@ -206,14 +205,14 @@ DWORD AwesomeEngineApp::ReadCPUSpeed()
 	if (lError == ERROR_SUCCESS)
 	{
 		DWORD dwLen = 4;
-		if (RegQueryValueEx(hKey, L"~MHz", NULL, NULL, (LPBYTE)&dwMHz, &dwLen) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, _T("~MHz"), NULL, NULL, (LPBYTE)&dwMHz, &dwLen) != ERROR_SUCCESS)
 		{
 			return 0;
 		}
 		RegCloseKey(hKey);
 	}
 
-	GetRegistry(L"ProcessorNameString");
+	GetRegistry(_T("ProcessorNameString"));
 	
 	return dwMHz;
 }
@@ -241,9 +240,9 @@ void DiminishLogo()
 
 bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz)
 {
-	if (!IsOnlyInstance(L"test"))
+	if (!IsOnlyInstance(_T("test")))
 	{
-		MessageBox(NULL, L"the game has multiple instances", L"ERROR", 0);
+		MessageBox(NULL, _T("the game has multiple instances"), _T("ERROR"), 0);
 		return false;
 	}
 
@@ -285,7 +284,7 @@ bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memory
 	GetSystemInfo(&stInfo);
 	//displayProcessorArchitecture(stInfo);
 
-	g_LogoImage = Gdiplus::Image::FromFile(_T(".\\Assets\\loadingImage.jpg"));
+	g_LogoImage = Gdiplus::Image::FromFile(s2ws(".\\Assets\\loadingImage.jpg").c_str());
 
 	return true;
 }
@@ -370,7 +369,7 @@ bool AwesomeEngineApp::InitWindow()
 //When Windows was converted to 32 - bit, the WPARAM parameter grew to a 32 - bit value as well.So even though the ?œW??stands for ?œword?? it isn?™t a word any more. (And in 64 - bit Windows, both parameters are 64 - bit values!)
 
 //typedef LONG_PTR LRESULT
-static TCHAR eventType[100] = _T("");
+static char eventType[100] = _T("");
 LRESULT AwesomeEngineApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int xPos = GET_X_LPARAM(lParam);
@@ -507,25 +506,25 @@ bool AwesomeEngineApp::CheckStorage(const DWORDLONG diskSpaceNeededInMB)
 void AwesomeEngineApp::EventMouseMoved(EventParam param)
 {
 	//std::cout << "Mouse moved x = " << param.param1 << " " << param.param2 << std::endl;
-	swprintf(&eventType[0], _T("Mouse x : %d, y : %d             "), param.param1, param.param2);
+	sprintf(&eventType[0], _T("Mouse x : %d, y : %d             "), param.param1, param.param2);
 }
 
 void AwesomeEngineApp::EventMouseClicked(const EventParam param)
 {
 	//std::cout << "Mouse clicked x = " << param.param1 << " " << param.param2 << std::endl;
 	if( param.param1 == 0 )
-		swprintf(&eventType[0], _T("Left Button pressed           "));
+		sprintf(&eventType[0], _T("Left Button pressed           "));
 	else if (param.param1 == 1)
-		swprintf(&eventType[0], _T("Right Button pressed          "));
+		sprintf(&eventType[0], _T("Right Button pressed          "));
 }
 
 void AwesomeEngineApp::EventKeyPressed(const EventParam param)
 {
 	//std::cout << "Mouse clicked x = " << param.param1 << " " << param.param2 << std::endl;
 	if (param.param1 == 0)
-		swprintf(&eventType[0], _T("%c key down                   "), (char)param.param2);
+		sprintf(&eventType[0], _T("%c key down                   "), (char)param.param2);
 	else if (param.param1 == 1)
-		swprintf(&eventType[0], _T("%c key up                     "), (char)param.param2);
+		sprintf(&eventType[0], _T("%c key up                     "), (char)param.param2);
 }
 
 

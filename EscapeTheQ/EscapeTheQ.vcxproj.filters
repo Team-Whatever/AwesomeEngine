@@ -56,9 +56,6 @@
     <ClInclude Include="Game\EscapeTheQ.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameApp.h">
-      <Filter>Game</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\SpecialAbilityComponent.cpp">
@@ -84,9 +81,6 @@
     </ClCompile>
     <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameApp.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

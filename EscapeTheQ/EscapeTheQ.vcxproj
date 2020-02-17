@@ -182,7 +182,6 @@
     <ClInclude Include="Components\SpecialAbilityComponent.h" />
     <ClInclude Include="Game\EscapeTheQ.h" />
     <ClInclude Include="Game\GameWorld.h" />
-    <ClInclude Include="Game\GameApp.h" />
     <ClInclude Include="Managers\GameplayManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +189,6 @@
     <ClCompile Include="Characters\Enemy.cpp" />
     <ClCompile Include="Characters\PlayerCharacter.cpp" />
     <ClCompile Include="Components\SpecialAbilityComponent.cpp" />
-    <ClCompile Include="Game\GameApp.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="Game\EscapeTheQ.cpp" />
     <ClCompile Include="Game\GameWorld.cpp" />

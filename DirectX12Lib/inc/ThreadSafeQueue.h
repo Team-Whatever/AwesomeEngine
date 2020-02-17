@@ -38,7 +38,7 @@ class ThreadSafeQueue
 {
 public:
     ThreadSafeQueue();
-    ThreadSafeQueue(const ThreadSafeQueue& copy);
+    ThreadSafeQueue(const ThreadSafeQueue& other);
 
     /**
      * Push a value into the back of the queue.
@@ -71,9 +71,9 @@ ThreadSafeQueue<T>::ThreadSafeQueue()
 {}
 
 template<typename T>
-ThreadSafeQueue<T>::ThreadSafeQueue(const ThreadSafeQueue<T>& copy)
+ThreadSafeQueue<T>::ThreadSafeQueue(const ThreadSafeQueue<T>& other)
 {
-    std::lock_guard<std::mutex> lock(copy.m_Mutex);
+    std::lock_guard<std::mutex> lock(other.m_Mutex);
     m_Queue = other.m_Queue;
 }
 
