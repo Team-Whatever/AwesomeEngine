@@ -188,6 +188,7 @@
     <ClCompile Include="EntitySystems\SystemManager.cpp" />
     <ClCompile Include="Events\EventManager.cpp" />
     <ClCompile Include="Events\IEventManage.h" />
+    <ClCompile Include="Input\InputManager.cpp" />
     <ClCompile Include="Mix\Component.cpp" />
     <ClCompile Include="Mix\Entity.cpp" />
     <ClCompile Include="Mix\Event.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="Input\IJoystickHandler.h" />
     <ClInclude Include="Input\IKeyboardHandler.h" />
     <ClInclude Include="Input\InputEventSystem.h" />
+    <ClInclude Include="Input\InputManager.h" />
     <ClInclude Include="Input\IPointerHandler.h" />
     <ClInclude Include="Mix\Component.h" />
     <ClInclude Include="Mix\Config.h" />

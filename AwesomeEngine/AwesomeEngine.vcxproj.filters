@@ -113,6 +113,9 @@
     <ClCompile Include="DirectXApp.cpp">
       <Filter>EngineApp</Filter>
     </ClCompile>
+    <ClCompile Include="Input\InputManager.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\TransformComponent.h">
@@ -234,6 +237,9 @@
     </ClInclude>
     <ClInclude Include="DirectXApp.h">
       <Filter>EngineApp</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\InputManager.h">
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

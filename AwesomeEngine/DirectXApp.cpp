@@ -16,7 +16,10 @@ using namespace Microsoft::WRL;
 #include <DirectXColors.h>
 #include <DirectXMath.h>
 
+#include <Input/InputManager.h>
+
 using namespace DirectX;
+using namespace AwesomeEngine;
 
 #include <algorithm> // For std::min and std::max.
 #if defined(min)
@@ -476,15 +479,8 @@ void DirectXApp::OnUpdate(UpdateEventArgs& e)
 	}
 
 	// Update the camera.
-	float speedMultipler = (m_Shift ? 16.0f : 4.0f);
+	UpdateCamera(e.ElapsedTime);
 
-	XMVECTOR cameraTranslate = XMVectorSet(m_Right - m_Left, 0.0f, m_Forward - m_Backward, 1.0f) * speedMultipler * static_cast<float>(e.ElapsedTime);
-	XMVECTOR cameraPan = XMVectorSet(0.0f, m_Up - m_Down, 0.0f, 1.0f) * speedMultipler * static_cast<float>(e.ElapsedTime);
-	m_Camera.Translate(cameraTranslate, Space::Local);
-	m_Camera.Translate(cameraPan, Space::Local);
-
-	XMVECTOR cameraRotation = XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_Pitch), XMConvertToRadians(m_Yaw), 0.0f);
-	m_Camera.set_Rotation(cameraRotation);
 
 	XMMATRIX viewMatrix = m_Camera.get_ViewMatrix();
 
@@ -552,6 +548,34 @@ void DirectXApp::OnUpdate(UpdateEventArgs& e)
 		l.SpotAngle = XMConvertToRadians(45.0f);
 		l.Attenuation = 0.0f;
 	}
+}
+
+void DirectXApp::UpdateCamera(float delta)
+{
+	float speedMultipler = (m_Shift ? 16.0f : 4.0f);
+
+
+	// TODO : not to use key code directly,
+	// need to create key mapper with action name.
+	bool isForward = (InputManager::GetInstance().IsKeyPressed(KeyCode::Key::W) || InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Up));
+	m_Forward = isForward ? 1.0f : 0.0f;
+	bool isBackward = (InputManager::GetInstance().IsKeyPressed(KeyCode::Key::S) || InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Down));
+	m_Backward = isBackward ? 1.0f : 0.0f;
+	bool isLeft = (InputManager::GetInstance().IsKeyPressed(KeyCode::Key::A) || InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Left));
+	m_Left = isLeft ? 1.0f : 0.0f;
+	bool isRight = (InputManager::GetInstance().IsKeyPressed(KeyCode::Key::D) || InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Right));
+	m_Right = isRight ? 1.0f : 0.0f;
+	
+	m_Up = InputManager::GetInstance().IsKeyPressed(KeyCode::Key::E) ? 1.0f : 0.0f;
+	m_Down = InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Q) ? 1.0f : 0.0f;
+
+	XMVECTOR cameraTranslate = XMVectorSet(m_Right - m_Left, 0.0f, m_Forward - m_Backward, 1.0f) * speedMultipler * static_cast<float>(delta);
+	XMVECTOR cameraPan = XMVectorSet(0.0f, m_Up - m_Down, 0.0f, 1.0f) * speedMultipler * static_cast<float>(delta);
+	m_Camera.Translate(cameraTranslate, Space::Local);
+	m_Camera.Translate(cameraPan, Space::Local);
+
+	XMVECTOR cameraRotation = XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_Pitch), XMConvertToRadians(m_Yaw), 0.0f);
+	m_Camera.set_Rotation(cameraRotation);
 }
 
 // Helper to display a little (?) mark which shows a tooltip when hovered.
@@ -1011,6 +1035,8 @@ void DirectXApp::OnKeyPressed(KeyEventArgs& e)
 
 	if (!ImGui::GetIO().WantCaptureKeyboard)
 	{
+		InputManager::GetInstance().OnKeyDown(e.Key);
+		
 		switch (e.Key)
 		{
 		case KeyCode::Escape:
@@ -1040,25 +1066,25 @@ void DirectXApp::OnKeyPressed(KeyEventArgs& e)
 			break;
 		case KeyCode::Up:
 		case KeyCode::W:
-			m_Forward = 1.0f;
+			//m_Forward = 1.0f;
 			break;
 		case KeyCode::Left:
 		case KeyCode::A:
-			m_Left = 1.0f;
+			//m_Left = 1.0f;
 			break;
 		case KeyCode::Down:
 		case KeyCode::S:
-			m_Backward = 1.0f;
+			//m_Backward = 1.0f;
 			break;
 		case KeyCode::Right:
 		case KeyCode::D:
-			m_Right = 1.0f;
+			//m_Right = 1.0f;
 			break;
 		case KeyCode::Q:
-			m_Down = 1.0f;
+			//m_Down = 1.0f;
 			break;
 		case KeyCode::E:
-			m_Up = 1.0f;
+			//m_Up = 1.0f;
 			break;
 		case KeyCode::Space:
 			m_AnimateLights = !m_AnimateLights;
@@ -1076,6 +1102,7 @@ void DirectXApp::OnKeyReleased(KeyEventArgs& e)
 
 	if (!ImGui::GetIO().WantCaptureKeyboard)
 	{
+		InputManager::GetInstance().OnKeyUp(e.Key);
 		switch (e.Key)
 		{
 		case KeyCode::Enter:
@@ -1087,25 +1114,25 @@ void DirectXApp::OnKeyReleased(KeyEventArgs& e)
 			break;
 		case KeyCode::Up:
 		case KeyCode::W:
-			m_Forward = 0.0f;
+			//m_Forward = 0.0f;
 			break;
 		case KeyCode::Left:
 		case KeyCode::A:
-			m_Left = 0.0f;
+			//m_Left = 0.0f;
 			break;
 		case KeyCode::Down:
 		case KeyCode::S:
-			m_Backward = 0.0f;
+			//m_Backward = 0.0f;
 			break;
 		case KeyCode::Right:
 		case KeyCode::D:
-			m_Right = 0.0f;
+			//m_Right = 0.0f;
 			break;
 		case KeyCode::Q:
-			m_Down = 0.0f;
+			//m_Down = 0.0f;
 			break;
 		case KeyCode::E:
-			m_Up = 0.0f;
+			//m_Up = 0.0f;
 			break;
 		case KeyCode::ShiftKey:
 			m_Shift = false;

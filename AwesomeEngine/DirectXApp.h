@@ -101,6 +101,9 @@ protected:
 	void OnGUI();
 
 private:
+	void UpdateCamera(float delta);
+
+private:
 	// Some geometry to render.
 	std::unique_ptr<Mesh> m_CubeMesh;
 	std::unique_ptr<Mesh> m_SphereMesh;
