@@ -3,10 +3,10 @@
 
 namespace AwesomeEngine
 {
-	//AudioComponent::AudioComponent(AudioSystem *givenAudSystem)
-	//{
-	//	audSystem = givenAudSystem;		
-	//}
+	AudioComponent::AudioComponent(AudioSystem *givenAudSystem)
+	{
+		audSystem = givenAudSystem; 
+	}
 
 	AudioComponent::AudioComponent(std::wstring audioFilePath)
 		: m_EffectFilePath( audioFilePath )
@@ -27,8 +27,8 @@ namespace AwesomeEngine
 	{
 		//TODO: Make the filepath actually work
 		//Must be a .wav file
-		//m_SoundEffectFile = std::make_unique<DirectX::SoundEffect>(audSystem->m_audEngine.get(), filepath.c_str());
-		//m_SoundEffect = m_SoundEffectFile->CreateInstance();
+		m_SoundEffectFile = std::make_unique<DirectX::SoundEffect>(audSystem->m_audEngine.get(), filepath.c_str()); 
+		m_SoundEffect = m_SoundEffectFile->CreateInstance(); 
 	}
 
 	void AudioComponent::Play(bool isLooping)

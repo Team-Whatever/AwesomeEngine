@@ -1,5 +1,6 @@
 #pragma once
-#include <Audio.h>
+
+#include "../../packages/directxtk12_desktop_2015.2019.12.17.1/include/Audio.h"
 #include "Mix/System.h"
 
 namespace AwesomeEngine
@@ -7,8 +8,8 @@ namespace AwesomeEngine
 	class AudioSystem : public Mix::System
 	{
 	public:
-		AudioSystem();
-		void SuspendAudio();
+		AudioSystem(); 
+		void SuspendAudio(); 
 		void ResumeAudio();
 
 		virtual void Update(float delta);
