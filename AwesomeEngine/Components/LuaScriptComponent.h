@@ -10,7 +10,6 @@ namespace AwesomeEngine
 		LuaScriptComponent( std::string filename = "" );
 		~LuaScriptComponent();
 
-		void InitializeLuaScript();
 		void Update(float delta);
 
 	private:

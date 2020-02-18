@@ -1,10 +1,12 @@
 #include "EscapeTheQ.h"
-#include "Components/LuaScriptComponent.h"
+
 #include "EntitySystems/PhysicsSystem.h"
 #include "EntitySystems/LuaScriptSystem.h"
 #include "EntitySystems/RenderingSystem.h"
 #include "Input/InputEventSystem.h"
 #include "Mix/Entity.h"
+
+#include "Components/LuaScriptComponent.h"
 #include "PythonScriptComponent.h"
 #include <string>
 
@@ -27,19 +29,23 @@ bool EscapeTheQ::Initialize()
 		mWorld.getSystemManager().addSystem<PhysicsSystem>();
 		mWorld.getSystemManager().addSystem<LuaScriptSystem>();
 		mWorld.getSystemManager().addSystem<RenderingSystem>();
+
+		auto entity = mWorld.createEntity();
+		entity.addComponent(LuaScriptComponent("EscapeTheQ\\Scripts\\TestScript.lua"));
 	}
 
 	return isInit;
 }
 
-void EscapeTheQ::Update(float dt)
+void EscapeTheQ::OnUpdate(UpdateEventArgs& e)
 {
+	DirectXApp::OnUpdate(e);
 	mWorld.update();
 
 	// TODO : polish entity component system
-	mWorld.getSystemManager().getSystem<PhysicsSystem>().Update(dt);
-	mWorld.getSystemManager().getSystem<LuaScriptSystem>().Update(dt);
-	mWorld.getSystemManager().getSystem<RenderingSystem>().Update(dt);
+	mWorld.getSystemManager().getSystem<PhysicsSystem>().Update(e.ElapsedTime);
+	mWorld.getSystemManager().getSystem<LuaScriptSystem>().Update(e.ElapsedTime);
+	mWorld.getSystemManager().getSystem<RenderingSystem>().Update(e.ElapsedTime);
 }
 
 void EscapeTheQ::Render(float dt)

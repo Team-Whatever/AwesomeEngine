@@ -10,7 +10,7 @@ public:
 
 	//bool Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz);
 	virtual bool Initialize() override;
-	void Update(float dt);
+	virtual void OnUpdate(UpdateEventArgs& e) override;
 	void Render(float dt);
 
 	Mix::World mWorld;
