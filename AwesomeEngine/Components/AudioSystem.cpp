@@ -1,5 +1,6 @@
 #include "AudioSystem.h"
 #include <Input/InputManager.h>
+#include "Components/AudioComponent.h"
 
 namespace AwesomeEngine
 {

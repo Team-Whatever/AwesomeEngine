@@ -87,6 +87,7 @@
     <None Include="Scripts\TestScript.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\HDR_PS.hlsl">

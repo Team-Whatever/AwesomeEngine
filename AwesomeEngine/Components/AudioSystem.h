@@ -1,11 +1,10 @@
 #pragma once
-#include "Audio.h"
+#include <Audio.h>
 #include "Mix/System.h"
-#include "Components/AudioComponent.h"
 
 namespace AwesomeEngine
 {
-	class AudioSystem : Mix::System
+	class AudioSystem : public Mix::System
 	{
 	public:
 		AudioSystem();
