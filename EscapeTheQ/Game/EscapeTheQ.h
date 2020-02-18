@@ -1,16 +1,17 @@
 #pragma once
-#include "AwesomeEngineApp.h"
+#include "DirectXApp.h"
 #include "Mix/World.h"
 
-class EscapeTheQ : public AwesomeEngineApp
+class EscapeTheQ : public DirectXApp
 {
 public:
-	EscapeTheQ(HINSTANCE hInstance);
+	EscapeTheQ(const std::wstring& name, int width, int height, bool vSync = false);
 	~EscapeTheQ();
 
-	bool Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz) override;
-	void Update(float dt) override;
-	void Render(float dt) override;
+	//bool Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz);
+	virtual bool Initialize() override;
+	void Update(float dt);
+	void Render(float dt);
 
 	Mix::World mWorld;
 };

@@ -166,6 +166,12 @@
     <ClInclude Include="inc\imgui_impl_win32.h">
       <Filter>Header Files\imGUI</Filter>
     </ClInclude>
+    <ClInclude Include="inc\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\SceneNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -263,6 +269,9 @@
     </ClCompile>
     <ClCompile Include="src\imgui_widgets.cpp">
       <Filter>Source Files\imGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneNode.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

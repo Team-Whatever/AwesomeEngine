@@ -80,7 +80,7 @@ void CommandList::UAVBarrier(Microsoft::WRL::ComPtr<ID3D12Resource> resource, bo
 
 void CommandList::UAVBarrier( const Resource& resource, bool flushBarriers )
 {
-    UAVBarrier(resource.GetD3D12Resource());
+    UAVBarrier(resource.GetD3D12Resource(), flushBarriers);
 }
 
 void CommandList::AliasingBarrier(Microsoft::WRL::ComPtr<ID3D12Resource> beforeResource, Microsoft::WRL::ComPtr<ID3D12Resource> afterResource, bool flushBarriers )
@@ -97,7 +97,7 @@ void CommandList::AliasingBarrier(Microsoft::WRL::ComPtr<ID3D12Resource> beforeR
 
 void CommandList::AliasingBarrier(const Resource& beforeResource, const Resource& afterResource, bool flushBarriers)
 {
-    AliasingBarrier(beforeResource.GetD3D12Resource(), afterResource.GetD3D12Resource());
+    AliasingBarrier(beforeResource.GetD3D12Resource(), afterResource.GetD3D12Resource(), flushBarriers);
 }
 
 void CommandList::FlushResourceBarriers()
@@ -246,7 +246,7 @@ void CommandList::LoadTextureFromFile( Texture& texture, const std::wstring& fil
         {
             ThrowIfFailed( LoadFromDDSFile( 
                 fileName.c_str(),
-                DDS_FLAGS_NONE, 
+                DDS_FLAGS_FORCE_RGB,
                 &metadata,
                 scratchImage));
         }
@@ -268,9 +268,15 @@ void CommandList::LoadTextureFromFile( Texture& texture, const std::wstring& fil
         {
             ThrowIfFailed( LoadFromWICFile( 
                 fileName.c_str(), 
-                WIC_FLAGS_NONE, 
+                WIC_FLAGS_FORCE_RGB,
                 &metadata, 
                 scratchImage ) );
+        }
+
+        // Force albedo textures to use sRGB
+        if (textureUsage == TextureUsage::Albedo)
+        {
+            metadata.format = MakeSRGB(metadata.format);
         }
 
         D3D12_RESOURCE_DESC textureDesc = {};
@@ -469,7 +475,7 @@ void CommandList::GenerateMips( Texture& texture )
     }
 
     // Generate mips with the UAV compatible resource.
-    GenerateMips_UAV(Texture(uavResource, texture.GetTextureUsage()), resourceDesc.Format );
+    GenerateMips_UAV(Texture(uavResource, texture.GetTextureUsage()), Texture::IsSRGBFormat(resourceDesc.Format) );
 
     if (aliasResource)
     {
@@ -479,7 +485,7 @@ void CommandList::GenerateMips( Texture& texture )
     }
 }
 
-void CommandList::GenerateMips_UAV( Texture& texture, DXGI_FORMAT format )
+void CommandList::GenerateMips_UAV( Texture& texture, bool isSRGB )
 {
     if ( !m_GenerateMipsPSO )
     {
@@ -490,14 +496,14 @@ void CommandList::GenerateMips_UAV( Texture& texture, DXGI_FORMAT format )
     SetComputeRootSignature( m_GenerateMipsPSO->GetRootSignature() );
 
     GenerateMipsCB generateMipsCB;
-    generateMipsCB.IsSRGB = Texture::IsSRGBFormat(format);
+    generateMipsCB.IsSRGB = isSRGB;
 
     auto resource = texture.GetD3D12Resource();
     auto resourceDesc = resource->GetDesc();
 
     // Create an SRV that uses the format of the original texture.
     D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-    srvDesc.Format = format;
+    srvDesc.Format = isSRGB ? Texture::GetSRGBFormat(resourceDesc.Format) : resourceDesc.Format;
     srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
     srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;  // Only 2D textures are supported (this was checked in the calling function).
     srvDesc.Texture2D.MipLevels = resourceDesc.MipLevels;
@@ -670,6 +676,44 @@ void CommandList::PanoToCubemap(Texture& cubemapTexture, const Texture& panoText
     {
         CopyResource(cubemapTexture, stagingTexture);
     }
+}
+
+void CommandList::LoadSceneFromFile(Scene& scene, const std::wstring& filname)
+{
+    //fs::path filePath = filname;
+    //fs::path exportPath = filePath.replace_extension("assbin");
+
+    //Assimp::Importer importer;
+    //const aiScene* aiScene;
+
+    //// Check if a preprocessed file exists.
+    //if (fs::exists(exportPath) && fs::is_regular_file(exportPath))
+    //{
+    //    aiScene = importer.ReadFile(exportPath.string(), 0);
+    //}
+    //else
+    //{
+    //    // File has not been preprocessed yet. Import and processes the file.
+    //    importer.SetPropertyFloat(AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE, 80.0f);
+    //    importer.SetPropertyInteger(AI_CONFIG_PP_SBP_REMOVE, aiPrimitiveType_POINT | aiPrimitiveType_LINE);
+
+    //    unsigned int preprocessFlags = aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_OptimizeGraph;
+    //    aiScene = importer.ReadFile(filePath.string(), preprocessFlags);
+
+    //    if (aiScene)
+    //    {
+    //        // Export the preprocessed scene file for faster loading next time.
+    //        Assimp::Exporter exporter;
+    //        exporter.Export(aiScene, "assbin", exportPath.string(), preprocessFlags);
+    //    }
+    //}
+
+    //if (!aiScene)
+    //{
+    //    std::string errorMessage = "Could not load file \"";
+    //    errorMessage += filePath.string() + "\"";
+    //    throw std::exception(errorMessage.c_str());
+    //}
 }
 
 void CommandList::ClearTexture( const Texture& texture, const float clearColor[4])

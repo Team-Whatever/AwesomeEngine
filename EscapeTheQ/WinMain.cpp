@@ -1,7 +1,7 @@
 // GameMain.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 //
-//#include "Game/EscapeTheQ.h"
+#include "Game/EscapeTheQ.h"
 //
 //int CALLBACK WinMain(
 //	_In_ HINSTANCE hInstance,
@@ -25,7 +25,6 @@
 
 #include <Application.h>
 #include <dxgidebug.h>
-
 #include "DirectXApp.h"
 
 void ReportLiveObjects()
@@ -61,7 +60,7 @@ int CALLBACK wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdL
 
 	Application::Create(hInstance);
 	{
-		std::shared_ptr<DirectXApp> demo = std::make_shared<DirectXApp>(L"Escape The Q", 1280, 720, true);
+		std::shared_ptr<EscapeTheQ> demo = std::make_shared<EscapeTheQ>(L"Escape The Q", 1280, 720, true);
 		retCode = Application::Get().Run(demo);
 	}
 	Application::Destroy();

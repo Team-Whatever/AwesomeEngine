@@ -56,6 +56,10 @@ bool GUI::Initialize( std::shared_ptr<Window> window )
 
     ImGuiIO& io = ImGui::GetIO();
 
+	io.FontGlobalScale = window->GetDPIScaling();
+	// Allow user UI scaling using CTRL+Mouse Wheel scrolling
+	io.FontAllowUserScaling = true;
+
     // Build texture atlas
     unsigned char* pixelData = nullptr;
     int width, height;
@@ -103,7 +107,7 @@ bool GUI::Initialize( std::shared_ptr<Window> window )
     rootParameters[RootParameters::MatrixCB].InitAsConstants( sizeof( DirectX::XMMATRIX ) / 4, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE, D3D12_SHADER_VISIBILITY_VERTEX );
     rootParameters[RootParameters::FontTexture].InitAsDescriptorTable( 1, &descriptorRage, D3D12_SHADER_VISIBILITY_PIXEL );
 
-    CD3DX12_STATIC_SAMPLER_DESC linearRepeatSampler( 0, D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR );
+    CD3DX12_STATIC_SAMPLER_DESC linearRepeatSampler( 0, D3D12_FILTER_COMPARISON_MIN_MAG_MIP_POINT );
     linearRepeatSampler.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
     linearRepeatSampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
@@ -289,6 +293,11 @@ void GUI::Destroy()
         m_pImGuiCtx = nullptr;
         m_Window.reset();
     }
+}
+
+void GUI::SetScaling(float scale)
+{
+
 }
 
 //--------------------------------------------------------------------------------------

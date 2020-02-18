@@ -2,34 +2,32 @@
 #include "Components/LuaScriptComponent.h"
 #include "EntitySystems/PhysicsSystem.h"
 #include "EntitySystems/LuaScriptSystem.h"
+#include "EntitySystems/RenderingSystem.h"
 #include "Input/InputEventSystem.h"
 #include "Mix/Entity.h"
 #include "PythonScriptComponent.h"
+#include <string>
 
 using namespace AwesomeEngine;
-EscapeTheQ::EscapeTheQ(HINSTANCE hInstance)
-	: AwesomeEngineApp(hInstance)
+EscapeTheQ::EscapeTheQ(const std::wstring& name, int width, int height, bool vSync)
+	: DirectXApp( name, width, height, vSync )
 {
+
 }
 
 EscapeTheQ::~EscapeTheQ()
 {
 }
 
-bool EscapeTheQ::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz)
+bool EscapeTheQ::Initialize()
 {
-	bool isInit = AwesomeEngineApp::Init(diskRequiredInMB, memoryRequiredInMB, virtualMemoryRequriedInMB, cpuSpeedRequiredInMHz);
+	bool isInit = DirectXApp::Initialize();
 	if (isInit)
 	{
 		mWorld.getSystemManager().addSystem<PhysicsSystem>();
 		mWorld.getSystemManager().addSystem<LuaScriptSystem>();
-
-		// add lua component
-		auto entity = mWorld.createEntity();
-		entity.addComponent(LuaScriptComponent("Scripts/TestScript.lua"));
+		mWorld.getSystemManager().addSystem<RenderingSystem>();
 	}
-
-	//PythonScriptComponent("")
 
 	return isInit;
 }
@@ -37,9 +35,11 @@ bool EscapeTheQ::Init(unsigned long diskRequiredInMB, unsigned long memoryRequir
 void EscapeTheQ::Update(float dt)
 {
 	mWorld.update();
+
 	// TODO : polish entity component system
 	mWorld.getSystemManager().getSystem<PhysicsSystem>().Update(dt);
 	mWorld.getSystemManager().getSystem<LuaScriptSystem>().Update(dt);
+	mWorld.getSystemManager().getSystem<RenderingSystem>().Update(dt);
 }
 
 void EscapeTheQ::Render(float dt)

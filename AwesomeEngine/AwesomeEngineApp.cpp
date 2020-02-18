@@ -289,10 +289,6 @@ bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memory
 	return true;
 }
 
-
-
-
-
 bool AwesomeEngineApp::InitWindow()
 {
 	static TCHAR szWindowClass[] = _T("DXAPPWNDCLASS");

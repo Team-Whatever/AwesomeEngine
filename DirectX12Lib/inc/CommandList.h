@@ -51,8 +51,9 @@ class PanoToCubemapPSO;
 class RenderTarget;
 class Resource;
 class ResourceStateTracker;
-class StructuredBuffer;
 class RootSignature;
+class Scene;
+class StructuredBuffer;
 class Texture;
 class UploadBuffer;
 class VertexBuffer;
@@ -180,6 +181,11 @@ public:
      * Load a texture by a filename.
      */
     void LoadTextureFromFile( Texture& texture, const std::wstring& fileName, TextureUsage textureUsage = TextureUsage::Albedo );
+
+    /**
+     * Load a scene file.
+     */
+    void LoadSceneFromFile(Scene& scene, const std::wstring& filname);
 
     /**
      * Clear a texture.
@@ -398,7 +404,7 @@ private:
     void TrackResource(const Resource& res);
 
     // Generate mips for UAV compatible textures.
-    void GenerateMips_UAV( Texture& texture, DXGI_FORMAT format );
+    void GenerateMips_UAV( Texture& texture, bool isSRGB );
 
     // Copy the contents of a CPU buffer to a GPU buffer (possibly replacing the previous buffer contents).
     void CopyBuffer( Buffer& buffer, size_t numElements, size_t elementSize, const void* bufferData, D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_NONE );

@@ -22,20 +22,19 @@
  *  IN THE SOFTWARE.
  */
 
-/**
- *  @file GameApp.h
- *  @date October 24, 2018
- *  @author Jeremiah van Oosten
- *
- *  @brief Tutorial 4.
- */
+ /**
+  *  @file DirectXApp.h
+  *  @date October 24, 2018
+  *  @author Jeremiah van Oosten
+  *
+  *  @brief Tutorial 4.
+  */
 
 
 #include <Render/Camera.h>
-#include <Render/Light.h>
-
 #include <Game.h>
 #include <IndexBuffer.h>
+#include <Render/Light.h>
 #include <Window.h>
 #include <Mesh.h>
 #include <RenderTarget.h>
@@ -45,134 +44,128 @@
 
 #include <DirectXMath.h>
 
-#include "Mix/World.h"
-
 class DirectXApp : public Game
 {
 public:
-    using super = Game;
+	using super = Game;
 
 	DirectXApp(const std::wstring& name, int width, int height, bool vSync = false);
-    virtual ~DirectXApp();
+	virtual ~DirectXApp();
 
-	virtual bool Initialize() override;
+	/**
+	 *  Load content required for the demo.
+	 */
+	virtual bool LoadContent() override;
 
-    /**
-     *  Load content required for the demo.
-     */
-    virtual bool LoadContent() override;
-
-    /**
-     *  Unload demo specific content that was loaded in LoadContent.
-     */
-    virtual void UnloadContent() override;
+	/**
+	 *  Unload demo specific content that was loaded in LoadContent.
+	 */
+	virtual void UnloadContent() override;
 protected:
-    /**
-     *  Update the game logic.
-     */
-    virtual void OnUpdate(UpdateEventArgs& e) override;
+	/**
+	 *  Update the game logic.
+	 */
+	virtual void OnUpdate(UpdateEventArgs& e) override;
 
-    /**
-     *  Render stuff.
-     */
-    virtual void OnRender(RenderEventArgs& e) override;
+	/**
+	 *  Render stuff.
+	 */
+	virtual void OnRender(RenderEventArgs& e) override;
 
-    /**
-     * Invoked by the registered window when a key is pressed
-     * while the window has focus.
-     */
-    virtual void OnKeyPressed(KeyEventArgs& e) override;
+	/**
+	 * Invoked by the registered window when a key is pressed
+	 * while the window has focus.
+	 */
+	virtual void OnKeyPressed(KeyEventArgs& e) override;
 
-    /**
-     * Invoked when a key on the keyboard is released.
-     */
-    virtual void OnKeyReleased(KeyEventArgs& e);
+	/**
+	 * Invoked when a key on the keyboard is released.
+	 */
+	virtual void OnKeyReleased(KeyEventArgs& e);
 
-    /**
-     * Invoked when the mouse is moved over the registered window.
-     */
-    virtual void OnMouseMoved(MouseMotionEventArgs& e);
+	/**
+	 * Invoked when the mouse is moved over the registered window.
+	 */
+	virtual void OnMouseMoved(MouseMotionEventArgs& e);
 
-    /**
-     * Invoked when the mouse wheel is scrolled while the registered window has focus.
-     */
-    virtual void OnMouseWheel(MouseWheelEventArgs& e) override;
+	/**
+	 * Invoked when the mouse wheel is scrolled while the registered window has focus.
+	 */
+	virtual void OnMouseWheel(MouseWheelEventArgs& e) override;
 
-    void RescaleHDRRenderTarget(float scale);
-    virtual void OnResize(ResizeEventArgs& e) override; 
+	void RescaleHDRRenderTarget(float scale);
+	virtual void OnResize(ResizeEventArgs& e) override;
 
+	virtual void OnDPIScaleChanged(DPIScaleEventArgs& e) override;
 
-    void OnGUI();
+	void OnGUI();
 
 private:
-    // Some geometry to render.
-    std::unique_ptr<Mesh> m_CubeMesh;
-    std::unique_ptr<Mesh> m_SphereMesh;
-    std::unique_ptr<Mesh> m_ConeMesh;
-    std::unique_ptr<Mesh> m_TorusMesh;
-    std::unique_ptr<Mesh> m_PlaneMesh;
+	// Some geometry to render.
+	std::unique_ptr<Mesh> m_CubeMesh;
+	std::unique_ptr<Mesh> m_SphereMesh;
+	std::unique_ptr<Mesh> m_ConeMesh;
+	std::unique_ptr<Mesh> m_TorusMesh;
+	std::unique_ptr<Mesh> m_PlaneMesh;
 
-    std::unique_ptr<Mesh> m_SkyboxMesh;
+	std::unique_ptr<Mesh> m_SkyboxMesh;
 
-    Texture m_DefaultTexture;
-    Texture m_DirectXTexture;
-    Texture m_EarthTexture;
-    Texture m_MonaLisaTexture;
-    Texture m_GraceCathedralTexture;
-    Texture m_GraceCathedralCubemap;
+	Texture m_DefaultTexture;
+	Texture m_DirectXTexture;
+	Texture m_EarthTexture;
+	Texture m_MonaLisaTexture;
+	Texture m_GraceCathedralTexture;
+	Texture m_GraceCathedralCubemap;
 
-    // HDR Render target
-    RenderTarget m_HDRRenderTarget;
+	// HDR Render target
+	RenderTarget m_HDRRenderTarget;
 
-    // Root signatures
-    RootSignature m_SkyboxSignature;
-    RootSignature m_HDRRootSignature;
-    RootSignature m_SDRRootSignature;
+	// Root signatures
+	RootSignature m_SkyboxSignature;
+	RootSignature m_HDRRootSignature;
+	RootSignature m_SDRRootSignature;
 
-    // Pipeline state object.
-    // Skybox PSO
-    Microsoft::WRL::ComPtr<ID3D12PipelineState> m_SkyboxPipelineState;
-    Microsoft::WRL::ComPtr<ID3D12PipelineState> m_HDRPipelineState;
-    // HDR -> SDR tone mapping PSO.
-    Microsoft::WRL::ComPtr<ID3D12PipelineState> m_SDRPipelineState;
+	// Pipeline state object.
+	// Skybox PSO
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> m_SkyboxPipelineState;
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> m_HDRPipelineState;
+	// HDR -> SDR tone mapping PSO.
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> m_SDRPipelineState;
 
-    D3D12_RECT m_ScissorRect;
+	D3D12_RECT m_ScissorRect;
 
-    Camera m_Camera;
-    struct alignas( 16 ) CameraData
-    {
-        DirectX::XMVECTOR m_InitialCamPos;
-        DirectX::XMVECTOR m_InitialCamRot;
-        float m_InitialFov;
-    };
-    CameraData* m_pAlignedCameraData;
+	Camera m_Camera;
+	struct alignas(16) CameraData
+	{
+		DirectX::XMVECTOR m_InitialCamPos;
+		DirectX::XMVECTOR m_InitialCamRot;
+		float m_InitialFov;
+	};
+	CameraData* m_pAlignedCameraData;
 
-    // Camera controller
-    float m_Forward;
-    float m_Backward;
-    float m_Left;
-    float m_Right;
-    float m_Up;
-    float m_Down;
+	// Camera controller
+	float m_Forward;
+	float m_Backward;
+	float m_Left;
+	float m_Right;
+	float m_Up;
+	float m_Down;
 
-    float m_Pitch;
-    float m_Yaw;
+	float m_Pitch;
+	float m_Yaw;
 
-    // Rotate the lights in a circle.
-    bool m_AnimateLights;
-    // Set to true if the Shift key is pressed.
-    bool m_Shift;
+	// Rotate the lights in a circle.
+	bool m_AnimateLights;
+	// Set to true if the Shift key is pressed.
+	bool m_Shift;
 
-    int m_Width;
-    int m_Height;
+	int m_Width;
+	int m_Height;
 
-    // Scale the HDR render target to a fraction of the window size.
-    float m_RenderScale;
+	// Scale the HDR render target to a fraction of the window size.
+	float m_RenderScale;
 
-    // Define some lights.
-    std::vector<PointLight> m_PointLights;
-    std::vector<SpotLight> m_SpotLights;
-
-	// Game Entity World
-	Mix::World mWorld;
+	// Define some lights.
+	std::vector<PointLight> m_PointLights;
+	std::vector<SpotLight> m_SpotLights;
 };

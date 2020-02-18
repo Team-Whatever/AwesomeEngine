@@ -60,6 +60,11 @@ public:
     */
     HWND GetWindowHandle() const;
 
+	/**
+	 * Get the current DPI scaling for this window.
+	 */
+	float GetDPIScaling() const;
+
     /**
      * Initialize the window.
      */
@@ -157,11 +162,17 @@ protected:
     // The window was resized.
     virtual void OnResize(ResizeEventArgs& e);
 
+	// The DPI scaling has changed.
+	virtual void OnDPIScaleChanged(DPIScaleEventArgs& e);
+
     // Create the swapchian.
     Microsoft::WRL::ComPtr<IDXGISwapChain4> CreateSwapChain();
 
     // Update the render target views for the swapchain back buffers.
     void UpdateRenderTargetViews();
+
+	// Update DPI scaling (can only be called from WndProc)
+	void SetDPIScaling(float dpiScaling);
 
 private:
     // Windows should not be copied.
@@ -186,6 +197,7 @@ private:
     std::weak_ptr<Game> m_pGame;
 
     Microsoft::WRL::ComPtr<IDXGISwapChain4> m_dxgiSwapChain;
+	HANDLE m_SwapChainEvent;
     Texture m_BackBufferTextures[BufferCount];
     // Marked mutable to allow modification in a const function.
     mutable RenderTarget m_RenderTarget;
@@ -199,5 +211,8 @@ private:
     int m_PreviousMouseY;
 
     GUI m_GUI;
+
+	// Per-window DPI scaling.
+	float m_DPIScaling;
 
 };

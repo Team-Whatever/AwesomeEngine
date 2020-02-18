@@ -113,7 +113,6 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)inc;$(OutDir)Shaders;$(SolutionDir)DirectXTextureLib\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -131,7 +130,6 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)inc;$(OutDir)Shaders;$(SolutionDir)DirectXTextureLib\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -251,6 +249,8 @@
     <ClInclude Include="inc\Resource.h" />
     <ClInclude Include="inc\ResourceStateTracker.h" />
     <ClInclude Include="inc\RootSignature.h" />
+    <ClInclude Include="inc\Scene.h" />
+    <ClInclude Include="inc\SceneNode.h" />
     <ClInclude Include="inc\StructuredBuffer.h" />
     <ClInclude Include="inc\Texture.h" />
     <ClInclude Include="inc\TextureUsage.h" />
@@ -330,6 +330,7 @@
     <ClCompile Include="src\Resource.cpp" />
     <ClCompile Include="src\ResourceStateTracker.cpp" />
     <ClCompile Include="src\RootSignature.cpp" />
+    <ClCompile Include="src\SceneNode.cpp" />
     <ClCompile Include="src\StructuredBuffer.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\UploadBuffer.cpp" />
