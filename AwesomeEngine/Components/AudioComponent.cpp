@@ -7,11 +7,17 @@ namespace AwesomeEngine
 		audSystem = givenAudSystem;		
 	}
 
+	AudioComponent::AudioComponent(AudioSystem *givenAudSystem, std::string audioFilePath)
+	{
+		audSystem = givenAudSystem;
+		LoadSound(audioFilePath);
+	}
+
 	void AudioComponent::LoadSound(std::string filepath)
 	{
 		//TODO: Make the filepath actually work
 		//Must be a .wav file
-		m_SoundEffectFile = std::make_unique<DirectX::SoundEffect>(audSystem->m_audEngine.get(), L"filepath");
+		m_SoundEffectFile = std::make_unique<DirectX::SoundEffect>(audSystem->m_audEngine.get(), filepath);
 		m_SoundEffect = m_SoundEffectFile->CreateInstance();
 	}
 

@@ -8,6 +8,8 @@ namespace AwesomeEngine
 	{
 	public:
 		AudioComponent(AudioSystem *givenAudSystem);
+		AudioComponent(AudioSystem *givenAudSystem, std::string audioFilePath);
+		
 		void LoadSound(std::string filepath);
 		void Play(bool isLooping);
 		void Stop(bool stopImmediately);
