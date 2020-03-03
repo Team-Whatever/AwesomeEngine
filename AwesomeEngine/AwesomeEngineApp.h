@@ -5,31 +5,34 @@
 #include <Windows.h>
 #include <string>
 
+#include "DirectXApp.h"
 #include "Events/IEventData.h"
+#include "Mix/World.h"
+#include "Mix/Entity.h"
 
 namespace Gdiplus
 {
 	class Image;
 }
-class AwesomeEngineApp
+
+class AwesomeEngineApp : public DirectXApp
 {
 public:
-	AwesomeEngineApp(HINSTANCE hInstance); //instance of the application (not window!)
+	AwesomeEngineApp(const std::wstring& name, int width, int height, bool vSync = false); //instance of the application (not window!)
 	virtual ~AwesomeEngineApp();
 
-	//Main Application Loop
+	virtual bool Initialize();
+	virtual void OnUpdate(UpdateEventArgs& e);
+	Mix::Entity CreateEntity();
+
+public:
 	int Run();
 
 	//Framework Methods
-	virtual bool Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz);
-	virtual void Update(float dt) = 0;
-	virtual void Render(float dt) = 0; // dt for animation
+	virtual bool CheckRequirements(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz);
 	virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 	bool IsOnlyInstance(LPCTSTR gameTitle);
-
 	bool CheckStorage(const DWORDLONG diskSpaceNeededInMB);
-
 	DWORD ReadCPUSpeed();
 
 	// Event Listener Test
@@ -54,4 +57,7 @@ protected:
 
 protected:
 	bool InitWindow();
+
+private: 
+	Mix::World mWorld;
 };

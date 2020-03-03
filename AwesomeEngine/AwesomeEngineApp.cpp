@@ -6,7 +6,6 @@
 #include <string.h>
 #include <windowsx.h>
 #include <tchar.h>
-#include "Events/EventManager.h"
 #include <Windows.h>
 #include <objidl.h>
 #include <gdiplus.h>
@@ -15,6 +14,12 @@
 #include <thread>
 #include <chrono>
 #include <mutex>
+
+#include "Events/EventManager.h"
+#include "EntitySystems/PhysicsSystem.h"
+#include "EntitySystems/LuaScriptSystem.h"
+#include "EntitySystems/RenderingSystem.h"
+
 using namespace Gdiplus;
 #pragma comment (lib, "gdiplus.lib")
 
@@ -35,7 +40,7 @@ namespace {
 using namespace AwesomeEngine;
 
 GdiplusStartupInput gdiplusStartupInput;
-ULONG_PTR gdiplusToken;
+ULONG_PTR gdiplusToken = NULL;
 
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -49,9 +54,11 @@ LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-AwesomeEngineApp::AwesomeEngineApp(HINSTANCE hInstance)
+AwesomeEngineApp::AwesomeEngineApp( const std::wstring& name, int width, int height, bool vSync )
+	: DirectXApp( name, width, height, vSync )
 {
-	m_hAppInstance = hInstance;
+	m_LogoImage = nullptr;
+	m_hAppInstance = nullptr;
 	m_hAppWnd = NULL; //we don't have a window yet
 	m_ClientWidth = 800;
 	m_ClientHeight = 600;
@@ -67,6 +74,38 @@ AwesomeEngineApp::~AwesomeEngineApp()
 
 	GdiplusShutdown(gdiplusToken);
 }
+
+bool AwesomeEngineApp::Initialize()
+{
+	bool isInit = DirectXApp::Initialize();
+	if (isInit)
+	{
+		mWorld.getSystemManager().addSystem<PhysicsSystem>();
+		mWorld.getSystemManager().addSystem<LuaScriptSystem>();
+		mWorld.getSystemManager().addSystem<RenderingSystem>();
+	}
+
+	return isInit;
+}
+
+void AwesomeEngineApp::OnUpdate(UpdateEventArgs& e)
+{
+	DirectXApp::OnUpdate( e );
+
+	mWorld.update();
+
+	// TODO : polish entity component system
+	mWorld.getSystemManager().getSystem<PhysicsSystem>().Update(e.ElapsedTime);
+	mWorld.getSystemManager().getSystem<LuaScriptSystem>().Update(e.ElapsedTime);
+	mWorld.getSystemManager().getSystem<RenderingSystem>().Update(e.ElapsedTime);
+
+}
+
+Mix::Entity AwesomeEngineApp::CreateEntity()
+{
+	return mWorld.createEntity();
+}
+
 
 int AwesomeEngineApp::Run()
 {
@@ -86,12 +125,6 @@ int AwesomeEngineApp::Run()
 		{
 			TranslateMessage(&msg);  //Translates virtual-key messages (alt + ctrl + escape..) into character messages. WM_KEYDOWN and WM_KEYUP combinations produce a WM_CHAR
 			DispatchMessage(&msg);   //Dispatches a message to a window procedure (MainWndProc).
-		}
-		else
-		{
-			//In off-time we update and render
-			Update(0.0);
-			Render(0.0);
 		}
 	}
 
@@ -238,7 +271,7 @@ void DiminishLogo()
 	}
 }
 
-bool AwesomeEngineApp::Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz)
+bool AwesomeEngineApp::CheckRequirements(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz)
 {
 	if (!IsOnlyInstance(_T("test")))
 	{
