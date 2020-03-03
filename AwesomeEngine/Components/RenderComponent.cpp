@@ -1,12 +1,13 @@
 #include "RenderComponent.h"
+#include "Application.h"
+#include "CommandQueue.h"
 #include <DirectXMath.h>
 
 using namespace DirectX;
 namespace AwesomeEngine
 {
-	RenderComponent::RenderComponent(CommandList& commandList)
+	RenderComponent::RenderComponent()
 	{
-		m_CommandList = &commandList;
 	}
 
 	void RenderComponent::Update(float delta)
@@ -27,6 +28,16 @@ namespace AwesomeEngine
 		//commandList->SetShaderResourceView(RootParameters::Textures, 0, m_MonaLisaTexture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 		//m_CubeMesh->Draw(*commandList);
+	}
+
+	void RenderComponent::SetViewMatrix(DirectX::XMMATRIX matrix)
+	{
+		mViewMatrix = matrix;
+	}
+
+	void RenderComponent::SetProjectionMatrix(DirectX::XMMATRIX matrix)
+	{
+		mProjectionMatrix = matrix;
 	}
 
 	void XM_CALLCONV RenderComponent::ComputeMatrices(FXMMATRIX model, CXMMATRIX view, CXMMATRIX viewProjection, Mat& mat)

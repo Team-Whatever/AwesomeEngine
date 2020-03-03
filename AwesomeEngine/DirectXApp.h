@@ -100,6 +100,8 @@ protected:
 
 	void OnGUI();
 
+	inline Camera* GetCamera() { return &m_Camera; }
+
 private:
 	void UpdateCamera(float delta);
 

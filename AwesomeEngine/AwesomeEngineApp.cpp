@@ -82,7 +82,7 @@ bool AwesomeEngineApp::Initialize()
 	{
 		mWorld.getSystemManager().addSystem<PhysicsSystem>();
 		mWorld.getSystemManager().addSystem<LuaScriptSystem>();
-		mWorld.getSystemManager().addSystem<RenderingSystem>();
+		mWorld.getSystemManager().addSystem<RenderingSystem>( GetCamera() );
 	}
 
 	return isInit;

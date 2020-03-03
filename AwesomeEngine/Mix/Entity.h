@@ -197,7 +197,7 @@ private:
 template <typename T>
 void Entity::addComponent(T component)
 {
-    getEntityManager().addComponent<T>(*this, component);
+    getEntityManager().addComponent<T>(*this, std::move(component));
 }
 
 template <typename T, typename ... Args>
