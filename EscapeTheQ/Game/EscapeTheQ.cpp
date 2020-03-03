@@ -4,6 +4,7 @@
 #include "Mix/Entity.h"
 
 #include "Components/LuaScriptComponent.h"
+#include "Components/CubeComponent.h"
 #include "PythonScriptComponent.h"
 #include <string>
 
@@ -25,6 +26,9 @@ bool EscapeTheQ::Initialize()
 	{
 		auto entity = CreateEntity();
 		entity.addComponent(LuaScriptComponent("EscapeTheQ\\Scripts\\TestScript.lua"));
+
+		auto cubeEntity = CreateEntity();
+		cubeEntity.addComponent(CubeComponent());
 	}
 
 	return isInit;

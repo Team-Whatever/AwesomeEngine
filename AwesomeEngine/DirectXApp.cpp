@@ -18,6 +18,8 @@ using namespace Microsoft::WRL;
 
 #include <Input/InputManager.h>
 
+#include "DirectXDefines.h"
+
 using namespace DirectX;
 using namespace AwesomeEngine;
 
@@ -30,13 +32,6 @@ using namespace AwesomeEngine;
 #undef max
 #endif
 
-struct Mat
-{
-	XMMATRIX ModelMatrix;
-	XMMATRIX ModelViewMatrix;
-	XMMATRIX InverseTransposeModelViewMatrix;
-	XMMATRIX ModelViewProjectionMatrix;
-};
 
 struct LightProperties
 {
@@ -94,20 +89,6 @@ struct TonemapParameters
 };
 
 TonemapParameters g_TonemapParameters;
-
-// An enum for root signature parameters.
-// I'm not using scoped enums to avoid the explicit cast that would be required
-// to use these as root indices in the root signature.
-enum RootParameters
-{
-	MatricesCB,         // ConstantBuffer<Mat> MatCB : register(b0);
-	MaterialCB,         // ConstantBuffer<Material> MaterialCB : register( b0, space1 );
-	LightPropertiesCB,  // ConstantBuffer<LightProperties> LightPropertiesCB : register( b1 );
-	PointLights,        // StructuredBuffer<PointLight> PointLights : register( t0 );
-	SpotLights,         // StructuredBuffer<SpotLight> SpotLights : register( t1 );
-	Textures,           // Texture2D DiffuseTexture : register( t2 );
-	NumRootParameters
-};
 
 // Clamp a value between a min and max range.
 template<typename T>

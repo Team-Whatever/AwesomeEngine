@@ -154,6 +154,7 @@
     <ClCompile Include="Components\AudioComponent.cpp" />
     <ClCompile Include="Components\AudioSystem.cpp" />
     <ClCompile Include="Components\BaseComponent.cpp" />
+    <ClCompile Include="Components\CubeComponent.cpp" />
     <ClCompile Include="Components\LuaScriptComponent.cpp" />
     <ClCompile Include="Components\PhysicsComponent.cpp" />
     <ClCompile Include="Components\RenderComponent.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Components\AudioComponent.h" />
     <ClInclude Include="Components\AudioSystem.h" />
     <ClInclude Include="Components\BaseComponent.h" />
+    <ClInclude Include="Components\CubeComponent.h" />
     <ClInclude Include="Components\HealthComponent.h" />
     <ClInclude Include="Components\LuaScriptComponent.h" />
     <ClInclude Include="Components\MeshComponent.h" />
@@ -211,6 +213,7 @@
     <ClInclude Include="Components\TransformComponent.h" />
     <ClInclude Include="AwesomeEngineApp.h" />
     <ClInclude Include="DirectXApp.h" />
+    <ClInclude Include="DirectXDefines.h" />
     <ClInclude Include="Entities\Entity.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

@@ -116,6 +116,9 @@
     <ClCompile Include="Input\InputManager.cpp">
       <Filter>Input</Filter>
     </ClCompile>
+    <ClCompile Include="Components\CubeComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\TransformComponent.h">
@@ -240,6 +243,12 @@
     </ClInclude>
     <ClInclude Include="Input\InputManager.h">
       <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\CubeComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXDefines.h">
+      <Filter>EngineApp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,14 @@
 #include "RenderComponent.h"
+#include <DirectXMath.h>
 
+using namespace DirectX;
 namespace AwesomeEngine
 {
+	RenderComponent::RenderComponent(CommandList& commandList)
+	{
+		m_CommandList = &commandList;
+	}
+
 	void RenderComponent::Update(float delta)
 	{
 		//// Draw a cube
@@ -13,8 +20,6 @@ namespace AwesomeEngine
 
 	void RenderComponent::OnRender()
 	{
-
-
 		//ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 		//commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
@@ -24,11 +29,11 @@ namespace AwesomeEngine
 		//m_CubeMesh->Draw(*commandList);
 	}
 
-	//void XM_CALLCONV RenderComponent::ComputeMatrices(FXMMATRIX model, CXMMATRIX view, CXMMATRIX viewProjection, Mat& mat)
-	//{
-	//	mat.ModelMatrix = model;
-	//	mat.ModelViewMatrix = model * view;
-	//	mat.InverseTransposeModelViewMatrix = XMMatrixTranspose(XMMatrixInverse(nullptr, mat.ModelViewMatrix));
-	//	mat.ModelViewProjectionMatrix = model * viewProjection;
-	//}
+	void XM_CALLCONV RenderComponent::ComputeMatrices(FXMMATRIX model, CXMMATRIX view, CXMMATRIX viewProjection, Mat& mat)
+	{
+		mat.ModelMatrix = model;
+		mat.ModelViewMatrix = model * view;
+		mat.InverseTransposeModelViewMatrix = XMMatrixTranspose(XMMatrixInverse(nullptr, mat.ModelViewMatrix));
+		mat.ModelViewProjectionMatrix = model * viewProjection;
+	}
 }

@@ -1,20 +1,21 @@
 #pragma once
 
 #include "BaseComponent.h"
+#include "DirectXDefines.h"
 #include <DirectXMath.h>
 
 namespace AwesomeEngine
 {
 	struct RenderComponent : BaseComponent
 	{
-		RenderComponent()
-		{
-		}
+		RenderComponent(CommandList& commandList);
+		virtual void Update(float delta);
+		virtual void OnRender();
 
-		void Update(float delta);
-		void OnRender();
+	protected:
+		void XM_CALLCONV ComputeMatrices(FXMMATRIX model, CXMMATRIX view, CXMMATRIX viewProjection, Mat& mat);
 
-	private:
-		//void XM_CALLCONV ComputeMatrices(FXMMATRIX model, CXMMATRIX view, CXMMATRIX viewProjection, Mat& mat);
+	protected:
+		CommandList* m_CommandList;
 	};
 }
