@@ -11,6 +11,7 @@ namespace AwesomeEngine
 	CubeRenderingSystem::CubeRenderingSystem()
 	{
 		requireComponent<CubeComponent>();
+		requireComponent<TransformComponent>();
 	}
 
 	CubeRenderingSystem::~CubeRenderingSystem()
@@ -36,8 +37,13 @@ namespace AwesomeEngine
 			if (e.hasComponent<CubeComponent>())
 			{
 				auto& renderItem = e.getComponent<CubeComponent>();
+				auto& transform = e.getComponent<TransformComponent>();
+
 				renderItem.SetViewMatrix(viewMatrix);
 				renderItem.SetProjectionMatrix(projectionMatrix);
+				renderItem.SetTranslation(transform.position);
+				renderItem.SetRotation(transform.rotation);
+				renderItem.SetScale(transform.scale);
 				renderItem.OnRender(commandList);
 			}
 		}

@@ -18,11 +18,17 @@ namespace AwesomeEngine
 		virtual void OnRender( std::shared_ptr<CommandList> commandList) = 0;
 		void SetViewMatrix(DirectX::XMMATRIX matrix);
 		void SetProjectionMatrix(DirectX::XMMATRIX matrix);
+		void SetTranslation(DirectX::XMVECTOR tranlation);
+		void SetRotation(DirectX::XMVECTOR tranlation);
+		void SetScale(DirectX::XMVECTOR tranlation);
 
 	protected:
 		void XM_CALLCONV ComputeMatrices(DirectX::FXMMATRIX model, DirectX::CXMMATRIX view, DirectX::CXMMATRIX viewProjection, Mat& mat);
 
 	protected:
+		DirectX::XMMATRIX m_Translation;
+		DirectX::XMMATRIX m_Rotation;
+		DirectX::XMMATRIX m_Scale;
 		DirectX::XMMATRIX mViewMatrix;
 		DirectX::XMMATRIX mProjectionMatrix;
 
@@ -30,6 +36,5 @@ namespace AwesomeEngine
 		std::shared_ptr<Mesh> m_Mesh;
 		Texture m_Texture;
 		bool m_Initialized;
-
 	};
 }

@@ -11,6 +11,7 @@ namespace AwesomeEngine
 	SphereRenderingSystem::SphereRenderingSystem()
 	{
 		requireComponent<SphereComponent>();
+		requireComponent<TransformComponent>();
 	}
 
 	SphereRenderingSystem::~SphereRenderingSystem()
@@ -36,8 +37,14 @@ namespace AwesomeEngine
 			if (e.hasComponent<SphereComponent>())
 			{
 				auto& renderItem = e.getComponent<SphereComponent>();
+				auto& transform = e.getComponent<TransformComponent>();
+
 				renderItem.SetViewMatrix(viewMatrix);
 				renderItem.SetProjectionMatrix(projectionMatrix);
+				renderItem.SetTranslation(transform.position);
+				renderItem.SetRotation(transform.rotation);
+				renderItem.SetScale(transform.scale);
+
 				renderItem.OnRender(commandList);
 			}
 		}

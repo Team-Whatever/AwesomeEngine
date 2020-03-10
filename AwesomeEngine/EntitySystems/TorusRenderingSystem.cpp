@@ -11,6 +11,7 @@ namespace AwesomeEngine
 	TorusRenderingSystem::TorusRenderingSystem()
 	{
 		requireComponent<TorusComponent>();
+		requireComponent<TransformComponent>();
 	}
 
 	TorusRenderingSystem::~TorusRenderingSystem()
@@ -36,8 +37,14 @@ namespace AwesomeEngine
 			if (e.hasComponent<TorusComponent>())
 			{
 				auto& renderItem = e.getComponent<TorusComponent>();
+				auto& transform = e.getComponent<TransformComponent>();
+
 				renderItem.SetViewMatrix(viewMatrix);
 				renderItem.SetProjectionMatrix(projectionMatrix);
+				renderItem.SetTranslation(transform.position);
+				renderItem.SetRotation(transform.rotation);
+				renderItem.SetScale(transform.scale);
+
 				renderItem.OnRender(commandList);
 			}
 		}

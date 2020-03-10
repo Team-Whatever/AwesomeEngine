@@ -24,6 +24,22 @@ namespace AwesomeEngine
 		m_Initialized = true;
 	}
 
+	void RenderComponent::SetTranslation(DirectX::XMVECTOR position)
+	{
+		m_Translation = XMMatrixTranslation(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position));
+	}
+
+	void RenderComponent::SetRotation(DirectX::XMVECTOR rotation)
+	{
+		m_Rotation = XMMatrixRotationRollPitchYawFromVector(rotation);
+	}
+
+	void RenderComponent::SetScale(DirectX::XMVECTOR scale)
+	{
+		m_Scale = XMMatrixScaling(XMVectorGetX(scale), XMVectorGetY(scale), XMVectorGetZ(scale));
+	}
+
+
 	void RenderComponent::SetViewMatrix(DirectX::XMMATRIX matrix)
 	{
 		mViewMatrix = matrix;

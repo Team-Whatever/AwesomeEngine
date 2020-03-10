@@ -34,10 +34,10 @@ namespace AwesomeEngine
 		}
 		else
 		{
-			XMMATRIX translationMatrix = XMMatrixTranslation(4.0f, 0.6f, -4.0f);
-			XMMATRIX rotationMatrix = XMMatrixRotationY(XMConvertToRadians(45.0f));
-			XMMATRIX scaleMatrix = XMMatrixScaling(4.0f, 4.0f, 4.0f);
-			XMMATRIX worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+			//XMMATRIX translationMatrix = XMMatrixTranslation(4.0f, 0.6f, -4.0f);
+			//XMMATRIX rotationMatrix = XMMatrixRotationY(XMConvertToRadians(45.0f));
+			//XMMATRIX scaleMatrix = XMMatrixScaling(4.0f, 4.0f, 4.0f);
+			XMMATRIX worldMatrix = m_Scale * m_Rotation * m_Translation;
 
 			Mat matrices;
 			ComputeMatrices(worldMatrix, mViewMatrix, mProjectionMatrix, matrices);

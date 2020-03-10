@@ -2,8 +2,7 @@
 
 #include "Mix/System.h"
 #include "Components/CubeComponent.h"
-#include "Components/TorusComponent.h"
-#include "Components/SphereComponent.h"
+#include "Components/TransformComponent.h"
 #include <memory>
 
 class Camera;
