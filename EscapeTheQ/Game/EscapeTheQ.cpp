@@ -8,6 +8,8 @@
 #include "Components/CubeComponent.h"
 #include "Components/TorusComponent.h"
 #include "Components/SphereComponent.h"
+#include "Components/PlaneComponent.h"
+#include "Components/ConeComponent.h"
 #include "PythonScriptComponent.h"
 #include <string>
 
@@ -33,7 +35,7 @@ bool EscapeTheQ::Initialize()
 
 		auto cubeEntity = CreateEntity();
 		cubeEntity.addComponent(CubeComponent(L"Assets/Textures/Mona_Lisa.jpg"));
-		cubeEntity.addComponent(TransformComponent(XMVectorSet(4.0, 4.0f, 4.0f, 0.0f), XMVectorSet( 4.0f, 8.0f, 4.0f, 1.0f ) ));
+		cubeEntity.addComponent(TransformComponent(XMVectorSet(4.0, 8.0f, 4.0f, 0.0f), XMVectorSet( 4.0f, 8.0f, 4.0f, 1.0f ) ));
 
 		auto torusEntity = CreateEntity();
 		torusEntity.addComponent(TorusComponent(L"Assets/Textures/DefaultWhite.bmp"));
@@ -42,6 +44,18 @@ bool EscapeTheQ::Initialize()
 		auto sphereEntity = CreateEntity();
 		sphereEntity.addComponent(SphereComponent(L"Assets/Textures/earth.dds"));
 		sphereEntity.addComponent(TransformComponent(XMVectorSet(-4.0, 2.0f, -4.0f, 0.0f), XMVectorSet(4.0f, 4.0f, 4.0f, 1.0f)));
+
+		auto sphereEntity2 = CreateEntity();
+		sphereEntity2.addComponent(SphereComponent(L"Assets/Textures/Mona_Lisa.jpg"));
+		sphereEntity2.addComponent(TransformComponent(XMVectorSet(-4.0, 6.0f, -4.0f, 0.0f), XMVectorSet(2.0f, 2.0f, 2.0f, 1.0f)));
+
+		auto planeEntity = CreateEntity();
+		planeEntity.addComponent(PlaneComponent(L"Assets/Textures/Directx9.png"));
+		planeEntity.addComponent(TransformComponent(XMVectorSet(0.0, 0.0f, 0.0f, 0.0f), XMVectorSet(20.0f, 1.0f, 20.0f, 1.0f)));
+
+		auto coneEntity = CreateEntity();
+		coneEntity.addComponent(ConeComponent(L"Assets/Textures/DefaultWhite.bmp"));
+		coneEntity.addComponent(TransformComponent(XMVectorSet(0.0, 10.0f, 0.0f, 0.0f)));
 
 	}
 

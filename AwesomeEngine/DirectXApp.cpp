@@ -23,6 +23,8 @@ using namespace Microsoft::WRL;
 #include "EntitySystems/CubeRenderingSystem.h"
 #include "EntitySystems/TorusRenderingSystem.h"
 #include "EntitySystems/SphereRenderingSystem.h"
+#include "EntitySystems/ConeRenderingSystem.h"
+#include "EntitySystems/PlaneRenderingSystem.h"
 
 
 using namespace DirectX;
@@ -167,6 +169,8 @@ bool DirectXApp::Initialize()
 		mWorld.getSystemManager().addSystem<CubeRenderingSystem>();
 		mWorld.getSystemManager().addSystem<TorusRenderingSystem>();
 		mWorld.getSystemManager().addSystem<SphereRenderingSystem>();
+		mWorld.getSystemManager().addSystem<ConeRenderingSystem>();
+		mWorld.getSystemManager().addSystem<PlaneRenderingSystem>();
 	}
 	return init;
 }
@@ -973,42 +977,44 @@ void DirectXApp::OnRender(RenderEventArgs& e)
 	mWorld.getSystemManager().getSystem<CubeRenderingSystem>().Render(e.ElapsedTime, commandList, &m_Camera);
 	mWorld.getSystemManager().getSystem<TorusRenderingSystem>().Render(e.ElapsedTime, commandList, &m_Camera);
 	mWorld.getSystemManager().getSystem<SphereRenderingSystem>().Render(e.ElapsedTime, commandList, &m_Camera);
+	mWorld.getSystemManager().getSystem<ConeRenderingSystem>().Render(e.ElapsedTime, commandList, &m_Camera);
+	mWorld.getSystemManager().getSystem<PlaneRenderingSystem>().Render(e.ElapsedTime, commandList, &m_Camera);
 
-	// Draw shapes to visualize the position of the lights in the scene.
-	Material lightMaterial;
-	// No specular
-	lightMaterial.Specular = { 0, 0, 0, 1 };
-	for (const auto& l : m_PointLights)
-	{
-		lightMaterial.Emissive = l.Color;
-		XMVECTOR lightPos = XMLoadFloat4(&l.PositionWS);
-		worldMatrix = XMMatrixTranslationFromVector(lightPos);
-		ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+	//// Draw shapes to visualize the position of the lights in the scene.
+	//Material lightMaterial;
+	//// No specular
+	//lightMaterial.Specular = { 0, 0, 0, 1 };
+	//for (const auto& l : m_PointLights)
+	//{
+	//	lightMaterial.Emissive = l.Color;
+	//	XMVECTOR lightPos = XMLoadFloat4(&l.PositionWS);
+	//	worldMatrix = XMMatrixTranslationFromVector(lightPos);
+	//	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
-		commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-		commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, lightMaterial);
+	//	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+	//	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, lightMaterial);
 
-		m_SphereMesh->Render(*commandList);
-	}
+	//	m_SphereMesh->Render(*commandList);
+	//}
 
-	for (const auto& l : m_SpotLights)
-	{
-		lightMaterial.Emissive = l.Color;
-		XMVECTOR lightPos = XMLoadFloat4(&l.PositionWS);
-		XMVECTOR lightDir = XMLoadFloat4(&l.DirectionWS);
-		XMVECTOR up = XMVectorSet(0, 1, 0, 0);
+	//for (const auto& l : m_SpotLights)
+	//{
+	//	lightMaterial.Emissive = l.Color;
+	//	XMVECTOR lightPos = XMLoadFloat4(&l.PositionWS);
+	//	XMVECTOR lightDir = XMLoadFloat4(&l.DirectionWS);
+	//	XMVECTOR up = XMVectorSet(0, 1, 0, 0);
 
-		// Rotate the cone so it is facing the Z axis.
-		rotationMatrix = XMMatrixRotationX(XMConvertToRadians(-90.0f));
-		worldMatrix = rotationMatrix * LookAtMatrix(lightPos, lightDir, up);
+	//	// Rotate the cone so it is facing the Z axis.
+	//	rotationMatrix = XMMatrixRotationX(XMConvertToRadians(-90.0f));
+	//	worldMatrix = rotationMatrix * LookAtMatrix(lightPos, lightDir, up);
 
-		ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+	//	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
-		commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-		commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, lightMaterial);
+	//	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+	//	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, lightMaterial);
 
-		m_ConeMesh->Render(*commandList);
-	}
+	//	m_ConeMesh->Render(*commandList);
+	//}
 
 	// Perform HDR -> SDR tonemapping directly to the Window's render target.
 	commandList->SetRenderTarget(m_pWindow->GetRenderTarget());

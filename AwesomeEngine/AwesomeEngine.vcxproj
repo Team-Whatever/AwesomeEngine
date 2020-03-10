@@ -154,9 +154,11 @@
     <ClCompile Include="Components\AudioComponent.cpp" />
     <ClCompile Include="Components\AudioSystem.cpp" />
     <ClCompile Include="Components\BaseComponent.cpp" />
+    <ClCompile Include="Components\ConeComponent.cpp" />
     <ClCompile Include="Components\CubeComponent.cpp" />
     <ClCompile Include="Components\LuaScriptComponent.cpp" />
     <ClCompile Include="Components\PhysicsComponent.cpp" />
+    <ClCompile Include="Components\PlaneComponent.cpp" />
     <ClCompile Include="Components\RenderComponent.cpp" />
     <ClCompile Include="Components\SphereComponent.cpp" />
     <ClCompile Include="Components\TorusComponent.cpp" />
@@ -173,6 +175,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="EntitySystems\ConeRenderingSystem.cpp" />
     <ClCompile Include="EntitySystems\CubeRenderingSystem.cpp" />
     <ClCompile Include="EntitySystems\EntitySystem.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -188,6 +191,7 @@
     </ClCompile>
     <ClCompile Include="EntitySystems\LuaScriptSystem.cpp" />
     <ClCompile Include="EntitySystems\PhysicsSystem.cpp" />
+    <ClCompile Include="EntitySystems\PlaneRenderingSystem.cpp" />
     <ClCompile Include="EntitySystems\SphereRenderingSystem.cpp" />
     <ClCompile Include="EntitySystems\SystemManager.cpp" />
     <ClCompile Include="EntitySystems\TorusRenderingSystem.cpp" />
@@ -208,11 +212,13 @@
     <ClInclude Include="Components\AudioComponent.h" />
     <ClInclude Include="Components\AudioSystem.h" />
     <ClInclude Include="Components\BaseComponent.h" />
+    <ClInclude Include="Components\ConeComponent.h" />
     <ClInclude Include="Components\CubeComponent.h" />
     <ClInclude Include="Components\HealthComponent.h" />
     <ClInclude Include="Components\LuaScriptComponent.h" />
     <ClInclude Include="Components\MeshComponent.h" />
     <ClInclude Include="Components\PhysicsComponent.h" />
+    <ClInclude Include="Components\PlaneComponent.h" />
     <ClInclude Include="Components\RenderComponent.h" />
     <ClInclude Include="Components\SphereComponent.h" />
     <ClInclude Include="Components\TorusComponent.h" />
@@ -232,6 +238,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="EntitySystems\ConeRenderingSystem.h" />
     <ClInclude Include="EntitySystems\CubeRenderingSystem.h" />
     <ClInclude Include="EntitySystems\EntitySystem.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -247,6 +254,7 @@
     </ClInclude>
     <ClInclude Include="EntitySystems\LuaScriptSystem.h" />
     <ClInclude Include="EntitySystems\PhysicsSystem.h" />
+    <ClInclude Include="EntitySystems\PlaneRenderingSystem.h" />
     <ClInclude Include="EntitySystems\SphereRenderingSystem.h" />
     <ClInclude Include="EntitySystems\SystemManager.h" />
     <ClInclude Include="EntitySystems\TorusRenderingSystem.h" />

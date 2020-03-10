@@ -131,6 +131,18 @@
     <ClCompile Include="EntitySystems\TorusRenderingSystem.cpp">
       <Filter>EntitySystems</Filter>
     </ClCompile>
+    <ClCompile Include="Components\ConeComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\PlaneComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\ConeRenderingSystem.cpp">
+      <Filter>EntitySystems</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\PlaneRenderingSystem.cpp">
+      <Filter>EntitySystems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\TransformComponent.h">
@@ -272,6 +284,18 @@
       <Filter>EntitySystems</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystems\TorusRenderingSystem.h">
+      <Filter>EntitySystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ConeComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\PlaneComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\ConeRenderingSystem.h">
+      <Filter>EntitySystems</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\PlaneRenderingSystem.h">
       <Filter>EntitySystems</Filter>
     </ClInclude>
   </ItemGroup>
