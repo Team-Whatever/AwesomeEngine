@@ -46,8 +46,11 @@ Resource::Resource(const Resource& copy)
     : m_d3d12Resource(copy.m_d3d12Resource)
     , m_FormatSupport(copy.m_FormatSupport)
     , m_ResourceName(copy.m_ResourceName)
-    , m_d3d12ClearValue(std::make_unique<D3D12_CLEAR_VALUE>(*copy.m_d3d12ClearValue))
-{}
+    
+{
+	if( copy.m_d3d12ClearValue )
+		m_d3d12ClearValue = std::make_unique<D3D12_CLEAR_VALUE>(*copy.m_d3d12ClearValue);
+}
 
 Resource::Resource(Resource&& copy)
     : m_d3d12Resource(std::move(copy.m_d3d12Resource))

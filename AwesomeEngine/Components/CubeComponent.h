@@ -1,8 +1,6 @@
 #pragma once
 
 #include "RenderComponent.h"
-#include "Mesh.h"
-#include "Texture.h"
 #include <DirectXMath.h>
 
 namespace AwesomeEngine
@@ -12,13 +10,8 @@ namespace AwesomeEngine
 		CubeComponent();
 		CubeComponent(std::wstring textureName);
 
-		virtual void Update(float delta);
+		virtual void Initialize(std::shared_ptr<CommandList> commandList) override;
+		virtual void Update(float delta ) override;
 		virtual void OnRender(std::shared_ptr<CommandList> commandList) override;
-
-	private:
-
-		std::shared_ptr<Mesh> m_CubeMesh;
-		std::shared_ptr<Texture> m_CubeTexture;
-		
 	};
 }

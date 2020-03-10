@@ -29,9 +29,13 @@ bool Game::Initialize()
     m_pWindow = Application::Get().CreateRenderWindow(m_Name, m_Width, m_Height, m_vSync);
     m_pWindow->RegisterCallbacks(shared_from_this());
     m_pWindow->Show();
-	m_pWindow->OnInitialized();
 
     return true;
+}
+
+void Game::OnInitialized()
+{
+	m_pWindow->OnInitialized();
 }
 
 void Game::Destroy()

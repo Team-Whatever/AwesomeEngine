@@ -158,6 +158,8 @@
     <ClCompile Include="Components\LuaScriptComponent.cpp" />
     <ClCompile Include="Components\PhysicsComponent.cpp" />
     <ClCompile Include="Components\RenderComponent.cpp" />
+    <ClCompile Include="Components\SphereComponent.cpp" />
+    <ClCompile Include="Components\TorusComponent.cpp" />
     <ClCompile Include="DirectXApp.cpp" />
     <ClCompile Include="Entities\Entity.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -171,6 +173,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="EntitySystems\CubeRenderingSystem.cpp" />
     <ClCompile Include="EntitySystems\EntitySystem.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -185,8 +188,9 @@
     </ClCompile>
     <ClCompile Include="EntitySystems\LuaScriptSystem.cpp" />
     <ClCompile Include="EntitySystems\PhysicsSystem.cpp" />
-    <ClCompile Include="EntitySystems\RenderingSystem.cpp" />
+    <ClCompile Include="EntitySystems\SphereRenderingSystem.cpp" />
     <ClCompile Include="EntitySystems\SystemManager.cpp" />
+    <ClCompile Include="EntitySystems\TorusRenderingSystem.cpp" />
     <ClCompile Include="Events\EventManager.cpp" />
     <ClCompile Include="Events\IEventManage.h" />
     <ClCompile Include="Input\InputManager.cpp" />
@@ -210,6 +214,8 @@
     <ClInclude Include="Components\MeshComponent.h" />
     <ClInclude Include="Components\PhysicsComponent.h" />
     <ClInclude Include="Components\RenderComponent.h" />
+    <ClInclude Include="Components\SphereComponent.h" />
+    <ClInclude Include="Components\TorusComponent.h" />
     <ClInclude Include="Components\TransformComponent.h" />
     <ClInclude Include="AwesomeEngineApp.h" />
     <ClInclude Include="DirectXApp.h" />
@@ -226,6 +232,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="EntitySystems\CubeRenderingSystem.h" />
     <ClInclude Include="EntitySystems\EntitySystem.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -240,8 +247,9 @@
     </ClInclude>
     <ClInclude Include="EntitySystems\LuaScriptSystem.h" />
     <ClInclude Include="EntitySystems\PhysicsSystem.h" />
-    <ClInclude Include="EntitySystems\RenderingSystem.h" />
+    <ClInclude Include="EntitySystems\SphereRenderingSystem.h" />
     <ClInclude Include="EntitySystems\SystemManager.h" />
+    <ClInclude Include="EntitySystems\TorusRenderingSystem.h" />
     <ClInclude Include="Events\EventManager.h" />
     <ClInclude Include="Events\FastDelegate.h" />
     <ClInclude Include="Events\FastDelegateBind.h" />

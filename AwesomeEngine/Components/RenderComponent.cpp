@@ -10,24 +10,18 @@ namespace AwesomeEngine
 	{
 	}
 
-	void RenderComponent::Update(float delta)
+	RenderComponent::RenderComponent(std::wstring textureName)
+		: m_TextureName( textureName ), m_Initialized( false )
 	{
-		//// Draw a cube
-		//translationMatrix = XMMatrixTranslation(4.0f, 4.0f, 4.0f);
-		//rotationMatrix = XMMatrixRotationY(XMConvertToRadians(45.0f));
-		//scaleMatrix = XMMatrixScaling(4.0f, 8.0f, 4.0f);
-		//worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
 	}
 
-	void RenderComponent::OnRender( std::shared_ptr<CommandList> commandList )
+	void RenderComponent::Initialize(std::shared_ptr<CommandList> commandList)
 	{
-		//ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
-
-		//commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-		//commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, Material::White);
-		//commandList->SetShaderResourceView(RootParameters::Textures, 0, m_MonaLisaTexture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-
-		//m_CubeMesh->Draw(*commandList);
+		if (m_TextureName.size() > 0)
+		{
+			commandList->LoadTextureFromFile(m_Texture, m_TextureName.c_str());
+		}
+		m_Initialized = true;
 	}
 
 	void RenderComponent::SetViewMatrix(DirectX::XMMATRIX matrix)

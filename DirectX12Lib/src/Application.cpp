@@ -343,6 +343,7 @@ int Application::Run(std::shared_ptr<Game> pGame)
 {
     if (!pGame->Initialize()) return 1;
     if (!pGame->LoadContent()) return 2;
+	pGame->OnInitialized();
 
     MSG msg = { 0 };
     while (msg.message != WM_QUIT)

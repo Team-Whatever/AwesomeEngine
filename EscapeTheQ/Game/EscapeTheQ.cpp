@@ -5,6 +5,8 @@
 
 #include "Components/LuaScriptComponent.h"
 #include "Components/CubeComponent.h"
+#include "Components/TorusComponent.h"
+#include "Components/SphereComponent.h"
 #include "PythonScriptComponent.h"
 #include <string>
 
@@ -25,10 +27,17 @@ bool EscapeTheQ::Initialize()
 	if (isInit)
 	{
 		auto entity = CreateEntity();
-		entity.addComponent(LuaScriptComponent("EscapeTheQ\\Scripts\\TestScript.lua"));
+		entity.addComponent(LuaScriptComponent("EscapeTheQ/Scripts/TestScript.lua"));
 
 		auto cubeEntity = CreateEntity();
-		cubeEntity.addComponent(CubeComponent());
+		cubeEntity.addComponent(CubeComponent(L"Assets/Textures/Mona_Lisa.jpg"));
+
+		auto torusEntity = CreateEntity();
+		torusEntity.addComponent(TorusComponent(L"Assets/Textures/DefaultWhite.bmp"));
+
+		auto sphereEntity = CreateEntity();
+		sphereEntity.addComponent(SphereComponent(L"Assets/Textures/earth.dds"));
+
 	}
 
 	return isInit;

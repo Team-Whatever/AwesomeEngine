@@ -38,9 +38,6 @@
     <ClCompile Include="EntitySystems\EntityWorld.cpp">
       <Filter>EntitySystems</Filter>
     </ClCompile>
-    <ClCompile Include="EntitySystems\RenderingSystem.cpp">
-      <Filter>EntitySystems</Filter>
-    </ClCompile>
     <ClCompile Include="Entities\EntityManager.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
@@ -119,6 +116,21 @@
     <ClCompile Include="Components\CubeComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="Components\TorusComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\SphereComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\CubeRenderingSystem.cpp">
+      <Filter>EntitySystems</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\SphereRenderingSystem.cpp">
+      <Filter>EntitySystems</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\TorusRenderingSystem.cpp">
+      <Filter>EntitySystems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\TransformComponent.h">
@@ -140,9 +152,6 @@
       <Filter>EntitySystems</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystems\EntityWorld.h">
-      <Filter>EntitySystems</Filter>
-    </ClInclude>
-    <ClInclude Include="EntitySystems\RenderingSystem.h">
       <Filter>EntitySystems</Filter>
     </ClInclude>
     <ClInclude Include="Entities\EntityManager.h">
@@ -249,6 +258,21 @@
     </ClInclude>
     <ClInclude Include="DirectXDefines.h">
       <Filter>EngineApp</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\TorusComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\SphereComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\CubeRenderingSystem.h">
+      <Filter>EntitySystems</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\SphereRenderingSystem.h">
+      <Filter>EntitySystems</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\TorusRenderingSystem.h">
+      <Filter>EntitySystems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

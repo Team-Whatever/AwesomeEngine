@@ -62,6 +62,7 @@ public:
      *  Initialize the DirectX Runtime.
      */
     virtual bool Initialize();
+	virtual void OnInitialized();
 
     /**
      *  Load content required for the demo.

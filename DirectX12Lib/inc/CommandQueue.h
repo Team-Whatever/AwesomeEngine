@@ -43,7 +43,7 @@
 class CommandList;
 
 class CommandQueue
-{
+{ 
 public:
     CommandQueue(D3D12_COMMAND_LIST_TYPE type);
     virtual ~CommandQueue();
