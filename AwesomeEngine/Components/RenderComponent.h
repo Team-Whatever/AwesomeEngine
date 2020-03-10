@@ -10,7 +10,7 @@ namespace AwesomeEngine
 	{
 		RenderComponent();
 		virtual void Update(float delta);
-		virtual void OnRender();
+		virtual void OnRender( std::shared_ptr<CommandList> commandList );
 		void SetViewMatrix(DirectX::XMMATRIX matrix);
 		void SetProjectionMatrix(DirectX::XMMATRIX matrix);
 

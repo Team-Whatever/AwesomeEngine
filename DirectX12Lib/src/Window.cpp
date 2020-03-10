@@ -20,6 +20,7 @@ Window::Window(HWND hWnd, const std::wstring& windowName, int clientWidth, int c
     , m_Fullscreen(false)
     , m_FenceValues{0}
     , m_FrameValues{0}
+	, m_IsInitialized( false )
 {
 	m_DPIScaling = GetDpiForWindow(hWnd) / 96.0f;
 
@@ -50,6 +51,10 @@ void Window::Initialize()
     m_GUI.Initialize( shared_from_this() );
 }
 
+void Window::OnInitialized()
+{
+	m_IsInitialized = true;
+}
 
 HWND Window::GetWindowHandle() const
 {
@@ -194,29 +199,34 @@ void Window::RegisterCallbacks(std::shared_ptr<Game> pGame)
 
 void Window::OnUpdate(UpdateEventArgs& e)
 {
-	// Wait for the swapchain to finish presenting
-	::WaitForSingleObjectEx(m_SwapChainEvent, 100, TRUE);
+	if (m_IsInitialized) {
+		// Wait for the swapchain to finish presenting
+		::WaitForSingleObjectEx(m_SwapChainEvent, 100, TRUE);
 
-    m_GUI.NewFrame();
+		m_GUI.NewFrame();
 
-    m_UpdateClock.Tick();
+		m_UpdateClock.Tick();
 
-    if (auto pGame = m_pGame.lock())
-    {
-        UpdateEventArgs updateEventArgs(m_UpdateClock.GetDeltaSeconds(), m_UpdateClock.GetTotalSeconds(), e.FrameNumber);
-        pGame->OnUpdate(updateEventArgs);
-    }
+		if (auto pGame = m_pGame.lock())
+		{
+			UpdateEventArgs updateEventArgs(m_UpdateClock.GetDeltaSeconds(), m_UpdateClock.GetTotalSeconds(), e.FrameNumber);
+			pGame->OnUpdate(updateEventArgs);
+		}
+	}
 }
 
 void Window::OnRender(RenderEventArgs& e)
 {
-    m_RenderClock.Tick();
+	if (m_IsInitialized) {
 
-    if (auto pGame = m_pGame.lock())
-    {
-        RenderEventArgs renderEventArgs(m_RenderClock.GetDeltaSeconds(), m_RenderClock.GetTotalSeconds(), e.FrameNumber);
-        pGame->OnRender(renderEventArgs);
-    }
+		m_RenderClock.Tick();
+
+		if (auto pGame = m_pGame.lock())
+		{
+			RenderEventArgs renderEventArgs(m_RenderClock.GetDeltaSeconds(), m_RenderClock.GetTotalSeconds(), e.FrameNumber);
+			pGame->OnRender(renderEventArgs);
+		}
+	}
 }
 
 void Window::OnKeyPressed(KeyEventArgs& e)

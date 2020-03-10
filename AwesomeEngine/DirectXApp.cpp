@@ -20,6 +20,9 @@ using namespace Microsoft::WRL;
 
 #include "DirectXDefines.h"
 
+#include "EntitySystems/RenderingSystem.h"
+
+
 using namespace DirectX;
 using namespace AwesomeEngine;
 
@@ -152,6 +155,16 @@ DirectXApp::DirectXApp(const std::wstring& name, int width, int height, bool vSy
 DirectXApp::~DirectXApp()
 {
 	_aligned_free(m_pAlignedCameraData);
+}
+
+bool DirectXApp::Initialize()
+{
+	bool init = Game::Initialize();
+	if (init)
+	{
+		mWorld.getSystemManager().addSystem<RenderingSystem>(&m_Camera);
+	}
+	return init;
 }
 
 bool DirectXApp::LoadContent()
@@ -850,19 +863,19 @@ void DirectXApp::OnRender(RenderEventArgs& e)
 
 	m_SphereMesh->Render(*commandList);
 
-	// Draw a cube
-	translationMatrix = XMMatrixTranslation(4.0f, 4.0f, 4.0f);
-	rotationMatrix = XMMatrixRotationY(XMConvertToRadians(45.0f));
-	scaleMatrix = XMMatrixScaling(4.0f, 8.0f, 4.0f);
-	worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+	//// Draw a cube
+	//translationMatrix = XMMatrixTranslation(4.0f, 4.0f, 4.0f);
+	//rotationMatrix = XMMatrixRotationY(XMConvertToRadians(45.0f));
+	//scaleMatrix = XMMatrixScaling(4.0f, 8.0f, 4.0f);
+	//worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
 
-	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+	//ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, Material::White);
-	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_MonaLisaTexture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	//commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+	//commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, Material::White);
+	//commandList->SetShaderResourceView(RootParameters::Textures, 0, m_MonaLisaTexture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-	m_CubeMesh->Render(*commandList);
+	//m_CubeMesh->Render(*commandList);
 
 	// Draw a torus
 	translationMatrix = XMMatrixTranslation(4.0f, 0.6f, -4.0f);
@@ -951,6 +964,9 @@ void DirectXApp::OnRender(RenderEventArgs& e)
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, Material::Blue);
 	m_PlaneMesh->Render(*commandList);
+
+	// Render all render components
+	mWorld.getSystemManager().getSystem<RenderingSystem>().Update(e.ElapsedTime, commandList);
 
 	// Draw shapes to visualize the position of the lights in the scene.
 	Material lightMaterial;

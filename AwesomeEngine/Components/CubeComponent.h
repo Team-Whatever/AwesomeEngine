@@ -13,12 +13,12 @@ namespace AwesomeEngine
 		CubeComponent(std::wstring textureName);
 
 		virtual void Update(float delta);
-		virtual void OnRender();
+		virtual void OnRender(std::shared_ptr<CommandList> commandList) override;
 
 	private:
 
 		std::shared_ptr<Mesh> m_CubeMesh;
-		Texture m_CubeTexture;
+		std::shared_ptr<Texture> m_CubeTexture;
 		
 	};
 }

@@ -7,7 +7,6 @@
 
 #include "DirectXApp.h"
 #include "Events/IEventData.h"
-#include "Mix/World.h"
 #include "Mix/Entity.h"
 
 namespace Gdiplus
@@ -57,7 +56,4 @@ protected:
 
 protected:
 	bool InitWindow();
-
-private: 
-	Mix::World mWorld;
 };

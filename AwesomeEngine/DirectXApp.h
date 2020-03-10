@@ -43,6 +43,8 @@
 #include <VertexBuffer.h>
 
 #include <DirectXMath.h>
+#include "Mix/World.h"
+
 
 class DirectXApp : public Game
 {
@@ -51,6 +53,8 @@ public:
 
 	DirectXApp(const std::wstring& name, int width, int height, bool vSync = false);
 	virtual ~DirectXApp();
+
+	virtual bool Initialize() override;
 
 	/**
 	 *  Load content required for the demo.
@@ -100,10 +104,12 @@ protected:
 
 	void OnGUI();
 
-	inline Camera* GetCamera() { return &m_Camera; }
-
 private:
 	void UpdateCamera(float delta);
+
+protected:
+	Mix::World mWorld;
+
 
 private:
 	// Some geometry to render.

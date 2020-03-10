@@ -10,7 +10,7 @@ namespace AwesomeEngine
 
 	RenderingSystem::RenderingSystem(Camera* camera)
 	{
-		requireComponent<RenderComponent>();
+		requireComponent<CubeComponent>();
 		mCamera = camera;
 	}
 
@@ -19,16 +19,16 @@ namespace AwesomeEngine
 	}
 
 
-	void RenderingSystem::Update(float delta)
+	void RenderingSystem::Update(float delta, std::shared_ptr<CommandList> commandList)
 	{
 		XMMATRIX viewMatrix = mCamera->get_ViewMatrix();
 		XMMATRIX projectionMatrix = mCamera->get_ProjectionMatrix();
 		for (auto& e : getEntities())
 		{
-			auto& renderItem = e.getComponent<RenderComponent>();
+			auto& renderItem = e.getComponent<CubeComponent>();
 			renderItem.SetViewMatrix(viewMatrix);
 			renderItem.SetProjectionMatrix(projectionMatrix);
-			renderItem.OnRender();
+			renderItem.OnRender(commandList);
 		}
 	}
 }

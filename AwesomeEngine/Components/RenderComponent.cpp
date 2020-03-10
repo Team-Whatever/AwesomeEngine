@@ -19,7 +19,7 @@ namespace AwesomeEngine
 		//worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
 	}
 
-	void RenderComponent::OnRender()
+	void RenderComponent::OnRender( std::shared_ptr<CommandList> commandList )
 	{
 		//ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 

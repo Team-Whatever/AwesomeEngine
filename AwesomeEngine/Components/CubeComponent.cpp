@@ -12,13 +12,18 @@ namespace AwesomeEngine
 	}
 
 	CubeComponent::CubeComponent(std::wstring textureName)
+		: RenderComponent()
 	{
 		auto commandQueue = Application::Get().GetCommandQueue(D3D12_COMMAND_LIST_TYPE_COPY);
 		auto commandList = commandQueue->GetCommandList();
 
 		m_CubeMesh = Mesh::CreateCube(*commandList);
-		if( textureName.size() > 0 )
-			commandList->LoadTextureFromFile(m_CubeTexture, textureName.c_str());
+		if (textureName.size() > 0)
+		{
+			Texture cubeTexture;
+			commandList->LoadTextureFromFile(cubeTexture, textureName.c_str());
+			m_CubeTexture = std::make_shared<Texture>(cubeTexture);
+		}
 	}
 
 	void CubeComponent::Update(float delta)
@@ -30,11 +35,8 @@ namespace AwesomeEngine
 		//worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
 	}
 
-	void CubeComponent::OnRender()
+	void CubeComponent::OnRender(std::shared_ptr<CommandList> commandList)
 	{
-		auto commandQueue = Application::Get().GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
-		auto commandList = commandQueue->GetCommandList();
-
 		XMMATRIX translationMatrix = XMMatrixTranslation(4.0f, 4.0f, 4.0f);
 		XMMATRIX rotationMatrix = XMMatrixRotationY(XMConvertToRadians(45.0f));
 		XMMATRIX scaleMatrix = XMMatrixScaling(4.0f, 8.0f, 4.0f);
@@ -46,7 +48,7 @@ namespace AwesomeEngine
 
 		commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
 		commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, Material::White);
-		commandList->SetShaderResourceView(RootParameters::Textures, 0, m_CubeTexture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+		commandList->SetShaderResourceView(RootParameters::Textures, 0, *m_CubeTexture.get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 		m_CubeMesh->Render(*commandList);
 	}

@@ -18,7 +18,6 @@
 #include "Events/EventManager.h"
 #include "EntitySystems/PhysicsSystem.h"
 #include "EntitySystems/LuaScriptSystem.h"
-#include "EntitySystems/RenderingSystem.h"
 
 using namespace Gdiplus;
 #pragma comment (lib, "gdiplus.lib")
@@ -82,7 +81,6 @@ bool AwesomeEngineApp::Initialize()
 	{
 		mWorld.getSystemManager().addSystem<PhysicsSystem>();
 		mWorld.getSystemManager().addSystem<LuaScriptSystem>();
-		mWorld.getSystemManager().addSystem<RenderingSystem>( GetCamera() );
 	}
 
 	return isInit;
@@ -97,7 +95,7 @@ void AwesomeEngineApp::OnUpdate(UpdateEventArgs& e)
 	// TODO : polish entity component system
 	mWorld.getSystemManager().getSystem<PhysicsSystem>().Update(e.ElapsedTime);
 	mWorld.getSystemManager().getSystem<LuaScriptSystem>().Update(e.ElapsedTime);
-	mWorld.getSystemManager().getSystem<RenderingSystem>().Update(e.ElapsedTime);
+	
 
 }
 

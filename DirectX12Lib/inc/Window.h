@@ -69,6 +69,7 @@ public:
      * Initialize the window.
      */
     void Initialize();
+	void OnInitialized();
 
     /**
     * Destroy this window.
@@ -215,4 +216,5 @@ private:
 	// Per-window DPI scaling.
 	float m_DPIScaling;
 
+	bool m_IsInitialized;
 };
