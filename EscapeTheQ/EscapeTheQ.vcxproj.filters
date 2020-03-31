@@ -12,9 +12,6 @@
     <Filter Include="Components">
       <UniqueIdentifier>{2f9fde1a-c0a0-4de3-9156-88e2ae369e47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component">
-      <UniqueIdentifier>{72e8c852-9895-49bf-864f-57e0edaef16b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Managers">
       <UniqueIdentifier>{577fcd70-e354-4c5b-b059-ed4ca972293f}</UniqueIdentifier>
     </Filter>
@@ -50,9 +47,6 @@
     <ClInclude Include="Characters\PlayerCharacter.h">
       <Filter>Characters</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameWorld.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Game\EscapeTheQ.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -72,9 +66,6 @@
     </ClCompile>
     <ClCompile Include="Characters\PlayerCharacter.cpp">
       <Filter>Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameWorld.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\EscapeTheQ.cpp">
       <Filter>Game</Filter>

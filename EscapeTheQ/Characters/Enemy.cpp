@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-namespace Escape
+namespace EscapeQ
 {
 	Enemy::Enemy()
 	{

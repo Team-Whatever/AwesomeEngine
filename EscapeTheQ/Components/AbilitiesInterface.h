@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Escape
+namespace EscapeQ
 {
 	class IAbility
 	{

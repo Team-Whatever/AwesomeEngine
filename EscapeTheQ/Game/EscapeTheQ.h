@@ -1,6 +1,6 @@
 #pragma once
 #include "AwesomeEngineApp.h"
-#include "Mix/World.h"
+#include "Characters/PlayerCharacter.h"
 
 class EscapeTheQ : public AwesomeEngineApp
 {
@@ -11,4 +11,7 @@ public:
 	//bool Init(unsigned long diskRequiredInMB, unsigned long memoryRequiredInMB, unsigned long virtualMemoryRequriedInMB, int cpuSpeedRequiredInMHz);
 	virtual bool Initialize() override;
 	virtual void OnUpdate(UpdateEventArgs& e) override;
+
+private:
+	std::unique_ptr<EscapeQ::PlayerCharacter> mPlayer;
 };

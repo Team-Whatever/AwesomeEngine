@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -123,7 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -142,7 +142,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -163,7 +163,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTextureLib\DirectXTex;$(SolutionDir)DirectX12Lib\inc;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -181,7 +181,6 @@
     <ClInclude Include="Components\AbilitiesInterface.h" />
     <ClInclude Include="Components\SpecialAbilityComponent.h" />
     <ClInclude Include="Game\EscapeTheQ.h" />
-    <ClInclude Include="Game\GameWorld.h" />
     <ClInclude Include="Managers\GameplayManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -191,7 +190,6 @@
     <ClCompile Include="Components\SpecialAbilityComponent.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="Game\EscapeTheQ.cpp" />
-    <ClCompile Include="Game\GameWorld.cpp" />
     <ClCompile Include="Managers\GameplayManager.cpp" />
   </ItemGroup>
   <ItemGroup>

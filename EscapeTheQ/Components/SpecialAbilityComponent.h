@@ -3,7 +3,7 @@
 
 #include "Components/BaseComponent.h"
 
-namespace Escape
+namespace EscapeQ
 {
 
 	class SpecialAbilityComponent : public AwesomeEngine::BaseComponent, IAbility

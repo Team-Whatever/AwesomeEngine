@@ -1,6 +1,6 @@
 #include "GameplayManager.h"
 
-namespace Escape
+namespace EscapeQ
 {
 
 	GameplayManager::GameplayManager()

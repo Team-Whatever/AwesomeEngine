@@ -2,7 +2,7 @@
 
 #include "Character.h"
 
-namespace Escape
+namespace EscapeQ
 {
 	class Enemy : Character
 	{

@@ -1,7 +1,7 @@
 #include "SpecialAbilityComponent.h"
 #include <iostream>
 
-namespace Escape
+namespace EscapeQ
 {
 	SpecialAbilityComponent::SpecialAbilityComponent()
 		: mMana(MAX_MANA)

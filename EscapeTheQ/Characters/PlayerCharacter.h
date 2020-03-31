@@ -1,11 +1,14 @@
 #pragma once
 #include "Character.h"
 
-namespace Escape
+namespace EscapeQ
 {
-	class PlayerCharacter : Character
+	class PlayerCharacter : public Character
 	{
 	public:
 		PlayerCharacter();
+
+	public:
+		virtual void Update(float delta) override;
 	};
 }

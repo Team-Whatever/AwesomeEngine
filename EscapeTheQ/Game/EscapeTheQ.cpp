@@ -1,7 +1,9 @@
 #include "EscapeTheQ.h"
 
 #include "Input/InputEventSystem.h"
+#include "Input/InputManager.h"
 #include "Mix/Entity.h"
+#include "Characters/PlayerCharacter.h"
 
 #include "Components/TransformComponent.h"
 #include "Components/LuaScriptComponent.h"
@@ -15,10 +17,11 @@
 
 using namespace AwesomeEngine;
 using namespace DirectX;
-EscapeTheQ::EscapeTheQ(const std::wstring& name, int width, int height, bool vSync)
-	: AwesomeEngineApp( name, width, height, vSync )
-{
+using namespace EscapeQ;
 
+EscapeTheQ::EscapeTheQ(const std::wstring& name, int width, int height, bool vSync)
+	: AwesomeEngineApp(name, width, height, vSync)
+{
 }
 
 EscapeTheQ::~EscapeTheQ()
@@ -33,9 +36,11 @@ bool EscapeTheQ::Initialize()
 		auto entity = CreateEntity();
 		entity.addComponent(LuaScriptComponent("EscapeTheQ/Scripts/TestScript.lua"));
 
-		auto cubeEntity = CreateEntity();
-		cubeEntity.addComponent(CubeComponent(L"Assets/Textures/Mona_Lisa.jpg"));
-		cubeEntity.addComponent(TransformComponent(XMVectorSet(4.0, 8.0f, 4.0f, 0.0f), XMVectorSet( 4.0f, 8.0f, 4.0f, 1.0f ) ));
+		mPlayer = std::make_unique<PlayerCharacter>();
+		auto playerEntity = CreateEntity();
+		playerEntity.addComponent(CubeComponent(L"Assets/Textures/Mona_Lisa.jpg"));
+		playerEntity.addComponent(TransformComponent(XMVectorSet(4.0, 8.0f, 4.0f, 0.0f), XMVectorSet(4.0f, 8.0f, 4.0f, 1.0f)));
+		mPlayer->SetEntity(playerEntity);
 
 		auto torusEntity = CreateEntity();
 		torusEntity.addComponent(TorusComponent(L"Assets/Textures/DefaultWhite.bmp"));
@@ -65,4 +70,7 @@ bool EscapeTheQ::Initialize()
 void EscapeTheQ::OnUpdate(UpdateEventArgs& e)
 {
 	AwesomeEngineApp::OnUpdate(e);
+
+	mPlayer->Update(e.ElapsedTime);
+
 }
