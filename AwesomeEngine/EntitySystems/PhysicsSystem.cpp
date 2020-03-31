@@ -37,7 +37,7 @@ namespace AwesomeEngine
 
 		for( auto child : entity.GetChildren() )
 		{
-			UpdateEntity(*child, transform, delta);
+			UpdateEntity(child, transform, delta);
 		}
 	}
 

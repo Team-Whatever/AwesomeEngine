@@ -559,13 +559,13 @@ void DirectXApp::UpdateCamera(float delta)
 
 	// TODO : not to use key code directly,
 	// need to create key mapper with action name.
-	bool isForward = (InputManager::GetInstance().IsKeyPressed(KeyCode::Key::W) || InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Up));
+	bool isForward = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::W) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Up));
 	m_Forward = isForward ? 1.0f : 0.0f;
-	bool isBackward = (InputManager::GetInstance().IsKeyPressed(KeyCode::Key::S) || InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Down));
+	bool isBackward = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::S) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Down));
 	m_Backward = isBackward ? 1.0f : 0.0f;
-	bool isLeft = (InputManager::GetInstance().IsKeyPressed(KeyCode::Key::A) || InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Left));
+	bool isLeft = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::A) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Left));
 	m_Left = isLeft ? 1.0f : 0.0f;
-	bool isRight = (InputManager::GetInstance().IsKeyPressed(KeyCode::Key::D) || InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Right));
+	bool isRight = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::D) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Right));
 	m_Right = isRight ? 1.0f : 0.0f;
 	
 	m_Up = InputManager::GetInstance().IsKeyPressed(KeyCode::Key::E) ? 1.0f : 0.0f;

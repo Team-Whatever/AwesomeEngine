@@ -10,6 +10,7 @@
 #include <memory>
 #include <string>
 #include <cstdint>
+#include <DirectXMath.h>
 
 namespace Mix
 {
@@ -92,13 +93,24 @@ public:
 	/*
 		Entity Relationship
 	*/
-	void SetParent(Entity* newParent);
+	
 	inline Mix::Entity* GetParent() const { return parent; };
-	void AddChild(Entity* newChild);
-	void RemoveChild(Entity* newChild);
+	void AddChild(Entity newChild);
+	void RemoveChild(Entity newChild);
 
-	inline std::vector<Mix::Entity*> GetChildren() { return children; }
+	inline std::vector<Mix::Entity>& GetChildren() { return children; }
 	void RemoveAllChildren();
+private:
+	void SetParent(Entity* newParent);
+
+	/*
+		Transformation
+	*/
+
+public:
+	void SetLocation(DirectX::XMVECTOR newPos);
+	void SetScale(DirectX::XMVECTOR newScale);
+	void Translate(DirectX::XMVECTOR deltaPos);
 
 private:
     EntityManager& getEntityManager() const;
@@ -115,7 +127,7 @@ private:
     friend class EntityManager;
 
 	Mix::Entity* parent;
-	std::vector<Mix::Entity*> children;
+	std::vector<Mix::Entity> children;
 
 };
 

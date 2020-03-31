@@ -13,5 +13,5 @@ public:
 	virtual void OnUpdate(UpdateEventArgs& e) override;
 
 private:
-	std::unique_ptr<EscapeQ::PlayerCharacter> mPlayer;
+	std::shared_ptr<EscapeQ::PlayerCharacter> mPlayer;
 };

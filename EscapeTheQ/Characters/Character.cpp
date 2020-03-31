@@ -9,7 +9,6 @@ namespace EscapeQ
 {
 	Character::Character()
 	{
-		
 	}
 
 	void Character::SetEntity(Mix::Entity& entity)

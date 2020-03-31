@@ -1,6 +1,7 @@
 #include "PlayerCharacter.h"
 #include "Input/InputManager.h"
 #include "Components/TransformComponent.h"
+#include "Mix/Entity.h"
 #include <DirectXMath.h>
 
 using namespace AwesomeEngine;
@@ -37,7 +38,7 @@ namespace EscapeQ
 
 		XMVECTOR translate = XMVectorSet(right, 0.0f, forward, 1.0f) * speedMultipler * delta;
 		//player.Translate(translate, Space::Local);
-		auto& transform = mEntity.getComponent<TransformComponent>();
-		transform.position += translate;
+		//auto& transform = mEntity.getComponent<TransformComponent>();
+		mEntity.Translate(translate);
 	}
 }

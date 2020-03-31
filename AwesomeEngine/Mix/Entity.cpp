@@ -3,6 +3,10 @@
 #include <cassert>
 #include <algorithm>
 
+#include "Components/TransformComponent.h"
+
+using namespace DirectX;
+
 namespace Mix
 {
 
@@ -53,25 +57,66 @@ void Entity::SetParent(Entity* newParent)
 	parent = newParent;
 }
 
-void Entity::AddChild(Entity* newChild)
+void Entity::AddChild(Entity newChild)
 {
-	newChild->SetParent(this);
-	children.push_back(newChild);
+	newChild.SetParent(this);
+	children.emplace_back(newChild);
 }
 
-void Entity::RemoveChild(Entity* child)
+void Entity::RemoveChild(Entity child)
 {
 	children.erase( std::remove(children.begin(), children.end(), child), children.end() );
-	child->SetParent(nullptr);
+	child.SetParent(nullptr);
 }
 
 void Entity::RemoveAllChildren()
 {
 	for (auto it = children.begin(); it != children.end(); it++)
 	{
-		(*it)->SetParent(nullptr);
+		(*it).SetParent(nullptr);
 	}
 	children.clear();
+}
+
+void Entity::SetLocation( XMVECTOR newPos )
+{
+	if (hasComponent<AwesomeEngine::TransformComponent>())
+	{
+		auto& transform = getComponent<AwesomeEngine::TransformComponent>();
+		XMVECTOR deltaPos = newPos - transform.position;
+		transform.position = newPos;
+		for (auto& child : children)
+		{
+			child.Translate(deltaPos);
+		}
+	}
+}
+
+void Entity::SetScale(XMVECTOR newScale)
+{
+	if (hasComponent<AwesomeEngine::TransformComponent>())
+	{
+		auto& transform = getComponent<AwesomeEngine::TransformComponent>();
+		XMVECTOR deltaScale = newScale / transform.scale;
+		transform.scale = newScale;
+		for (auto& child : children)
+		{
+			child.SetScale(deltaScale);
+		}
+	}
+}
+
+void Entity::Translate( XMVECTOR deltaPos )
+{
+	if (hasComponent<AwesomeEngine::TransformComponent>())
+	{
+		auto& transform = getComponent<AwesomeEngine::TransformComponent>();
+		transform.position += deltaPos;
+		for (auto& child : children)
+		{
+			child.Translate(deltaPos);
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////

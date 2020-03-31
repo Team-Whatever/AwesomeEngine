@@ -1,6 +1,11 @@
 #pragma once
 #include "Mix/Entity.h"
 
+namespace Mix
+{
+	class Entity;
+}
+
 namespace EscapeQ
 {
 	class Character

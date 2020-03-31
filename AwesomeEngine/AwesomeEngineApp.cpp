@@ -101,7 +101,9 @@ void AwesomeEngineApp::OnUpdate(UpdateEventArgs& e)
 
 Mix::Entity AwesomeEngineApp::CreateEntity()
 {
-	return mWorld.createEntity();
+	auto e = mWorld.createEntity();
+	e.addComponent<TransformComponent>();
+	return e;
 }
 
 

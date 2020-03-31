@@ -31,36 +31,45 @@ EscapeTheQ::~EscapeTheQ()
 bool EscapeTheQ::Initialize()
 {
 	bool isInit = AwesomeEngineApp::Initialize();
+
+	
 	if (isInit)
 	{
 		auto entity = CreateEntity();
 		entity.addComponent(LuaScriptComponent("EscapeTheQ/Scripts/TestScript.lua"));
 
-		mPlayer = std::make_unique<PlayerCharacter>();
-		auto playerEntity = CreateEntity();
-		playerEntity.addComponent(CubeComponent(L"Assets/Textures/Mona_Lisa.jpg"));
-		playerEntity.addComponent(TransformComponent(XMVectorSet(4.0, 8.0f, 4.0f, 0.0f), XMVectorSet(4.0f, 8.0f, 4.0f, 1.0f)));
-		mPlayer->SetEntity(playerEntity);
-
 		auto torusEntity = CreateEntity();
 		torusEntity.addComponent(TorusComponent(L"Assets/Textures/DefaultWhite.bmp"));
-		torusEntity.addComponent(TransformComponent(XMVectorSet(4.0, 0.6f, -4.0f, 0.0f), XMVectorSet(4.0f, 4.0f, 4.0f, 1.0f)));
+		torusEntity.SetLocation(XMVectorSet(4.0, 0.6f, -4.0f, 0.0f));
+		torusEntity.SetScale(XMVectorSet(4.0f, 4.0f, 4.0f, 1.0f));
+
+		mPlayer = std::make_shared<PlayerCharacter>();
+		auto playerEntity = CreateEntity();
+		playerEntity.addComponent(CubeComponent(L"Assets/Textures/Mona_Lisa.jpg"));
+		playerEntity.SetLocation(XMVectorSet(4.0, 8.0f, 4.0f, 0.0f));
+		playerEntity.SetScale(XMVectorSet(4.0f, 8.0f, 4.0f, 1.0f));
+		playerEntity.AddChild(torusEntity);
+		mPlayer->SetEntity(playerEntity);
 
 		auto sphereEntity = CreateEntity();
 		sphereEntity.addComponent(SphereComponent(L"Assets/Textures/earth.dds"));
-		sphereEntity.addComponent(TransformComponent(XMVectorSet(-4.0, 2.0f, -4.0f, 0.0f), XMVectorSet(4.0f, 4.0f, 4.0f, 1.0f)));
+		sphereEntity.SetLocation(XMVectorSet(-4.0, 2.0f, -4.0f, 0.0f));
+		sphereEntity.SetScale(XMVectorSet(4.0f, 4.0f, 4.0f, 1.0f));
 
 		auto sphereEntity2 = CreateEntity();
 		sphereEntity2.addComponent(SphereComponent(L"Assets/Textures/Mona_Lisa.jpg"));
-		sphereEntity2.addComponent(TransformComponent(XMVectorSet(-4.0, 6.0f, -4.0f, 0.0f), XMVectorSet(2.0f, 2.0f, 2.0f, 1.0f)));
+		sphereEntity2.SetLocation(XMVectorSet(-4.0, 6.0f, -4.0f, 0.0f));
+		sphereEntity2.SetScale(XMVectorSet(2.0f, 2.0f, 2.0f, 1.0f));
+		sphereEntity.AddChild(sphereEntity2);
 
 		auto planeEntity = CreateEntity();
 		planeEntity.addComponent(PlaneComponent(L"Assets/Textures/Directx9.png"));
-		planeEntity.addComponent(TransformComponent(XMVectorSet(0.0, 0.0f, 0.0f, 0.0f), XMVectorSet(20.0f, 1.0f, 20.0f, 1.0f)));
+		planeEntity.SetLocation(XMVectorSet(0.0, 0.0f, 0.0f, 0.0f));
+		planeEntity.SetScale(XMVectorSet(20.0f, 1.0f, 20.0f, 1.0f));
 
 		auto coneEntity = CreateEntity();
 		coneEntity.addComponent(ConeComponent(L"Assets/Textures/DefaultWhite.bmp"));
-		coneEntity.addComponent(TransformComponent(XMVectorSet(0.0, 10.0f, 0.0f, 0.0f)));
+		coneEntity.SetLocation(XMVectorSet(0.0, 10.0f, 0.0f, 0.0f));
 
 	}
 
