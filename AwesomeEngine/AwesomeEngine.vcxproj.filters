@@ -143,6 +143,12 @@
     <ClCompile Include="EntitySystems\PlaneRenderingSystem.cpp">
       <Filter>EntitySystems</Filter>
     </ClCompile>
+    <ClCompile Include="Components\CylinderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystems\CylinderRenderingSystem.cpp">
+      <Filter>EntitySystems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\TransformComponent.h">
@@ -296,6 +302,12 @@
       <Filter>EntitySystems</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystems\PlaneRenderingSystem.h">
+      <Filter>EntitySystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\CylinderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystems\CylinderRenderingSystem.h">
       <Filter>EntitySystems</Filter>
     </ClInclude>
   </ItemGroup>

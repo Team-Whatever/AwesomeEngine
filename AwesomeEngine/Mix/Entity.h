@@ -110,6 +110,7 @@ private:
 public:
 	void SetLocation(DirectX::XMVECTOR newPos);
 	void SetScale(DirectX::XMVECTOR newScale);
+	void SetRotation(DirectX::XMVECTOR newRotation);
 	void Translate(DirectX::XMVECTOR deltaPos);
 
 private:

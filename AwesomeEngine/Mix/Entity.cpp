@@ -106,6 +106,20 @@ void Entity::SetScale(XMVECTOR newScale)
 	}
 }
 
+void Entity::SetRotation(DirectX::XMVECTOR newRotation)
+{
+	if (hasComponent<AwesomeEngine::TransformComponent>())
+	{
+		auto& transform = getComponent<AwesomeEngine::TransformComponent>();
+		XMVECTOR deltaRotation = transform.rotation * newRotation;
+		transform.rotation = deltaRotation;
+		for (auto& child : children)
+		{
+			child.SetRotation(deltaRotation);
+		}
+	}
+}
+
 void Entity::Translate( XMVECTOR deltaPos )
 {
 	if (hasComponent<AwesomeEngine::TransformComponent>())

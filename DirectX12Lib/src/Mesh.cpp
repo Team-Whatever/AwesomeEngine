@@ -374,6 +374,61 @@ std::unique_ptr<Mesh> Mesh::CreatePlane(CommandList& commandList, float width, f
     return mesh;
 }
 
+std::unique_ptr<Mesh> Mesh::CreateCylinder(CommandList& commandList, float radius /*= 1*/, float height /*= 1*/, size_t tessellation /*= 16*/, bool rhcoords /*= false*/)
+{
+	VertexCollection vertices;
+	IndexCollection indices;
+
+	if (tessellation < 3)
+		throw std::out_of_range("tessellation parameter out of range");
+
+	height /= 2;
+
+	XMVECTOR topOffset = g_XMIdentityR1 * height;
+
+	size_t stride = tessellation + 1;
+
+	// Create a ring of triangles around the outside of the cone.
+	for (size_t i = 0; i <= tessellation; i++)
+	{
+		XMVECTOR circlevec = GetCircleVector(i, tessellation);
+
+		XMVECTOR sideOffset = circlevec * radius;
+
+		float u = (float)i / tessellation;
+
+		XMVECTOR textureCoordinate = XMLoadFloat(&u);
+
+		XMVECTOR pt1 = sideOffset + topOffset;
+		XMVECTOR pt2 = sideOffset - topOffset;
+
+		XMVECTOR normal = circlevec;
+		normal = XMVector3Normalize(normal);
+
+		// Duplicate the top vertex for distinct normals
+		vertices.push_back(VertexPositionNormalTexture(pt1, normal, textureCoordinate ));
+		vertices.push_back(VertexPositionNormalTexture(pt2, normal, textureCoordinate + g_XMIdentityR1));
+
+		indices.push_back(static_cast<uint16_t>(i * 2));
+		indices.push_back(static_cast<uint16_t>((i * 2 + 3) % (stride * 2)));
+		indices.push_back(static_cast<uint16_t>((i * 2 + 1) % (stride * 2)));
+		indices.push_back(static_cast<uint16_t>(i * 2));
+		indices.push_back(static_cast<uint16_t>((i * 2 + 2) % (stride * 2)));
+		indices.push_back(static_cast<uint16_t>((i * 2 + 3) % (stride * 2)));
+	}
+
+	// Create flat triangle fan caps to seal the bottom.
+	CreateCylinderCap(vertices, indices, tessellation, height, radius, true);
+	CreateCylinderCap(vertices, indices, tessellation, height, radius, false);
+
+	// Create the primitive object.
+	std::unique_ptr<Mesh> mesh(new Mesh());
+
+	mesh->Initialize(commandList, vertices, indices, rhcoords);
+
+	return mesh;
+}
+
 
 // Helper for flipping winding of geometric primitives for LH vs. RH coords
 static void ReverseWinding(IndexCollection& indices, VertexCollection& vertices)

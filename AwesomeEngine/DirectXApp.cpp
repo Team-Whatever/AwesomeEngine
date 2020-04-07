@@ -24,6 +24,7 @@ using namespace Microsoft::WRL;
 #include "EntitySystems/TorusRenderingSystem.h"
 #include "EntitySystems/SphereRenderingSystem.h"
 #include "EntitySystems/ConeRenderingSystem.h"
+#include "EntitySystems/CylinderRenderingSystem.h"
 #include "EntitySystems/PlaneRenderingSystem.h"
 
 
@@ -170,6 +171,7 @@ bool DirectXApp::Initialize()
 		mWorld.getSystemManager().addSystem<TorusRenderingSystem>();
 		mWorld.getSystemManager().addSystem<SphereRenderingSystem>();
 		mWorld.getSystemManager().addSystem<ConeRenderingSystem>();
+		mWorld.getSystemManager().addSystem<CylinderRenderingSystem>();
 		mWorld.getSystemManager().addSystem<PlaneRenderingSystem>();
 	}
 	return init;
@@ -978,7 +980,9 @@ void DirectXApp::OnRender(RenderEventArgs& e)
 	mWorld.getSystemManager().getSystem<TorusRenderingSystem>().Render(e.ElapsedTime, commandList, &m_Camera);
 	mWorld.getSystemManager().getSystem<SphereRenderingSystem>().Render(e.ElapsedTime, commandList, &m_Camera);
 	mWorld.getSystemManager().getSystem<ConeRenderingSystem>().Render(e.ElapsedTime, commandList, &m_Camera);
+	mWorld.getSystemManager().getSystem<CylinderRenderingSystem>().Render(e.ElapsedTime, commandList, &m_Camera);
 	mWorld.getSystemManager().getSystem<PlaneRenderingSystem>().Render(e.ElapsedTime, commandList, &m_Camera);
+	
 
 	//// Draw shapes to visualize the position of the lights in the scene.
 	//Material lightMaterial;

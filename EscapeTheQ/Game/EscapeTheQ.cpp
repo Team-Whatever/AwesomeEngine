@@ -12,6 +12,7 @@
 #include "Components/SphereComponent.h"
 #include "Components/PlaneComponent.h"
 #include "Components/ConeComponent.h"
+#include "Components/CylinderComponent.h"
 #include "PythonScriptComponent.h"
 #include <string>
 
@@ -70,6 +71,11 @@ bool EscapeTheQ::Initialize()
 		auto coneEntity = CreateEntity();
 		coneEntity.addComponent(ConeComponent(L"Assets/Textures/DefaultWhite.bmp"));
 		coneEntity.SetLocation(XMVectorSet(0.0, 10.0f, 0.0f, 0.0f));
+
+		auto cylinderEntity = CreateEntity();
+		cylinderEntity.addComponent(CylinderComponent(L"Assets/Textures/Mona_Lisa.jpg"));
+		cylinderEntity.SetLocation(XMVectorSet(5.0, 5.0f, 0.0f, 0.0f));
+		cylinderEntity.SetScale(XMVectorSet(1.0f, 5.0f, 1.0f, 1.0f));
 
 	}
 
