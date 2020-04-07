@@ -8,6 +8,7 @@
 #include "DirectXApp.h"
 #include "Events/IEventData.h"
 #include "Mix/Entity.h"
+#include "Managers/SceneLoader.h"
 
 namespace Gdiplus
 {
@@ -23,6 +24,7 @@ public:
 	virtual bool Initialize();
 	virtual void OnUpdate(UpdateEventArgs& e);
 	Mix::Entity CreateEntity();
+	void LoadScene( std::string sceneName );
 
 public:
 	int Run();
@@ -39,6 +41,9 @@ public:
 	void EventMouseMoved(const EventParam param);
 	void EventKeyPressed(const EventParam param);
 
+protected:
+	bool InitWindow();
+
 private:
 	void InitLuaScript();
 
@@ -52,8 +57,6 @@ protected:
 	std::string m_AppTitle;
 	DWORD m_WndStyle;
 	Gdiplus::Image* m_LogoImage;
+	AwesomeEngine::SceneLoader m_SceneLoader;
 
-
-protected:
-	bool InitWindow();
 };

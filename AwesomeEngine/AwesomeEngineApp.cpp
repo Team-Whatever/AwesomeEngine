@@ -571,4 +571,9 @@ void AwesomeEngineApp::InitLuaScript()
 	std::cout << "And here's our number:" << answer << std::endl;
 
 }
+
+void AwesomeEngineApp::LoadScene(std::string sceneName)
+{
+	m_SceneLoader.LoadScene(sceneName);
+}
 //

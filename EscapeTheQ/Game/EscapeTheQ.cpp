@@ -36,6 +36,8 @@ bool EscapeTheQ::Initialize()
 	
 	if (isInit)
 	{
+		LoadScene("Assets/Maps/noname.scene");
+
 		auto entity = CreateEntity();
 		entity.addComponent(LuaScriptComponent("EscapeTheQ/Scripts/TestScript.lua"));
 
