@@ -1,16 +1,17 @@
 #include "SceneLoader.h"
-#include "Libs/rapidjson/rapidjson.h"
-#include "Libs/rapidjson/document.h"
 #include "Libs/rapidjson/istreamwrapper.h"
+#include "Mix/World.h"
+#include "Mix/Entity.h"
+#include "Components/TransformComponent.h"
 
 #include <fstream>
 #include <iostream>
 
+using namespace DirectX;
 namespace AwesomeEngine
 {
-	void SceneLoader::LoadScene(std::string sceneFileName)
+	void SceneLoader::LoadScene( Mix::World& world, std::string sceneFileName )
 	{
-
 		std::ifstream sceneFS(sceneFileName.c_str());
 		rapidjson::IStreamWrapper isw(sceneFS);
 		rapidjson::Document doc;
@@ -19,15 +20,69 @@ namespace AwesomeEngine
 		std::string sceneName = doc["Name"].GetString();
 		
 		assert(doc["children"].IsObject());
-		if (doc["children"].HasMember("$values"))
+		
+		//LoadObject( world, doc["children"] );
+	}
+
+	void SceneLoader::LoadObject( Mix::World& world, const rapidjson::Value& obj )
+	{
+		assert(obj.HasMember("$values"));
+		if (obj.HasMember("$values"))
 		{
-			auto values = doc["children"]["$values"].GetArray();
+			auto values = obj["$values"].GetArray();
 			for (auto& val : values)
 			{
 				std::string childName = val["Name"].GetString();
+				std::string childType = val["Type"].GetString();
+				if (childType == "UnityEngine.GameObject")
+				{
+					auto entity = world.createEntity();
+					if (val.HasMember("components"))
+					{
+						LoadComponents(world, entity, val["components"]);
+					}
+				}
 			}
 		}
-		
+
+	}
+
+	void SceneLoader::LoadComponents(Mix::World& world, Mix::Entity& entity, const rapidjson::Value& comps)
+	{
+		assert(comps.HasMember("$values"));
+		if( comps.HasMember("$values") )
+		{
+			auto compsArray = comps["$values"].GetArray();
+			for (auto& comp : compsArray)
+			{
+				std::string compType = comp["Type"].GetString();
+				if (compType == "UnityEngine.Transform")
+				{
+					assert(comp.HasMember("position"));
+					assert(comp.HasMember("scale"));
+					assert(comp.HasMember("rotation"));
+
+					FXMVECTOR position = LoadVector(comp["position"]);
+					FXMVECTOR scale = LoadVector(comp["scale"]);
+					FXMVECTOR rotation = LoadVector(comp["rotation"]);
+
+					entity.addComponent<TransformComponent>(position, scale, rotation);
+				}
+				else if (compType == "UnityEngine.Mesh")
+				{
+
+				}
+			}
+		}
+	}
+
+	FXMVECTOR SceneLoader::LoadVector(const rapidjson::Value& obj)
+	{
+		assert(obj.IsObject());
+		assert(obj.HasMember("x"));
+		assert(obj.HasMember("y"));
+		assert(obj.HasMember("z"));
+		return DirectX::XMVectorSet(obj["x"].GetFloat(), obj["y"].GetFloat(), obj["z"].GetFloat(), 0.0f);
 	}
 
 }

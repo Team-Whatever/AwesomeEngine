@@ -1,11 +1,31 @@
 #pragma once
+#include "Libs/rapidjson/rapidjson.h"
+#include "Libs/rapidjson/document.h"
+
 #include <string>
+#include <DirectXMath.h>
+
+
+namespace Mix
+{
+	class World;
+	class Entity;
+}
+
 namespace AwesomeEngine
 {
 	class SceneLoader
 	{
 
 	public:
-		void LoadScene(std::string sceneFileName);
+		void LoadScene( Mix::World& world, std::string sceneFileName );
+
+	private:
+		void LoadObject( Mix::World& world, const rapidjson::Value& obj );
+		void LoadComponents(Mix::World& world, Mix::Entity& entity, const rapidjson::Value& comps);
+		DirectX::FXMVECTOR LoadVector(const rapidjson::Value& obj);
+
+	private:
+		
 	};
 }

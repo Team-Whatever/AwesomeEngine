@@ -822,25 +822,25 @@ void DirectXApp::OnRender(RenderEventArgs& e)
 	// Render the skybox.
 	{
 		// The view matrix should only consider the camera's rotation, but not the translation.
-		auto viewMatrix = XMMatrixTranspose(XMMatrixRotationQuaternion(m_Camera.get_Rotation()));
-		auto projMatrix = m_Camera.get_ProjectionMatrix();
-		auto viewProjMatrix = viewMatrix * projMatrix;
+		//auto viewMatrix = XMMatrixTranspose(XMMatrixRotationQuaternion(m_Camera.get_Rotation()));
+		//auto projMatrix = m_Camera.get_ProjectionMatrix();
+		//auto viewProjMatrix = viewMatrix * projMatrix;
 
-		commandList->SetPipelineState(m_SkyboxPipelineState);
-		commandList->SetGraphicsRootSignature(m_SkyboxSignature);
+		//commandList->SetPipelineState(m_SkyboxPipelineState);
+		//commandList->SetGraphicsRootSignature(m_SkyboxSignature);
 
-		commandList->SetGraphics32BitConstants(0, viewProjMatrix);
+		//commandList->SetGraphics32BitConstants(0, viewProjMatrix);
 
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-		srvDesc.Format = m_GraceCathedralCubemap.GetD3D12ResourceDesc().Format;
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
-		srvDesc.TextureCube.MipLevels = (UINT)-1; // Use all mips.
+		//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+		//srvDesc.Format = m_GraceCathedralCubemap.GetD3D12ResourceDesc().Format;
+		//srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		//srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
+		//srvDesc.TextureCube.MipLevels = (UINT)-1; // Use all mips.
 
 		// TODO: Need a better way to bind a cubemap.
-		commandList->SetShaderResourceView(1, 0, m_GraceCathedralCubemap, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0, D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES, &srvDesc);
+		//commandList->SetShaderResourceView(1, 0, m_GraceCathedralCubemap, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0, D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES, &srvDesc);
 
-		m_SkyboxMesh->Render(*commandList);
+		//m_SkyboxMesh->Render(*commandList);
 	}
 
 

@@ -574,6 +574,6 @@ void AwesomeEngineApp::InitLuaScript()
 
 void AwesomeEngineApp::LoadScene(std::string sceneName)
 {
-	m_SceneLoader.LoadScene(sceneName);
+	m_SceneLoader.LoadScene(mWorld, sceneName);
 }
 //
