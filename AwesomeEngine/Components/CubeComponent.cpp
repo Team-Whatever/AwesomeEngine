@@ -8,7 +8,7 @@ using namespace DirectX;
 namespace AwesomeEngine
 {
 	CubeComponent::CubeComponent()
-		: CubeComponent( L"" )
+		: CubeComponent(L"Assets/Textures/DefaultWhite.bmp")
 	{
 	}
 

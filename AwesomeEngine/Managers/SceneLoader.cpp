@@ -3,6 +3,10 @@
 #include "Mix/World.h"
 #include "Mix/Entity.h"
 #include "Components/TransformComponent.h"
+#include "Components/CubeComponent.h"
+#include "Components/CylinderComponent.h"
+#include "Components/SphereComponent.h"
+#include "Components/PlaneComponent.h"
 
 #include <fstream>
 #include <iostream>
@@ -21,7 +25,7 @@ namespace AwesomeEngine
 		
 		assert(doc["children"].IsObject());
 		
-		//LoadObject( world, doc["children"] );
+		LoadObject( world, doc["children"] );
 	}
 
 	void SceneLoader::LoadObject( Mix::World& world, const rapidjson::Value& obj )
@@ -68,8 +72,25 @@ namespace AwesomeEngine
 
 					entity.addComponent<TransformComponent>(position, scale, rotation);
 				}
-				else if (compType == "UnityEngine.Mesh")
+				else if (compType == "UnityEngine.MeshFilter")
 				{
+					std::string meshName = comp["meshName"].GetString();
+					if (meshName == "Cube")
+					{
+						entity.addComponent<CubeComponent>();
+					}
+					else if (meshName == "Cylinder")
+					{
+						entity.addComponent<CylinderComponent>();
+					}
+					else if (meshName == "Sphere")
+					{
+						entity.addComponent<SphereComponent>();
+					}
+					//else if (meshName == "Plane")
+					//{
+					//	entity.addComponent<PlaneComponent>();
+					//}
 
 				}
 			}

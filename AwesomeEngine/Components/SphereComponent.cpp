@@ -7,7 +7,7 @@ using namespace DirectX;
 namespace AwesomeEngine
 {
 	SphereComponent::SphereComponent()
-		: SphereComponent(L"")
+		: SphereComponent(L"Assets/Textures/DefaultWhite.bmp")
 	{
 	}
 

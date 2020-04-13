@@ -8,7 +8,7 @@ using namespace DirectX;
 namespace AwesomeEngine
 {
 	CylinderComponent::CylinderComponent()
-		: CylinderComponent(L"")
+		: CylinderComponent(L"Assets/Textures/DefaultWhite.bmp")
 	{
 	}
 
