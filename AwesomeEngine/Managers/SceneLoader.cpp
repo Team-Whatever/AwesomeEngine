@@ -45,10 +45,64 @@ namespace AwesomeEngine
 					{
 						LoadComponents(world, entity, val["components"]);
 					}
+					if (val.HasMember("children"))
+					{
+						auto childrenArray = val["children"]["$values"].GetArray();
+						for (auto& child : childrenArray)
+						{
+							auto childEntity = world.createEntity();
+							LoadChildObject(world, childEntity, child);
+
+							TransformComponent parentTransform = entity.getComponent<TransformComponent>();
+							TransformComponent childTransform = childEntity.getComponent<TransformComponent>();
+
+							XMVECTOR cPos = XMVectorAdd(parentTransform.position, childTransform.position);
+							XMVECTOR cScale = XMVectorMultiply(parentTransform.scale, childTransform.scale);
+							XMVECTOR cRotation = XMVectorAdd(parentTransform.rotation, childTransform.rotation);
+							childEntity.SetLocation(cPos);
+							childEntity.SetScale(cScale);
+							childEntity.SetRotation(cRotation);
+
+							entity.AddChild(childEntity);
+						}
+					}
 				}
 			}
 		}
+	}
 
+	void SceneLoader::LoadChildObject(Mix::World& world, Mix::Entity& entity, const rapidjson::Value& obj)
+	{
+		std::string childName = obj["Name"].GetString();
+		std::string childType = obj["Type"].GetString();
+		if (childType == "UnityEngine.GameObject")
+		{
+			if (obj.HasMember("components"))
+			{
+				LoadComponents(world, entity, obj["components"]);
+			}
+			if (obj.HasMember("children"))
+			{
+				auto childrenArray = obj["children"]["$values"].GetArray();
+				for (auto& child : childrenArray)
+				{
+					auto childEntity = world.createEntity();
+					LoadChildObject(world, childEntity, child);
+
+					TransformComponent parentTransform = entity.getComponent<TransformComponent>();
+					TransformComponent childTransform = childEntity.getComponent<TransformComponent>();
+
+					XMVECTOR cPos = XMVectorAdd(parentTransform.position, childTransform.position);
+					XMVECTOR cScale = XMVectorMultiply(parentTransform.scale, childTransform.scale);
+					XMVECTOR cRotation = XMVectorAdd(parentTransform.rotation, childTransform.rotation);
+					childEntity.SetLocation(cPos);
+					childEntity.SetScale(cScale);
+					childEntity.SetRotation(cRotation);
+
+					entity.AddChild(childEntity);
+				}
+			}
+		}
 	}
 
 	void SceneLoader::LoadComponents(Mix::World& world, Mix::Entity& entity, const rapidjson::Value& comps)

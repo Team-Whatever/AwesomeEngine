@@ -3496,7 +3496,809 @@
               },
               "children": {
                 "$type": "System.Collections.Generic.List`1[[GameObjectClass, Assembly-CSharp-Editor]], mscorlib",
-                "$values": []
+                "$values": [
+                  {
+                    "$type": "GameObjectClass, Assembly-CSharp-Editor",
+                    "Name": "Cube",
+                    "Type": "UnityEngine.GameObject",
+                    "transformClass": {
+                      "$type": "TransformClass, Assembly-CSharp-Editor",
+                      "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 1.81999993
+                      },
+                      "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                      },
+                      "rotation": {
+                        "w": 0.923879564,
+                        "x": 0.382683426,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "eulerAngles": {
+                          "x": 45.0,
+                          "y": 0.0,
+                          "z": 0.0
+                        }
+                      }
+                    },
+                    "components": {
+                      "$type": "System.Collections.Generic.List`1[[ComponentClass, Assembly-CSharp-Editor]], mscorlib",
+                      "$values": [
+                        {
+                          "$type": "TransformComponent, Assembly-CSharp-Editor",
+                          "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 1.81999993
+                          },
+                          "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                          },
+                          "rotation": {
+                            "w": 0.923879564,
+                            "x": 0.382683426,
+                            "y": 0.0,
+                            "z": 0.0,
+                            "eulerAngles": {
+                              "x": 45.0,
+                              "y": 0.0,
+                              "z": 0.0
+                            }
+                          },
+                          "Type": "UnityEngine.Transform"
+                        },
+                        {
+                          "$type": "MeshFilterComponent, Assembly-CSharp-Editor",
+                          "mesh": {
+                            "$type": "UnityEngine.Mesh, UnityEngine.CoreModule",
+                            "uv1": null,
+                            "indexFormat": 0,
+                            "vertexBufferCount": 1,
+                            "blendShapeCount": 0,
+                            "bindposes": {
+                              "$type": "UnityEngine.Matrix4x4[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "isReadable": true,
+                            "vertexCount": 24,
+                            "subMeshCount": 1,
+                            "bounds": {
+                              "$type": "UnityEngine.Bounds, UnityEngine.CoreModule",
+                              "center": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                              },
+                              "size": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                              },
+                              "extents": {
+                                "x": 0.5,
+                                "y": 0.5,
+                                "z": 0.5
+                              },
+                              "min": {
+                                "x": -0.5,
+                                "y": -0.5,
+                                "z": -0.5
+                              },
+                              "max": {
+                                "x": 0.5,
+                                "y": 0.5,
+                                "z": 0.5
+                              }
+                            },
+                            "vertices": {
+                              "$type": "UnityEngine.Vector3[], UnityEngine.CoreModule",
+                              "$values": [
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                }
+                              ]
+                            },
+                            "normals": {
+                              "$type": "UnityEngine.Vector3[], UnityEngine.CoreModule",
+                              "$values": [
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": -1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": -1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": -1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": -1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                }
+                              ]
+                            },
+                            "tangents": {
+                              "$type": "UnityEngine.Vector4[], UnityEngine.CoreModule",
+                              "$values": [
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0,
+                                  "w": -1.0
+                                }
+                              ]
+                            },
+                            "uv": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": [
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                }
+                              ]
+                            },
+                            "uv2": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": [
+                                {
+                                  "x": 0.6909865,
+                                  "y": 0.3471644
+                                },
+                                {
+                                  "x": 0.9966581,
+                                  "y": 0.3471644
+                                },
+                                {
+                                  "x": 0.6909865,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.9966581,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.3097273,
+                                  "y": 0.347164243
+                                },
+                                {
+                                  "x": 0.00405576639,
+                                  "y": 0.347164243
+                                },
+                                {
+                                  "x": 0.347164243,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.652835846,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.3097273,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.00405576639,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.347164243,
+                                  "y": 0.347164243
+                                },
+                                {
+                                  "x": 0.652835846,
+                                  "y": 0.347164243
+                                },
+                                {
+                                  "x": 0.347164243,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.347164243,
+                                  "y": 0.3097273
+                                },
+                                {
+                                  "x": 0.652835846,
+                                  "y": 0.3097273
+                                },
+                                {
+                                  "x": 0.652835846,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.6902728,
+                                  "y": 0.3097273
+                                },
+                                {
+                                  "x": 0.995944262,
+                                  "y": 0.3097273
+                                },
+                                {
+                                  "x": 0.995944262,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.6902728,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.3097273,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.00405576639,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.00405576639,
+                                  "y": 0.3097273
+                                },
+                                {
+                                  "x": 0.3097273,
+                                  "y": 0.3097273
+                                }
+                              ]
+                            },
+                            "uv3": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "uv4": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "uv5": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "uv6": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "uv7": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "uv8": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "colors": {
+                              "$type": "UnityEngine.Color[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "colors32": {
+                              "$type": "UnityEngine.Color32[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "vertexAttributeCount": 5,
+                            "triangles": {
+                              "$type": "System.Int32[], mscorlib",
+                              "$values": [
+                                0,
+                                2,
+                                3,
+                                0,
+                                3,
+                                1,
+                                8,
+                                4,
+                                5,
+                                8,
+                                5,
+                                9,
+                                10,
+                                6,
+                                7,
+                                10,
+                                7,
+                                11,
+                                12,
+                                13,
+                                14,
+                                12,
+                                14,
+                                15,
+                                16,
+                                17,
+                                18,
+                                16,
+                                18,
+                                19,
+                                20,
+                                21,
+                                22,
+                                20,
+                                22,
+                                23
+                              ]
+                            },
+                            "boneWeights": {
+                              "$type": "UnityEngine.BoneWeight[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "name": "Cube",
+                            "hideFlags": 63
+                          },
+                          "meshName": "Cube",
+                          "Type": "UnityEngine.MeshFilter"
+                        },
+                        {
+                          "$type": "MeshRendererComponent, Assembly-CSharp-Editor",
+                          "shaderName": "Standard",
+                          "materialName": "Default-Material",
+                          "Type": "UnityEngine.MeshRenderer"
+                        },
+                        {
+                          "$type": "BoxColliderComponent, Assembly-CSharp-Editor",
+                          "Type": "UnityEngine.BoxCollider"
+                        }
+                      ]
+                    },
+                    "children": {
+                      "$type": "System.Collections.Generic.List`1[[GameObjectClass, Assembly-CSharp-Editor]], mscorlib",
+                      "$values": []
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -20891,7 +21693,809 @@
               },
               "children": {
                 "$type": "System.Collections.Generic.List`1[[GameObjectClass, Assembly-CSharp-Editor]], mscorlib",
-                "$values": []
+                "$values": [
+                  {
+                    "$type": "GameObjectClass, Assembly-CSharp-Editor",
+                    "Name": "Cube",
+                    "Type": "UnityEngine.GameObject",
+                    "transformClass": {
+                      "$type": "TransformClass, Assembly-CSharp-Editor",
+                      "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 1.598
+                      },
+                      "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                      },
+                      "rotation": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0,
+                        "eulerAngles": {
+                          "x": 0.0,
+                          "y": 0.0,
+                          "z": 0.0
+                        }
+                      }
+                    },
+                    "components": {
+                      "$type": "System.Collections.Generic.List`1[[ComponentClass, Assembly-CSharp-Editor]], mscorlib",
+                      "$values": [
+                        {
+                          "$type": "TransformComponent, Assembly-CSharp-Editor",
+                          "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 1.598
+                          },
+                          "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                          },
+                          "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0,
+                            "eulerAngles": {
+                              "x": 0.0,
+                              "y": 0.0,
+                              "z": 0.0
+                            }
+                          },
+                          "Type": "UnityEngine.Transform"
+                        },
+                        {
+                          "$type": "MeshFilterComponent, Assembly-CSharp-Editor",
+                          "mesh": {
+                            "$type": "UnityEngine.Mesh, UnityEngine.CoreModule",
+                            "uv1": null,
+                            "indexFormat": 0,
+                            "vertexBufferCount": 1,
+                            "blendShapeCount": 0,
+                            "bindposes": {
+                              "$type": "UnityEngine.Matrix4x4[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "isReadable": true,
+                            "vertexCount": 24,
+                            "subMeshCount": 1,
+                            "bounds": {
+                              "$type": "UnityEngine.Bounds, UnityEngine.CoreModule",
+                              "center": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                              },
+                              "size": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                              },
+                              "extents": {
+                                "x": 0.5,
+                                "y": 0.5,
+                                "z": 0.5
+                              },
+                              "min": {
+                                "x": -0.5,
+                                "y": -0.5,
+                                "z": -0.5
+                              },
+                              "max": {
+                                "x": 0.5,
+                                "y": 0.5,
+                                "z": 0.5
+                              }
+                            },
+                            "vertices": {
+                              "$type": "UnityEngine.Vector3[], UnityEngine.CoreModule",
+                              "$values": [
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": -0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": -0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": 0.5,
+                                  "z": 0.5
+                                },
+                                {
+                                  "x": 0.5,
+                                  "y": -0.5,
+                                  "z": 0.5
+                                }
+                              ]
+                            },
+                            "normals": {
+                              "$type": "UnityEngine.Vector3[], UnityEngine.CoreModule",
+                              "$values": [
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": -1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": -1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": -1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": -1.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0,
+                                  "z": 0.0
+                                }
+                              ]
+                            },
+                            "tangents": {
+                              "$type": "UnityEngine.Vector4[], UnityEngine.CoreModule",
+                              "$values": [
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": -1.0,
+                                  "y": 0.0,
+                                  "z": 0.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": -1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0,
+                                  "w": -1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0,
+                                  "z": 1.0,
+                                  "w": -1.0
+                                }
+                              ]
+                            },
+                            "uv": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": [
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 0.0
+                                },
+                                {
+                                  "x": 0.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 1.0
+                                },
+                                {
+                                  "x": 1.0,
+                                  "y": 0.0
+                                }
+                              ]
+                            },
+                            "uv2": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": [
+                                {
+                                  "x": 0.6909865,
+                                  "y": 0.3471644
+                                },
+                                {
+                                  "x": 0.9966581,
+                                  "y": 0.3471644
+                                },
+                                {
+                                  "x": 0.6909865,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.9966581,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.3097273,
+                                  "y": 0.347164243
+                                },
+                                {
+                                  "x": 0.00405576639,
+                                  "y": 0.347164243
+                                },
+                                {
+                                  "x": 0.347164243,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.652835846,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.3097273,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.00405576639,
+                                  "y": 0.652835846
+                                },
+                                {
+                                  "x": 0.347164243,
+                                  "y": 0.347164243
+                                },
+                                {
+                                  "x": 0.652835846,
+                                  "y": 0.347164243
+                                },
+                                {
+                                  "x": 0.347164243,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.347164243,
+                                  "y": 0.3097273
+                                },
+                                {
+                                  "x": 0.652835846,
+                                  "y": 0.3097273
+                                },
+                                {
+                                  "x": 0.652835846,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.6902728,
+                                  "y": 0.3097273
+                                },
+                                {
+                                  "x": 0.995944262,
+                                  "y": 0.3097273
+                                },
+                                {
+                                  "x": 0.995944262,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.6902728,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.3097273,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.00405576639,
+                                  "y": 0.00405576639
+                                },
+                                {
+                                  "x": 0.00405576639,
+                                  "y": 0.3097273
+                                },
+                                {
+                                  "x": 0.3097273,
+                                  "y": 0.3097273
+                                }
+                              ]
+                            },
+                            "uv3": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "uv4": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "uv5": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "uv6": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "uv7": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "uv8": {
+                              "$type": "UnityEngine.Vector2[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "colors": {
+                              "$type": "UnityEngine.Color[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "colors32": {
+                              "$type": "UnityEngine.Color32[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "vertexAttributeCount": 5,
+                            "triangles": {
+                              "$type": "System.Int32[], mscorlib",
+                              "$values": [
+                                0,
+                                2,
+                                3,
+                                0,
+                                3,
+                                1,
+                                8,
+                                4,
+                                5,
+                                8,
+                                5,
+                                9,
+                                10,
+                                6,
+                                7,
+                                10,
+                                7,
+                                11,
+                                12,
+                                13,
+                                14,
+                                12,
+                                14,
+                                15,
+                                16,
+                                17,
+                                18,
+                                16,
+                                18,
+                                19,
+                                20,
+                                21,
+                                22,
+                                20,
+                                22,
+                                23
+                              ]
+                            },
+                            "boneWeights": {
+                              "$type": "UnityEngine.BoneWeight[], UnityEngine.CoreModule",
+                              "$values": []
+                            },
+                            "name": "Cube",
+                            "hideFlags": 63
+                          },
+                          "meshName": "Cube",
+                          "Type": "UnityEngine.MeshFilter"
+                        },
+                        {
+                          "$type": "MeshRendererComponent, Assembly-CSharp-Editor",
+                          "shaderName": "Standard",
+                          "materialName": "Default-Material",
+                          "Type": "UnityEngine.MeshRenderer"
+                        },
+                        {
+                          "$type": "BoxColliderComponent, Assembly-CSharp-Editor",
+                          "Type": "UnityEngine.BoxCollider"
+                        }
+                      ]
+                    },
+                    "children": {
+                      "$type": "System.Collections.Generic.List`1[[GameObjectClass, Assembly-CSharp-Editor]], mscorlib",
+                      "$values": []
+                    }
+                  }
+                ]
               }
             }
           ]
