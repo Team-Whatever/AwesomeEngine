@@ -557,18 +557,16 @@ void DirectXApp::OnUpdate(UpdateEventArgs& e)
 void DirectXApp::UpdateCamera(float delta)
 {
 	float speedMultipler = (m_Shift ? 16.0f : 4.0f);
-
-
 	// TODO : not to use key code directly,
 	// need to create key mapper with action name.
-	bool isForward = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::W) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Up));
-	m_Forward = isForward ? 1.0f : 0.0f;
-	bool isBackward = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::S) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Down));
-	m_Backward = isBackward ? 1.0f : 0.0f;
-	bool isLeft = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::A) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Left));
-	m_Left = isLeft ? 1.0f : 0.0f;
-	bool isRight = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::D) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Right));
-	m_Right = isRight ? 1.0f : 0.0f;
+	//bool isForward = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::W) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Up));
+	//m_Forward = isForward ? 1.0f : 0.0f;
+	//bool isBackward = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::S) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Down));
+	//m_Backward = isBackward ? 1.0f : 0.0f;
+	//bool isLeft = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::A) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Left));
+	//m_Left = isLeft ? 1.0f : 0.0f;
+	//bool isRight = (/*InputManager::GetInstance().IsKeyPressed(KeyCode::Key::D) ||*/ InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Right));
+	//m_Right = isRight ? 1.0f : 0.0f;
 	
 	m_Up = InputManager::GetInstance().IsKeyPressed(KeyCode::Key::E) ? 1.0f : 0.0f;
 	m_Down = InputManager::GetInstance().IsKeyPressed(KeyCode::Key::Q) ? 1.0f : 0.0f;
@@ -578,7 +576,8 @@ void DirectXApp::UpdateCamera(float delta)
 	m_Camera.Translate(cameraTranslate, Space::Local);
 	m_Camera.Translate(cameraPan, Space::Local);
 
-	XMVECTOR cameraRotation = XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_Pitch), XMConvertToRadians(m_Yaw), 0.0f);
+	// TODO : Delete the minus' (-) to change how the camera rotates. Whether you want it inverted or not.
+	XMVECTOR cameraRotation = XMQuaternionRotationRollPitchYaw(-XMConvertToRadians(m_Pitch), -XMConvertToRadians(m_Yaw), 0.0f);
 	m_Camera.set_Rotation(cameraRotation);
 }
 
@@ -1079,25 +1078,25 @@ void DirectXApp::OnKeyPressed(KeyEventArgs& e)
 			break;
 		case KeyCode::Up:
 		case KeyCode::W:
-			//m_Forward = 1.0f;
+			m_Forward = 1.0f;
 			break;
 		case KeyCode::Left:
 		case KeyCode::A:
-			//m_Left = 1.0f;
+			m_Left = 1.0f;
 			break;
 		case KeyCode::Down:
 		case KeyCode::S:
-			//m_Backward = 1.0f;
+			m_Backward = 1.0f;
 			break;
 		case KeyCode::Right:
 		case KeyCode::D:
-			//m_Right = 1.0f;
+			m_Right = 1.0f;
 			break;
 		case KeyCode::Q:
-			//m_Down = 1.0f;
+			m_Down = 1.0f;
 			break;
 		case KeyCode::E:
-			//m_Up = 1.0f;
+			m_Up = 1.0f;
 			break;
 		case KeyCode::Space:
 			m_AnimateLights = !m_AnimateLights;
@@ -1127,25 +1126,25 @@ void DirectXApp::OnKeyReleased(KeyEventArgs& e)
 			break;
 		case KeyCode::Up:
 		case KeyCode::W:
-			//m_Forward = 0.0f;
+			m_Forward = 0.0f;
 			break;
 		case KeyCode::Left:
 		case KeyCode::A:
-			//m_Left = 0.0f;
+			m_Left = 0.0f;
 			break;
 		case KeyCode::Down:
 		case KeyCode::S:
-			//m_Backward = 0.0f;
+			m_Backward = 0.0f;
 			break;
 		case KeyCode::Right:
 		case KeyCode::D:
-			//m_Right = 0.0f;
+			m_Right = 0.0f;
 			break;
 		case KeyCode::Q:
-			//m_Down = 0.0f;
+			m_Down = 0.0f;
 			break;
 		case KeyCode::E:
-			//m_Up = 0.0f;
+			m_Up = 0.0f;
 			break;
 		case KeyCode::ShiftKey:
 			m_Shift = false;
@@ -1161,7 +1160,8 @@ void DirectXApp::OnMouseMoved(MouseMotionEventArgs& e)
 	const float mouseSpeed = 0.1f;
 	if (!ImGui::GetIO().WantCaptureMouse)
 	{
-		if (e.LeftButton)
+		// TODO : This is the button to hold in order to rotate the camera.
+		if (e.RightButton)
 		{
 			m_Pitch -= e.RelY * mouseSpeed;
 
