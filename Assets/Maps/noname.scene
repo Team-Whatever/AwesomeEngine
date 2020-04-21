@@ -11,9 +11,99 @@
       "SubType": "Cube",
       "transformClass": {
         "position": {
-          "x": -6.90858,
-          "y": 3.70262527,
-          "z": 1.64632893
+          "x": -5.037433,
+          "y": 4.316128,
+          "z": 3.33267832
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 10.0
+        },
+        "rotation": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "eulerAngles": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        }
+      },
+      "components": [],
+      "children": []
+    },
+    {
+      "Name": "Cube(Clone)",
+      "Type": "Primitive",
+      "SubType": "Cube",
+      "transformClass": {
+        "position": {
+          "x": -0.352175474,
+          "y": 4.29006767,
+          "z": 5.18040133
+        },
+        "scale": {
+          "x": 10.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        "rotation": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "eulerAngles": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        }
+      },
+      "components": [],
+      "children": []
+    },
+    {
+      "Name": "Cube(Clone)",
+      "Type": "Primitive",
+      "SubType": "Cube",
+      "transformClass": {
+        "position": {
+          "x": 4.77784824,
+          "y": 4.242825,
+          "z": 1.823246
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 10.0
+        },
+        "rotation": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "eulerAngles": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        }
+      },
+      "components": [],
+      "children": []
+    },
+    {
+      "Name": "Sphere(Clone)",
+      "Type": "Primitive",
+      "SubType": "Sphere",
+      "transformClass": {
+        "position": {
+          "x": 5.172636,
+          "y": 4.129296,
+          "z": -3.56490755
         },
         "scale": {
           "x": 1.0,
@@ -41,9 +131,9 @@
       "SubType": "Sphere",
       "transformClass": {
         "position": {
-          "x": -3.830717,
-          "y": 4.10729551,
-          "z": 1.82626057
+          "x": -5.003063,
+          "y": 3.894109,
+          "z": -1.68215179
         },
         "scale": {
           "x": 1.0,
@@ -71,9 +161,9 @@
       "SubType": "Cylinder",
       "transformClass": {
         "position": {
-          "x": -0.420714557,
-          "y": 3.90496159,
-          "z": 1.7362957
+          "x": -0.588847637,
+          "y": 5.44157,
+          "z": 5.074244
         },
         "scale": {
           "x": 1.0,
@@ -93,7 +183,38 @@
         }
       },
       "components": [],
-      "children": []
+      "children": [
+        {
+          "Name": "Cylinder",
+          "Type": "UnityEngine.GameObject",
+          "SubType": null,
+          "transformClass": {
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "scale": {
+              "x": 1.5,
+              "y": 0.5,
+              "z": 1.5
+            },
+            "rotation": {
+              "w": 1.0,
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0,
+              "eulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              }
+            }
+          },
+          "components": [],
+          "children": []
+        }
+      ]
     },
     {
       "Name": "Cone(Clone)",
@@ -101,9 +222,9 @@
       "SubType": "Cone",
       "transformClass": {
         "position": {
-          "x": 3.27714586,
-          "y": 3.82403421,
-          "z": 1.70031166
+          "x": 5.74665833,
+          "y": 4.923693,
+          "z": 5.00001049
         },
         "scale": {
           "x": 1.0,
@@ -131,9 +252,9 @@
       "SubType": "Torus",
       "transformClass": {
         "position": {
-          "x": 6.75357533,
-          "y": 4.046594,
-          "z": 1.79927063
+          "x": -2.95376968,
+          "y": 3.69437027,
+          "z": 7.45461845
         },
         "scale": {
           "x": 1.0,
