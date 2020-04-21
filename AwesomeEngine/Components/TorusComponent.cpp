@@ -43,7 +43,7 @@ namespace AwesomeEngine
 			ComputeMatrices(worldMatrix, mViewMatrix, mProjectionMatrix, matrices);
 
 			commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-			commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, Material::Ruby);
+			commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, Material::White);
 			commandList->SetShaderResourceView(RootParameters::Textures, 0, m_Texture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 			m_Mesh->Render(*commandList);

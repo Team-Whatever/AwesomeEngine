@@ -55,24 +55,25 @@ namespace AwesomeEngine
 				if (val.HasMember("children"))
 				{
 					//LoadChildObject(world, entity, val["children"]);
-					//auto childrenArray = val["children"].GetArray();
-					//for (auto& child : childrenArray)
-					//{
-					//	auto childEntity = world.createEntity();
-					//	LoadChildObject(world, childEntity, child);
+					auto childrenArray = val["children"].GetArray();
+					for (auto& child : childrenArray)
+					{
+						auto childEntity = world.createEntity();
+						LoadChildObject(world, childEntity, child);
+						if (childEntity.hasComponent<TransformComponent>())
+						{
+							TransformComponent parentTransform = entity.getComponent<TransformComponent>();
+							TransformComponent childTransform = childEntity.getComponent<TransformComponent>();
 
-					//	TransformComponent parentTransform = entity.getComponent<TransformComponent>();
-					//	TransformComponent childTransform = childEntity.getComponent<TransformComponent>();
-
-					//	XMVECTOR cPos = XMVectorAdd(parentTransform.position, childTransform.position);
-					//	XMVECTOR cScale = XMVectorMultiply(parentTransform.scale, childTransform.scale);
-					//	XMVECTOR cRotation = XMVectorAdd(parentTransform.rotation, childTransform.rotation);
-					//	childEntity.SetLocation(cPos);
-					//	childEntity.SetScale(cScale);
-					//	childEntity.SetRotation(cRotation);
-
-					//	entity.AddChild(childEntity);
-					//}
+							XMVECTOR cPos = XMVectorAdd(parentTransform.position, childTransform.position);
+							XMVECTOR cScale = XMVectorMultiply(parentTransform.scale, childTransform.scale);
+							XMVECTOR cRotation = XMVectorAdd(parentTransform.rotation, childTransform.rotation);
+							childEntity.SetLocation(cPos);
+							childEntity.SetScale(cScale);
+							childEntity.SetRotation(cRotation);
+						}
+						entity.AddChild(childEntity);
+					}
 					
 				}
 			}
@@ -129,8 +130,15 @@ namespace AwesomeEngine
 				FXMVECTOR position = LoadVector(comp["position"]);
 				FXMVECTOR scale = LoadVector(comp["scale"]);
 				FXMVECTOR rotation = LoadVector(comp["rotation"]);
-
-				entity.addComponent<TransformComponent>(position, scale, rotation);
+				if (comp["rotation"].HasMember("eulerAngles"))
+				{
+					FXMVECTOR rotation2 = LoadVector(comp["rotation"]["eulerAngles"]);
+					entity.addComponent<TransformComponent>(position, scale, rotation2);
+				}
+				else
+				{
+					entity.addComponent<TransformComponent>(position, scale, rotation);
+				}
 			}
 		}
 	}
@@ -168,8 +176,15 @@ namespace AwesomeEngine
 		FXMVECTOR position = LoadVector(obj["position"]);
 		FXMVECTOR scale = LoadVector(obj["scale"]);
 		FXMVECTOR rotation = LoadVector(obj["rotation"]);
-
-		entity.addComponent<TransformComponent>(position, scale, rotation);
+		if (obj["rotation"].HasMember("eulerAngles"))
+		{
+			FXMVECTOR rotation2 = LoadVector( (obj["rotation"])["eulerAngles"]);
+			entity.addComponent<TransformComponent>(position, scale, rotation2);
+		}
+		else
+		{
+			entity.addComponent<TransformComponent>(position, scale, rotation);
+		}
 	}
 
 	FXMVECTOR SceneLoader::LoadVector(const rapidjson::Value& obj)
