@@ -6,6 +6,8 @@
 #include "Components/CubeComponent.h"
 #include "Components/CylinderComponent.h"
 #include "Components/SphereComponent.h"
+#include "Components/TorusComponent.h"
+#include "Components/ConeComponent.h"
 #include "Components/PlaneComponent.h"
 
 #include <fstream>
@@ -22,50 +24,56 @@ namespace AwesomeEngine
 		doc.ParseStream(isw);
 		
 		std::string sceneName = doc["Name"].GetString();
-		
-		assert(doc["children"].IsObject());
-		
-		LoadObject( world, doc["children"] );
+		LoadObject( world, doc );
 	}
 
 	void SceneLoader::LoadObject( Mix::World& world, const rapidjson::Value& obj )
 	{
-		assert(obj.HasMember("$values"));
-		if (obj.HasMember("$values"))
+		assert(obj.HasMember("children") && obj["children"].IsArray());
+		if (obj.HasMember("children"))
 		{
-			auto values = obj["$values"].GetArray();
+			auto values = obj["children"].GetArray();
 			for (auto& val : values)
 			{
+				auto entity = world.createEntity();
+
 				std::string childName = val["Name"].GetString();
 				std::string childType = val["Type"].GetString();
-				if (childType == "UnityEngine.GameObject")
+				std::string subType = val["SubType"].GetString();
+				if (childType == "Primitive")
 				{
-					auto entity = world.createEntity();
-					if (val.HasMember("components"))
-					{
-						LoadComponents(world, entity, val["components"]);
-					}
-					if (val.HasMember("children"))
-					{
-						auto childrenArray = val["children"]["$values"].GetArray();
-						for (auto& child : childrenArray)
-						{
-							auto childEntity = world.createEntity();
-							LoadChildObject(world, childEntity, child);
+					LoadPrimitives( entity, subType );
+				}
+				if (val.HasMember("transformClass"))
+				{
+					LoadTransform( entity, val["transformClass"] );
+				}
+				if (val.HasMember("components"))
+				{
+					LoadComponents(world, entity, val["components"]);
+				}
+				if (val.HasMember("children"))
+				{
+					//LoadChildObject(world, entity, val["children"]);
+					//auto childrenArray = val["children"].GetArray();
+					//for (auto& child : childrenArray)
+					//{
+					//	auto childEntity = world.createEntity();
+					//	LoadChildObject(world, childEntity, child);
 
-							TransformComponent parentTransform = entity.getComponent<TransformComponent>();
-							TransformComponent childTransform = childEntity.getComponent<TransformComponent>();
+					//	TransformComponent parentTransform = entity.getComponent<TransformComponent>();
+					//	TransformComponent childTransform = childEntity.getComponent<TransformComponent>();
 
-							XMVECTOR cPos = XMVectorAdd(parentTransform.position, childTransform.position);
-							XMVECTOR cScale = XMVectorMultiply(parentTransform.scale, childTransform.scale);
-							XMVECTOR cRotation = XMVectorAdd(parentTransform.rotation, childTransform.rotation);
-							childEntity.SetLocation(cPos);
-							childEntity.SetScale(cScale);
-							childEntity.SetRotation(cRotation);
+					//	XMVECTOR cPos = XMVectorAdd(parentTransform.position, childTransform.position);
+					//	XMVECTOR cScale = XMVectorMultiply(parentTransform.scale, childTransform.scale);
+					//	XMVECTOR cRotation = XMVectorAdd(parentTransform.rotation, childTransform.rotation);
+					//	childEntity.SetLocation(cPos);
+					//	childEntity.SetScale(cScale);
+					//	childEntity.SetRotation(cRotation);
 
-							entity.AddChild(childEntity);
-						}
-					}
+					//	entity.AddChild(childEntity);
+					//}
+					
 				}
 			}
 		}
@@ -83,7 +91,7 @@ namespace AwesomeEngine
 			}
 			if (obj.HasMember("children"))
 			{
-				auto childrenArray = obj["children"]["$values"].GetArray();
+				auto childrenArray = obj["children"].GetArray();
 				for (auto& child : childrenArray)
 				{
 					auto childEntity = world.createEntity();
@@ -107,48 +115,61 @@ namespace AwesomeEngine
 
 	void SceneLoader::LoadComponents(Mix::World& world, Mix::Entity& entity, const rapidjson::Value& comps)
 	{
-		assert(comps.HasMember("$values"));
-		if( comps.HasMember("$values") )
+		assert(comps.IsArray());
+		auto compsArray = comps.GetArray();
+		for (auto& comp : compsArray)
 		{
-			auto compsArray = comps["$values"].GetArray();
-			for (auto& comp : compsArray)
+			std::string compType = comp["Type"].GetString();
+			if (compType == "UnityEngine.Transform")
 			{
-				std::string compType = comp["Type"].GetString();
-				if (compType == "UnityEngine.Transform")
-				{
-					assert(comp.HasMember("position"));
-					assert(comp.HasMember("scale"));
-					assert(comp.HasMember("rotation"));
+				assert(comp.HasMember("position"));
+				assert(comp.HasMember("scale"));
+				assert(comp.HasMember("rotation"));
 
-					FXMVECTOR position = LoadVector(comp["position"]);
-					FXMVECTOR scale = LoadVector(comp["scale"]);
-					FXMVECTOR rotation = LoadVector(comp["rotation"]);
+				FXMVECTOR position = LoadVector(comp["position"]);
+				FXMVECTOR scale = LoadVector(comp["scale"]);
+				FXMVECTOR rotation = LoadVector(comp["rotation"]);
 
-					entity.addComponent<TransformComponent>(position, scale, rotation);
-				}
-				else if (compType == "UnityEngine.MeshFilter")
-				{
-					std::string meshName = comp["meshName"].GetString();
-					if (meshName == "Cube")
-					{
-						entity.addComponent<CubeComponent>();
-					}
-					else if (meshName == "Cylinder")
-					{
-						entity.addComponent<CylinderComponent>();
-					}
-					else if (meshName == "Sphere")
-					{
-						entity.addComponent<SphereComponent>();
-					}
-					//else if (meshName == "Plane")
-					//{
-					//	entity.addComponent<PlaneComponent>();
-					//}
-
-				}
+				entity.addComponent<TransformComponent>(position, scale, rotation);
 			}
 		}
+	}
+
+	void SceneLoader::LoadPrimitives( Mix::Entity& entity, std::string primitiveType )
+	{
+		if (primitiveType == "Cube")
+		{
+			entity.addComponent<CubeComponent>();
+		}
+		else if (primitiveType == "Cylinder")
+		{
+			entity.addComponent<CylinderComponent>();
+		}
+		else if (primitiveType == "Sphere")
+		{
+			entity.addComponent<SphereComponent>();
+		}
+		else if (primitiveType == "Cone")
+		{
+			entity.addComponent<ConeComponent>();
+		}
+		else if (primitiveType == "Torus")
+		{
+			entity.addComponent<TorusComponent>();
+		}
+	}
+
+	void SceneLoader::LoadTransform(Mix::Entity& entity, const rapidjson::Value& obj)
+	{
+		assert(obj.HasMember("position"));
+		assert(obj.HasMember("scale"));
+		assert(obj.HasMember("rotation"));
+
+		FXMVECTOR position = LoadVector(obj["position"]);
+		FXMVECTOR scale = LoadVector(obj["scale"]);
+		FXMVECTOR rotation = LoadVector(obj["rotation"]);
+
+		entity.addComponent<TransformComponent>(position, scale, rotation);
 	}
 
 	FXMVECTOR SceneLoader::LoadVector(const rapidjson::Value& obj)

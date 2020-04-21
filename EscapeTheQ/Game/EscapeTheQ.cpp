@@ -46,13 +46,13 @@ bool EscapeTheQ::Initialize()
 		//torusEntity.SetLocation(XMVectorSet(4.0, 0.6f, -4.0f, 0.0f));
 		//torusEntity.SetScale(XMVectorSet(4.0f, 4.0f, 4.0f, 1.0f));
 
-		mPlayer = std::make_shared<PlayerCharacter>();
-		auto playerEntity = CreateEntity();
-		playerEntity.addComponent(CubeComponent(L"Assets/Textures/Mona_Lisa.jpg"));
-		playerEntity.SetLocation(XMVectorSet(4.0, 8.0f, 4.0f, 0.0f));
-		playerEntity.SetScale(XMVectorSet(4.0f, 8.0f, 4.0f, 1.0f));
-		//playerEntity.AddChild(torusEntity);
-		mPlayer->SetEntity(playerEntity);
+		//mPlayer = std::make_shared<PlayerCharacter>();
+		//auto playerEntity = CreateEntity();
+		//playerEntity.addComponent(CubeComponent(L"Assets/Textures/Mona_Lisa.jpg"));
+		//playerEntity.SetLocation(XMVectorSet(4.0, 8.0f, 4.0f, 0.0f));
+		//playerEntity.SetScale(XMVectorSet(4.0f, 8.0f, 4.0f, 1.0f));
+		////playerEntity.AddChild(torusEntity);
+		//mPlayer->SetEntity(playerEntity);
 
 		//auto sphereEntity = CreateEntity();
 		//sphereEntity.addComponent(SphereComponent(L"Assets/Textures/earth.dds"));
@@ -88,6 +88,7 @@ void EscapeTheQ::OnUpdate(UpdateEventArgs& e)
 {
 	AwesomeEngineApp::OnUpdate(e);
 
-	mPlayer->Update(e.ElapsedTime);
+	if( mPlayer != nullptr )
+		mPlayer->Update(e.ElapsedTime);
 
 }

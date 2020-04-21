@@ -7,7 +7,7 @@ using namespace DirectX;
 namespace AwesomeEngine
 {
 	TorusComponent::TorusComponent()
-		: TorusComponent(L"")
+		: TorusComponent(L"Assets/Textures/DefaultWhite.bmp")
 	{
 	}
 

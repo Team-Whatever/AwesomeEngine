@@ -23,6 +23,8 @@ namespace AwesomeEngine
 	private:
 		void LoadObject( Mix::World& world, const rapidjson::Value& obj );
 		void LoadComponents(Mix::World& world, Mix::Entity& entity, const rapidjson::Value& comps);
+		void LoadPrimitives( Mix::Entity& entity, std::string primitiveType );
+		void LoadTransform(Mix::Entity& entity, const rapidjson::Value& obj);
 		void LoadChildObject(Mix::World& world, Mix::Entity& entity, const rapidjson::Value& obj);
 		DirectX::FXMVECTOR LoadVector(const rapidjson::Value& obj);
 
