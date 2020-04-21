@@ -130,12 +130,12 @@ namespace AwesomeEngine
 				FXMVECTOR position = LoadVector(comp["position"]);
 				FXMVECTOR scale = LoadVector(comp["scale"]);
 				FXMVECTOR rotation = LoadVector(comp["rotation"]);
-				if (comp["rotation"].HasMember("eulerAngles"))
-				{
-					FXMVECTOR rotation2 = LoadVector(comp["rotation"]["eulerAngles"]);
-					entity.addComponent<TransformComponent>(position, scale, rotation2);
-				}
-				else
+				//if (comp["rotation"].HasMember("eulerAngles"))
+				//{
+				//	FXMVECTOR rotation2 = LoadVector(comp["rotation"]["eulerAngles"]);
+				//	entity.addComponent<TransformComponent>(position, scale, rotation2);
+				//}
+				//else
 				{
 					entity.addComponent<TransformComponent>(position, scale, rotation);
 				}
@@ -176,12 +176,12 @@ namespace AwesomeEngine
 		FXMVECTOR position = LoadVector(obj["position"]);
 		FXMVECTOR scale = LoadVector(obj["scale"]);
 		FXMVECTOR rotation = LoadVector(obj["rotation"]);
-		if (obj["rotation"].HasMember("eulerAngles"))
-		{
-			FXMVECTOR rotation2 = LoadVector( (obj["rotation"])["eulerAngles"]);
-			entity.addComponent<TransformComponent>(position, scale, rotation2);
-		}
-		else
+		//if (obj["rotation"].HasMember("eulerAngles"))
+		//{
+		//	FXMVECTOR rotation2 = LoadVector( (obj["rotation"])["eulerAngles"]);
+		//	entity.addComponent<TransformComponent>(position, scale, rotation2);
+		//}
+		//else
 		{
 			entity.addComponent<TransformComponent>(position, scale, rotation);
 		}
